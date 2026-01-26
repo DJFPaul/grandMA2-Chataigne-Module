@@ -29,6 +29,6 @@ To create / manage a user account in MA2, go to `Setup > Console > User & Profil
 Please note that the password field in the Module needs to be a MD5 hash of the password you set in MA2.  
 You can use any [MD5 hash generator](https://www.md5hashgenerator.com) to generate the hash of the password. (Careful not to include extra spaces!)  
 
-In this section you can also later monitor / verify that the module is conneceded correctly.  
+In this section you can also later monitor / verify that the module is connected correctly.  
 <img width="727" height="151" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
 This should change from `guest` to your configured user, when the module logs into the session.  
