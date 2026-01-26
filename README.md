@@ -6,7 +6,7 @@ Expect initial first module release around mid Feburary.
 
 
 ---
-Below documentation is pre-relase and heavy work in progress.
+Below documentation is pre-relase and work in progress.
 ---
 
 
