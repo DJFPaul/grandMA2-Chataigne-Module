@@ -2,7 +2,7 @@
 ---
 
 Pre-Release repository as placeholder for linking and starting documentation.  
-Expect initial first module release around mid Feburary.  
+Expect initial first module release in Feburary.  
 
 
 ---
