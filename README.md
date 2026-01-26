@@ -31,4 +31,4 @@ You can use any [MD5 hash generator](https://www.md5hashgenerator.com) to genera
 
 In this section you can also later verify that the module is correctly logging in.  
 <img width="727" height="151" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
-
+This should change from `guest` to your configured user, when the module logs into the session correctly.  
