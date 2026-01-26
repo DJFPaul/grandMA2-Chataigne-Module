@@ -1,8 +1,8 @@
-# grandMA2-Chataigne-Module
+# grandMA2-[Chataigne](https://github.com/benkuper/Chataigne)-Module
 ---
 
 Pre-Release repository as placeholder for linking and starting documentation.  
-Expect initial first module release in Feburary.  
+Expect initial first module release in February.  
 
 
 ---
@@ -13,7 +13,7 @@ Below documentation is pre-relase and work in progress.
 
 
 
-This module uses the Web Remote API to interface with grandMA2.
+This module emulates a [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) to interface with grandMA2.
 
 If you have not used the MA2 Web Remote before, you will need to enable it first.
 
