@@ -1,12 +1,12 @@
 # grandMA2-Chataigne-Module
 ---
 
-Pre-Release repository as placeholder for linking and starting documentation.
-Expect initial first module release around mid Feburary.
+Pre-Release repository as placeholder for linking and starting documentation.  
+Expect initial first module release around mid Feburary.  
 
 
 ---
-Below documentation is pre-relase work in progress.  
+Below documentation is pre-relase work in progress.
 ---
 
 
