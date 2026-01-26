@@ -21,7 +21,7 @@ Enable it by setting `Setup > Console > Global Settings > Remotes` to `Login Ena
 <img width="812" height="488" alt="image" src="https://github.com/user-attachments/assets/d5798959-fbc4-4734-8d3f-a0d23b09200c" />
 
 By default, the module is configured to login with the user `chataigne` and the password `chataigne`.  
-Either create this user profile or you can use any existing profile by changing the modules default login.
+Either create this user profile, or use your own or an existing one, by changing the modules default login settings.  
 
 To create / manage a user account in MA2, go to `Setup > Console > User & Profiles Setup`.  
 <img width="731" height="445" alt="image" src="https://github.com/user-attachments/assets/d5903138-d628-4ef3-9e6e-2ec3bc138a89" />  
