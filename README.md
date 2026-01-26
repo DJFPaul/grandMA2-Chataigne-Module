@@ -13,7 +13,7 @@ Below documentation is pre-release and work in progress.
 
 
 
-This module emulates a [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) to interface with grandMA2.
+This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) to interface with grandMA2.
 
 If you have not used the MA2 Web Remote before, you will need to enable it first.
 
