@@ -1,6 +1,29 @@
 # grandMA2-Chataigne-Module
-grandMA2 Module for Chataigne
+---
 
-Repository pre-made as placeholder.
+Pre-Release repository as placeholder for linking and starting documentation.
+Expect initial first module release around mid Feburary.
 
-~Expect initial first module release around mid Feburary.
+
+---
+Below documentation is pre-relase work in progress.  
+---
+
+
+
+
+
+This module uses the Web Remote API to interface with grandMA2.
+
+If you have not used the MA2 Web Remote before, you will need to enable it first.
+
+Enable it by setting `Setup > Console > Global Settings > Remotes` to `Login Enabled` 
+<img width="812" height="488" alt="image" src="https://github.com/user-attachments/assets/d5798959-fbc4-4734-8d3f-a0d23b09200c" />
+
+By default, the module is configured to login with the user `Chataigne` and the password `Chataigne`.  
+Either create this user profile or you can use any existing profile by changing the modules default login.
+
+To create / manage a user account in MA2, go to `Setup > Console > User & Profiles Setup`.  
+<img width="731" height="445" alt="image" src="https://github.com/user-attachments/assets/d5903138-d628-4ef3-9e6e-2ec3bc138a89" />  
+
+Please note that the password field in the Module needs to be a MD5 hash of the password you set in MA2.  
