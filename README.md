@@ -1,8 +1,8 @@
-# grandMA2-[Chataigne](https://github.com/benkuper/Chataigne)-Module
+# A [Chataigne](https://github.com/benkuper/Chataigne) Module for interfacing with grandMA2
 ---
 
-Pre-Release repository as placeholder for linking and starting documentation.  
-Expect initial first module release in February.  
+### Pre-Release repository as placeholder for linking and starting documentation.  
+#### Expect initial first module release in February.  
 
 
 ---
@@ -13,8 +13,7 @@ Below documentation is pre-release and work in progress.
 
 
 
-This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) to interface with grandMA2.
-
+This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) to interface with grandMA2.  
 If you have not used the MA2 Web Remote before, you will need to enable it first.
 
 Enable it by setting `Setup > Console > Global Settings > Remotes` to `Login Enabled` 
