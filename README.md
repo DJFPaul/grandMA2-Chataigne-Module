@@ -19,16 +19,17 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
 #### Sending
 🐌 Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
 
-- Executor fader value (Float)*
-- Button push state (Bool)
-- Set Executor Label (String)
-- Send Command (String)
+- Send command (String)
+- Send executor fader value (Float)*
+- Send executor button state (Bool)
+- Change executor Label (String)
      
   *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided rate limit.
 
     ###### Planned
-  - Executor Color (Appearance)
-  - Executor Button Function (Assign)
+  - Send hardkeys (Function buttons)
+  - Change executor color (Appearance)
+  - Change executor button functions (GO/FLASH/TEMP/...)
 
 #### Receiving
 - Executor Label (String)
