@@ -32,7 +32,7 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   - Change executor button functions (GO/FLASH/TEMP/...)
   - Send Encoders
   - Send dimmer wheel
-  - Send grandmaster/ B.O. (Unsure if feasible)
+  - Send grandmaster / B.O. (Unsure if feasible)
 
 #### Receiving
 - Executor Label (String)
