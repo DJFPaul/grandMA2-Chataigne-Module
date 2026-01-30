@@ -6,7 +6,7 @@
 
 
 ---
-Below documentation is pre-release and work in progress.
+### ⚠️ Below documentation is pre-release and work in progress.  ⚠️
 ---
 
 
@@ -14,6 +14,36 @@ Below documentation is pre-release and work in progress.
 
 
 This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) to interface with grandMA2.  
+  
+## Features
+#### Sending
+Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
+
+- Executor fader value (Float)*
+- Button push state (Bool)
+- Set Executor Label (String)
+- Send Command (String)
+     
+  *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided rate limit.
+
+    ###### Planned
+  - Executor Color (Appearance)
+  - Executor Button Function (Assign)
+
+#### Receiving
+- Executor Label (String)
+- Executor Run State (Bool)
+- Executor Button Text (String)
+- Executor Color (Color)
+- Executor Fader Value (Float) (Faders Only)
+- Executor Fader Text (String) (Faders Only)
+- Executor Fader Value (String) (Faders Only)
+
+  ###### Planned
+  - Executor Cue List
+ 
+## Setting up grandMA2  
+
 If you have not used the MA2 Web Remote before, you will need to enable it first.
 
 Enable it by setting `Setup > Console > Global Settings > Remotes` to `Login Enabled` 
