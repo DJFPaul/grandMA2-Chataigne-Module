@@ -17,7 +17,7 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   
 ## Features
 #### Sending
-Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
+🐌 Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
 
 - Executor fader value (Float)*
 - Button push state (Bool)
