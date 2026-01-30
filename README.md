@@ -30,6 +30,9 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   - Send hardkeys (Function buttons)
   - Change executor color (Appearance)
   - Change executor button functions (GO/FLASH/TEMP/...)
+  - Send Encoders
+  - Send dimmer wheel
+  - Send grandmaster/ B.O. (Unsure if feasible)
 
 #### Receiving
 - Executor Label (String)
@@ -41,7 +44,10 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
 - Executor Fader Value (String) (Faders Only)
 
   ###### Planned
-  - Executor Cue List
+  - Executor cue list
+  - Encoder page/parameters
+  - B/O State (Unsure if feasible)
+  - Grandmaster Fader Value (Unsure if feasible)
  
 ## Setting up grandMA2  
 
