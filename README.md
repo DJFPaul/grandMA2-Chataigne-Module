@@ -48,7 +48,7 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   - Encoder page/parameters
   - Console log
   - B/O State (Unsure if feasible)
-  - Grandmaster Fader Value (Unsure if feasible)
+  - Grandmaster Fader Value (Unsure if feasible other than a CMD Wrapper)
  
 ## Setting up grandMA2  
 
