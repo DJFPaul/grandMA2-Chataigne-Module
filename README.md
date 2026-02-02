@@ -24,7 +24,7 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
 - Send executor button state (Bool)
 - Change executor Label (String)
      
-  *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided rate limit.
+  *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limit.
 
     ###### Still missing
   - Send hardkeys (Function buttons)
