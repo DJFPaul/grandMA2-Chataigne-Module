@@ -14,17 +14,17 @@
 
 
 This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) to interface with grandMA2.  
-  
-## Features
-#### Sending
-🐌 Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
 
+## Features
+
+🐌 Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
+#### Sending
 - Send command (String)
 - Send executor fader value (Float)*
 - Send executor button state (Bool)
 - Change executor Label (String)
      
-  *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limit.
+*Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.
 
 
 #### Receiving
@@ -35,11 +35,11 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
 - Executor Fader Value (Float) (Faders Only)
 - Executor Fader Text (String) (Faders Only)
 - Executor Fader Value (String) (Faders Only)
+  
 
-
-
-### ToDo
-
+<details>
+  <summary><b>ToDo</b></summary>
+  
   ###### Sending
   - Send hardkeys (Function buttons)
   - Change executor color (Appearance)
@@ -54,6 +54,7 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   - Console log
   - B/O State (Unsure if feasible)
   - Grandmaster Fader Value (Unsure if feasible)
+</details>
  
 ## Setting up grandMA2  
 
