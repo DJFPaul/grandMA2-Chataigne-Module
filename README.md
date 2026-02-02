@@ -26,13 +26,6 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
      
   *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limit.
 
-    ###### Still missing
-  - Send hardkeys (Function buttons)
-  - Change executor color (Appearance)
-  - Change executor button functions (GO/FLASH/TEMP/...)
-  - Send Encoders
-  - Send dimmer wheel
-  - Send grandmaster / B.O. (Unsure if feasible)
 
 #### Receiving
 - Executor Label (String)
@@ -43,12 +36,24 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
 - Executor Fader Text (String) (Faders Only)
 - Executor Fader Value (String) (Faders Only)
 
-  ###### Still missing
+
+
+### ToDo
+
+  ###### Sending
+  - Send hardkeys (Function buttons)
+  - Change executor color (Appearance)
+  - Change executor button functions (GO/FLASH/TEMP/...)
+  - Send Encoders
+  - Send dimmer wheel
+  - Send grandmaster / B.O. (Unsure if feasible other than a CMD Wrapper)
+
+  ###### Receiving
   - Executor cue list
   - Encoder page/parameters
   - Console log
   - B/O State (Unsure if feasible)
-  - Grandmaster Fader Value (Unsure if feasible other than a CMD Wrapper)
+  - Grandmaster Fader Value (Unsure if feasible)
  
 ## Setting up grandMA2  
 
