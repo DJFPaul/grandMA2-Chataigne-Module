@@ -1,0 +1,316 @@
+{
+  "name": "grandMA2",
+  "type": "WebSocket Client",
+  "path": "Software",
+
+  "version": "0.3.6",
+  "description": "GrandMA2 Module for Chataigne.\n Allows sending and receiving various parameters or actions to/from grandMA2.",
+  "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
+  "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/refs/heads/main.zip",
+
+  "hasInput": true,
+  "hasOutput": true,
+
+  "hideDefaultCommands": true,
+
+  "defaults": {
+    "protocol": "JSON",
+    "serverPath": "127.0.0.1:80/?ma=1",
+    "useSecureConnection": false,
+    "autoAdd": false
+  },
+
+  "parameters": {
+     "Session": {
+      "type": "Container",
+      "collapsed": false,
+      "Status": {
+        "type": "Boolean",
+        "readOnly": true,
+        "default": false
+      },
+      "Session ID": {
+        "type": "Integer",
+        "readOnly": true,
+        "default": 0
+      }, 
+      "Start Session": {
+        "type": "Trigger"
+      },
+      "End Session": {
+        "type": "Trigger",
+        "description": "Notify MA that this connection will no longer access the session and can be considered done. this will release the session ID."
+      },
+      "Credentials": {
+        "type": "Container",
+        "collapsed": true,
+        "MA2 User": {
+          "type": "String",
+          "default": "chataigne"
+        },
+        "Password (MD5)": {
+          "type": "String",
+          "default": "e31b120e31610e45bcc5d7e1e5d00290"
+        }
+      }
+    },
+    "Playbacks": {
+      "type": "Container",
+      "collapsed": false,
+      "Request Playbacks": {
+        "type": "Boolean",
+        "default": true,
+        "description": "Enable/Disable playback data request."
+      },
+      "Dynamic": {
+        "type": "Container",
+        "collapsed": false,
+        "Active Page": {
+          "type": "Integer",
+          "default": 1
+        },
+        "Sync to MA2": {
+        "type": "Boolean",
+        "default": false
+      },
+        "Faders": {
+          "description": "",
+          "type": "String",
+          "default": "1-5;6-15"
+        },
+        "Fader Intervall": {
+          "type": "Float",
+          "ui": "time",
+          "min": 0.02,
+          "default": 0.04
+        },
+        "Buttons": {
+          "description": "",
+          "type": "String",
+          "default": "101-115"
+        },
+        "Button Intervall": {
+          "type": "Float",
+          "ui": "time",
+          "min": 0.02,
+          "default": 0.08
+        }
+      },
+      "Static": {
+        "type": "Container",
+        "collapsed": false,
+        "Faders": {
+          "description": "",
+          "type": "String",
+          "default": ""
+        },
+        "Fader Intervall": {
+          "type": "Float",
+          "ui": "time",
+          "min": 0.02,
+          "default": 0.08
+        },
+        "Buttons": {
+          "description": "",
+          "type": "String",
+          "default": "2.101-115;2.116-190"
+        },
+        "Button Intervall": {
+          "type": "Float",
+          "ui": "time",
+          "min": 0.02,
+          "default": 0.16
+        }
+      }
+    }
+  },
+
+  "hideDefaultParameters": [
+    "autoAdd",
+    "protocol",
+    "messageStructure",
+    "firstValueIsTheName",
+    "useSecureConnection",
+    "customSeparator",
+    "pass_through"
+  ],
+
+  "scripts": ["./grandMA2.js"],
+
+  "values": {
+    "Executors": {
+      "type": "Container",
+      "collapsed": true,
+      "Active Page": {
+        "type": "Container",
+        "collapsed": true
+      }
+    },
+    
+    "Internal": {
+      "type": "Container",
+      "collapsed": true,
+      "realtime": {
+        "type": "Boolean",
+        "readOnly": true,
+        "default": false
+      },
+      "forceLogin": {
+        "type": "Boolean",
+        "readOnly": true,
+        "default": true,
+        "description": ""
+      },
+
+      "worldIndex": {
+        "type": "Integer",
+        "readOnly": true,
+        "default": 0
+      },
+      "prompt": {
+        "type": "String",
+        "readOnly": true,
+        "default": ""
+      },
+      "promptcolor": {
+        "type": "Color",
+        "readOnly": true,
+        "default": true,
+        "description": ""
+      },
+      "commandHistory": {
+        "type": "String",
+        "readOnly": true,
+        "default": ""
+      },
+      "status": {
+        "type": "String",
+        "readOnly": true,
+        "default": ""
+      },
+      "appType": {
+        "type": "String",
+        "readOnly": true,
+        "default": ""
+      },
+      "connetionsLimitReached": {
+        "type": "Boolean",
+        "readOnly": true,
+        "default": false,
+        "description": ""
+      },
+      "result": {
+        "type": "Boolean",
+        "readOnly": true,
+        "default": false
+      }
+    }
+  },
+    "commands": {
+      "Send Executor Value": {
+        "menu": "Executors",
+        "callback": "commandSetExecutorValue",
+        "parameters": {
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
+            "default": 1
+          },
+          "Page": {
+            "type": "Integer",
+             "min": 1,
+            "max": 99999,
+            "description": "Page of Executor to change",
+            "default": 1
+          },
+          "Value": {
+            "type": "Float",
+             "min": 0,
+            "max": 1.0,
+            "description": "Value to set Executor to."
+          }
+        }
+      },
+      "Send Executor Buttons": {
+        "menu": "Executors",
+        "callback": "commandSendExecutorButtons",
+        "parameters": {
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
+            "default": 1
+          },
+          "Page": {
+            "type": "Integer",
+             "min": 1,
+            "max": 99999,
+            "description": "Page of Executor to change",
+            "default": 1
+          },
+          "Type": {
+          "type": "Enum",
+          "options": {
+              "Button": 0,
+              "Lower": 1,
+              "Upper": 2
+            }
+          },
+          "State": {
+            "type": "Boolean",
+            "default": false,
+            "description": "State to set Executor Button to."
+          }
+        }
+      },
+      "Change Executor Label": {
+        "menu": "Executors",
+        "callback": "commandSetLabel",
+        "parameters": {
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
+            "default": 1
+          },
+          "Page": {
+            "type": "Integer",
+             "min": 1,
+            "max": 99999,
+            "description": "Page of Executor to change",
+            "default": 1
+          },
+          "Label": {
+            "type": "String",
+            "description": "Label to set Executor to."
+          }
+        }
+      },
+        "Send command": {
+          "menu": "Console",
+          "callback": "commandSendCMD",
+          "parameters": {
+            "Command": {
+            "type": "String",
+            "description": "Command to send."
+        }
+      }
+    },
+        "Change Page": {
+          "menu": "Console",
+          "callback": "commandChangePage",
+          "parameters": {
+            "Page": {
+              "type": "Integer",
+              "min": 1,
+              "description": "Page to change to.",
+              "default": 1
+          }
+      }
+    }
+  }
+}
