@@ -58,23 +58,53 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   - B/O State (Unsure if feasible)
   - Grandmaster Fader Value (Unsure if feasible)
 </details>
+
+## How to use this Module
  
-## Setting up grandMA2  
+### Preparing grandMA2  
 
 If you have not used the MA2 Web Remote before, you will need to enable it first.
 
 Enable it by setting `Setup > Console > Global Settings > Remotes` to `Login Enabled` 
-<img width="812" height="488" alt="image" src="https://github.com/user-attachments/assets/d5798959-fbc4-4734-8d3f-a0d23b09200c" />
+<img width="520" alt="image" src="https://github.com/user-attachments/assets/d5798959-fbc4-4734-8d3f-a0d23b09200c" />
 
 By default, the module is configured to login with the user `chataigne` and the password `chataigne`.  
 Either create this user profile, or use your own or an existing one by changing the modules default login settings.  
 
 To create / manage a user account in MA2, go to `Setup > Console > User & Profiles Setup`.  
-<img width="731" height="445" alt="image" src="https://github.com/user-attachments/assets/d5903138-d628-4ef3-9e6e-2ec3bc138a89" />  
+<img width="520" alt="image" src="https://github.com/user-attachments/assets/d5903138-d628-4ef3-9e6e-2ec3bc138a89" />  
 
 Please note that the password field in the Module needs to be a MD5 hash of the password you set in MA2.  
 You can use any [MD5 hash generator](https://www.md5hashgenerator.com) to generate the hash of the password. (Careful not to include extra spaces!)  
 
 In this section you can also later monitor / verify that the module is connected correctly.  
-<img width="727" height="151" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
+<img width="520" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
 This should change from `guest` to your configured user, when the module logs into the session.  
+
+
+## The Parameters section.  
+
+### Basic Settings
+<img width="468" height="49" alt="image" src="https://github.com/user-attachments/assets/3f3fbf97-11ab-44f8-a96b-1e613676dfc9" />
+
+Some basic settings.
+
+**Server Path:** If running OnPC on the same machine it should work as is, otherwise change IP to the desired target. `<console ip>:80/?ma=1`
+**Connected:** If the IP is valid and the target can be reached, this should light up.  
+
+### Session
+
+This Section is responsible for starting/stopping the connection to grandMA2.  
+This will need to be done every time a session timed out (GrandMA2 Restarted, Network interrupted, Chataigne Restarted).  
+
+**Status:** Indicates the current session state.  
+**Session ID:** This should tick up with every Session Login, untill MA2 has restarted and get's reset.  
+               If this ever ready -2, too many active connection requests have been made and the limit has been reached.   (3 Max)
+               This should reset once users leave of sessions time out.  
+
+**Start Session:** To join the current GrandMA2 session of the WebRemote.  
+**End Session:** Logout user from Session and terminate connection.  
+<img width="466" height="144" alt="image" src="https://github.com/user-attachments/assets/7aef7ca9-565d-4217-94aa-0f37491e257d" />
+     
+**Credentials** If you do not use the MA2 user `chataigne` with the password `chataigne` you can configure the login details here.
+<img width="456" height="74" alt="image" src="https://github.com/user-attachments/assets/64c1a1f9-244f-443b-bed6-968d2f8e6dbf" />
