@@ -6,7 +6,7 @@
 
 
 ---
-### ⚠️ Below documentation is pre-release and work in progress.  ⚠️
+### ⚠️ Below documentation is currently active work in progress.  ⚠️
 ---
 
 
