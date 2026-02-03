@@ -23,6 +23,7 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
 - Send executor fader value (Float)*
 - Send executor button state (Bool)
 - Change executor Label (String)
+- Change page (Integer)
 - Sync Chatainge page to MA2
      
 *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.
