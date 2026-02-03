@@ -23,6 +23,7 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
 - Send executor fader value (Float)*
 - Send executor button state (Bool)
 - Change executor Label (String)
+- Sync Chatainge page to MA2
      
 *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.
 
@@ -52,6 +53,7 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   - Executor cue list
   - Encoder page/parameters
   - Console log
+  - Sync MA2 page to Chataigne (A little more complex)
   - B/O State (Unsure if feasible)
   - Grandmaster Fader Value (Unsure if feasible)
 </details>
