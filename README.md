@@ -31,10 +31,10 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
   <summary><b>ToDo</b></summary>
   
   ###### Sending
+  - Send Encoders
   - Send hardkeys (Function buttons)
   - Change executor color (Appearance)
   - Change executor button functions (GO/FLASH/TEMP/...)
-  - Send Encoders
   - Send dimmer wheel
   - Send grandmaster / B.O. (Unsure if feasible other than a CMD Wrapper)
 
@@ -110,7 +110,7 @@ In this Section you configure which executors you want to request from MA2.
 
 ### The Dynamic and Static config sections.  
 
-1. In the Dynamic section you configre Faders and Buttons to request in relativity to the **Active Page**. 
+1. In the Dynamic section you configure Faders and Buttons to request in relativity to the **Active Page**. 
      <img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
 
      - **Active Page:**  
