@@ -64,7 +64,8 @@ To create / manage a user account in MA2, go to `Setup > Console > User & Profil
 
 In this section you can also monitor / verify that the module is connecting correctly.  
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
-The logged in count should increase for your configured user, if it stays on `guest` the login process did not succeed and the session will die after a short time period.
+WHen starting a session, the logged in count should increase for the configured user.  
+If it stays on `guest` the login process did not succeed and the session will die after a short time period.
 
 
 ## The Parameters section  
