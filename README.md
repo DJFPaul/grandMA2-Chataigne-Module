@@ -83,8 +83,10 @@ This should change from `guest` to your configured user, when the module logs in
 ## Basic Settings
 <img width="468" height="49" alt="image" src="https://github.com/user-attachments/assets/3f3fbf97-11ab-44f8-a96b-1e613676dfc9" />
 
-- **Server Path:** If running OnPC on the same machine it should work as is, otherwise change IP to the desired target. `<console ip>:80/?ma=1`
-- **Connected:** If the IP is valid and the target can be reached, this should light up.  
+- **Server Path:**  
+     If running OnPC on the same machine it should work as is, otherwise change IP to the desired target. `<console ip>:80/?ma=1`
+- **Connected:**  
+     If the IP is valid and the target can be reached, this should light up.  
 
 ## Session
 
@@ -93,16 +95,21 @@ This will need to be done every time a session timed out (GrandMA2 Restarted, Ne
 
 <img width="466" height="144" alt="image" src="https://github.com/user-attachments/assets/7aef7ca9-565d-4217-94aa-0f37491e257d" />   
    
-- **Status:** Indicates the current session state.  
-- **Session ID:** This should tick up with every Session Login, untill MA2 has restarted and get's reset.  
-               If this ever reads -2, too many active connection requests have been made and the limit has been reached.   (3 Max)  
-               This should reset once users leave of sessions time out.
+- **Status:**  
+     Indicates the current session state.  
+- **Session ID:**  
+     This should tick up with every Session Login, untill MA2 has restarted and get's reset.  
+     If this ever reads -2, too many active connection requests have been made and the limit has been reached.   (3 Max)  
+     This should reset once users leave of sessions time out.
   
-- **Start Session:** To join the current GrandMA2 session of the WebRemote.  
-- **End Session:** Logout user from Session and terminate connection.  
+- **Start Session:**  
+     To join the current GrandMA2 session of the WebRemote.  
+- **End Session:**  
+     Logout user from Session and terminate connection.  
 
    
-- **Credentials:** If you do not use the MA2 user `chataigne` with the password `chataigne` configure the login details here.  
+- **Credentials:**  
+     If you do not use the MA2 user `chataigne` with the password `chataigne` configure the login details here.  
      <img width="456" height="74" alt="image" src="https://github.com/user-attachments/assets/64c1a1f9-244f-443b-bed6-968d2f8e6dbf" />   
 
      Please note that the password field needs to be a MD5 hash of the password you set in MA2.  
@@ -111,15 +118,23 @@ This will need to be done every time a session timed out (GrandMA2 Restarted, Ne
 ## The Playbacks section
 
 In this Section you configure which executors you want to request from MA2.  
-- **Request Playbacks:**  Enable to actively request data from MA2, if you only intend to SEND this can be off.  
+- **Request Playbacks:**  
+     Enable to actively request data from MA2, if you only intend to SEND this can be off.  
 
 Then there is the Dynamic and Static config sections.  
 
 In the Dynamic section you configer Faders and Buttons in relativity to the Active Page. 
 <img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
 
+- **Active Page:**  
+  Specifies the page you want to request playbacks for.
+  This is the value you want to reference / change for any kind of relative actions/mappings.  
+
+- **Sync to MA2:**  
+     Enabling this will cause the module to send a page change request when ever you change the Active Page number to keep in sync.
+   
 - **Faders / Buttons:**  
-     The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015  
+     The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015 where x represents the page set as *Active Page**  
      While the example `1-5;6-15` works, the simpler way to request x.001 to x.0016 would be to just write `1-16`.  
      By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`
 
