@@ -156,6 +156,7 @@ In this Section you configure which executors you want to request from MA2.
 ## Values
 Here is where the data we are requesting is ending up in.  
 1. **Executors:**  
+     <img width="476" height="142" alt="image" src="https://github.com/user-attachments/assets/9960b243-0ae0-4ba0-a2b9-93fe971f985c" />  
      Here is where our requested playbacks end up in.
 
      **Active Page:**  
@@ -165,5 +166,16 @@ Here is where the data we are requesting is ending up in.
      **Page1, Page2, Page3...**  
           Playbacks from the **Static** section will generate separate page entries for each page and their respective defined Executors here.  
           These pages will always contain the same Executors, regardless of what **Active Page** you are on.  
+
+     ### Datablocks
+     **Fader** datablocks contain this data:  
+          <img width="446" height="250" alt="image" src="https://github.com/user-attachments/assets/f2f8bce9-bd87-41ff-84c0-b2b8de0caeaa" />  
+
+     While **Button** datablocks contain this data:  
+          <img width="446" height="140" alt="image" src="https://github.com/user-attachments/assets/1bc474df-0476-4a7e-a607-06d492bab940" />  
+
+     Note: Cues are at the moment only a placeholder, this datafield is not getting filled with informations yet.  
+
+     
 3. Internal  
      This section is at the moment mostly interesting for debugging reasons and contains various some API responses.
