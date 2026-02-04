@@ -131,7 +131,8 @@ In this Section you configure which executors you want to request from MA2.
           Generally, faders go from 1-90, Buttons go from 101-190.  
           Requesting any outside this range can/will lead to undesired behaviour.  
      
-          If you do not need a specific field, leave it blank. (⚠️Make sure it's blank and not a space. ⚠️)  
+          If you do not need a specific field, leave it blank.  
+          (⚠️Make sure it is indeed blank and not a space.⚠️)  
           The more / faster you request the higher the processing load will be.  
           Only request what you really need, to not waste resources.   
 
@@ -153,7 +154,8 @@ In this Section you configure which executors you want to request from MA2.
 
      Like before, **Faders** go from 1-90 and **Buttons** go from 101-190.  
      The syntax is: `Page.Start-End`, so if you want **Buttons** 101 - 115 from Page 2, you put `2.101-115`.  
-     Just like in the dynamic section, you can use `;` to define multiple executor blocks.  Example: `2.101-115;2.131-145;3.101-130`  
+     Just like in the dynamic section, you can use `;` to define multiple executor blocks.  
+     Example: `2.101-115;2.131-145;3.101-130`  
      You need to include the page prefix at the start of every block you define.  
      
      Note: All blocks referencing the same page get combined into a single request, but different pages will be separate data requests for each.
