@@ -145,7 +145,7 @@ In this Section you configure which executors you want to request from MA2.
      <img width="456" height="118" alt="image" src="https://github.com/user-attachments/assets/de115b48-786a-45e7-826b-881bcdb289a8" />
 
      **Faders/Buttons** and **Fader Intervall / Button Intervall** function ***nearly*** identical.  
-     You might notice that by default we are not requesting any Faders, but unlike in the Dynamic section, there is a 2. before each range in the Buttons default config.  
+     However, you might notice that by default we are not requesting any Faders, there is a 2. before each range in the Buttons default config.  
 
      The Static section can be best though of like classic hardcoded MIDI Mappings.  
      Faders / Buttons in this section **REQUIRE** a page prefix before the range, telling it which specific page you want the executors from.  
