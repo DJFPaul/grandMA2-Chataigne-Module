@@ -155,6 +155,7 @@ function update(deltaTime) {
 			for (var rateLimitIndex = 0; rateLimitIndex < rateLimitArray.length; rateLimitIndex++) {
 
 				//If timestamp difference is great than set threshold check if should be value is actual last send value.
+				//The max time that has to be elapsed dynamically adjusts based on the amount of faders simultaniously send.
 				if ((timestamp - rateLimitDataArray[rateLimitIndex].timestamp) > 0.04 + Math.max((0.0022 * rateLimitArray.length), 0.0)) {
 					
 					//If not true, trigger one send of the should be value to ensure final setpoint get's hit.
@@ -299,7 +300,8 @@ if (local.parameters.session.status.get() == true) {
 		} else {		
 			//Was the last request long enough ago?
 
-			// Yes = Send and update limit tracker.
+			//Yes = Send and update limit tracker.
+			//The minimum intervall dynamically adjusts based on the amount of faders simultaniously send.
 	 		if ((timestamp - rateLimitDataArray[limitCheckIndex].timestamp) > 0.024999 + Math.max((0.0024 * rateLimitArray.length), 0.0)) {
 				rateLimitDataArray[limitCheckIndex].timestamp = timestamp;
 				rateLimitDataArray[limitCheckIndex].isValue = iValue;
@@ -351,9 +353,9 @@ function wsMessageReceived(message) {
 
 			//Loop trough all ITEMGROUPS (Each array entry in the playback request comes as a itemGroup)
 			for (var itemGroupsArray = 0; itemGroupsArray < JSONMessageObject.itemGroups.length; itemGroupsArray++) {
-				// ITEMS (Each items array contains a max of 5 items then a new is created for the next 5)
+				//ITEMS (Each items array contains a max of 5 items then a new is created for the next 5)
 				for (var itemsArray = 0; itemsArray < JSONMessageObject.itemGroups[itemGroupsArray].items.length; itemsArray++) {
-					// ITEMSSUBARRAY (The actual individual data elements)
+					//ITEMSSUBARRAY (The actual individual data elements)
 					for (var itemsSubArray = 0; itemsSubArray < JSONMessageObject.itemGroups[itemGroupsArray].items[0].length; itemsSubArray++) {
 						
 						//Saving you and my self from gray hair by defining some reappearing parts to make the parsing section even remotely readable.
