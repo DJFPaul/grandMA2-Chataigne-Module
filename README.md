@@ -134,14 +134,15 @@ In this Section you configure which executors you want to request from MA2.
           If you do not need a specific field, leave it blank.  
           ⚠️Make sure it is indeed blank and not a space.⚠️
        
-          The more / faster you request the higher the processing load will be.  
+          The more you request the higher the processing load will be.  
           Only request what you really need, to not waste resources.   
 
-     - **Fader/Button Intervall:**  
+     - **Fader / Button Intervall:**  
           This specifices the time between requests, a longer intervall is less resource heavy.  
-          The Default should work well for many cases but can be adjusted in steps of 20ms each.  
+          The defaults should work well for many cases, but can be adjusted in steps of 20ms each.  
      
-          You want to keep this as high as is tollerable for your application, this exponential increases processing load.  
+          You want to keep this as high as is tollerable for your application.  
+          The faster you request the more it increases processing load exponentially.  
 
 2. The Static section works slightly different.  
      <img width="456" height="118" alt="image" src="https://github.com/user-attachments/assets/de115b48-786a-45e7-826b-881bcdb289a8" />
