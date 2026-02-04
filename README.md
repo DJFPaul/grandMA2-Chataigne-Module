@@ -113,35 +113,45 @@ In this Section you configure which executors you want to request from MA2.
 
 Then there is the Dynamic and Static config sections.  
 
-In the Dynamic section you configer Faders and Buttons in relativity to the Active Page. 
-<img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
+1. In the Dynamic section you configer Faders and Buttons in relativity to the Active Page. 
+     <img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
 
-- **Active Page:**  
-  Specifies the page you want to request playbacks for.
-  This is the value you want to reference / change for any kind of relative actions/mappings.  
+     - **Active Page:**  
+       Specifies the page you want to request playbacks for.
+       This is the value you want to reference / change for any kind of relative actions/mappings.  
 
-- **Sync to MA2:**  
-     Enabling this will cause the module to send a page change request when ever you change the Active Page number to keep in sync.
+     - **Sync to MA2:**  
+          Enabling this will cause the module to send a page change request when ever you change the Active Page number to keep in sync.
    
-- **Faders / Buttons:**  
-     The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015 where x represents the page set as *Active Page**  
-     While the example `1-5;6-15` works, the simpler way to request x.001 to x.0016 would be to just write `1-16`.  
-     By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`
+     - **Faders / Buttons:**  
+          The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015 where x represents the page set as *Active Page**  
+          While the example `1-5;6-15` works, the simpler way to request x.001 to x.0016 would be to just write `1-16`.  
+          By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`
 
-     Generally, faders go from 1-90, Buttons go from 101-190.  
-     Requesting any outside this range can/will lead to undesired behaviour.  
+          Generally, faders go from 1-90, Buttons go from 101-190.  
+          Requesting any outside this range can/will lead to undesired behaviour.  
+     
+          If you do not need a specific field, leave it blank. (⚠️Make sure it's blank and not a space. ⚠️)  
+          The more / faster you request the higher the processing load will be.  
+          Only request what you really need, to not waste resources.   
 
-     If you do not need a specific field, leave it blank. (⚠️Make sure it's blank and not a space. ⚠️)  
-     The more / faster you request the higher the processing load will be.  
-     Only request what you really need, to not waste resources.   
+     - **Fader/Button Intervall:**  
+          This specifices the time between requests, a longer intervall is less resource heavy.  
+          The Default should work well for many cases but can be adjusted in steps of 20ms each.  
+     
+          You want to keep this as high as is tollerable for your application, this exponential increases processing load.  
 
-- **Fader/Button Intervall:**  
-     This specifices the time between requests, a longer intervall is less resource heavy.  
-     The Default should work well for many cases but can be adjusted in steps of 20ms each.  
+2. The Static section works slightly different.  
+     <img width="456" height="118" alt="image" src="https://github.com/user-attachments/assets/de115b48-786a-45e7-826b-881bcdb289a8" />
 
-     You want to keep this as high as is tollerable for your application, this exponential increases processing load.  
+     **Faders/Buttons** and **Fader Intervall / Button Intervall** function ***nearly*** identical.  
+     However, you might notice that while we are not requesting any Faders, there is a 2. before the range in the Buttons section.  
 
+     The Static section can be best though of like classic hardcoded MIDI Mappings.  
+     The Faders/Buttons field in this section **REQUIRE** a page prefix before the range, telling it which Page you want the range from.  
+     This page will never change, irrelevant of that Active Page you are on, and will get processed into dedicated static value fields.
 
-
-
-
+     Faders also go from 1-90 and Buttons also go from 101-190.  
+     Syntax: `Page.Start-End` so If you want Buttons 101 - 115 from Page 2, you put `2.101-115`.  
+     Just like in the dynamic section, you can use `;` to define multiple blocks.  
+     You need to include the page prefix at the start of each block. Example: `2.101-115;2-131-145;3.101-130`
