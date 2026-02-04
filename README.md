@@ -57,14 +57,14 @@ Enable it by setting `Setup > Console > Global Settings > Remotes` to `Login Ena
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/d5798959-fbc4-4734-8d3f-a0d23b09200c" />
 
 By default, the module is configured to login with the user `chataigne` and the password `chataigne`.  
-Either create this user profile, or use your own or an existing one by changing the modules default login settings.  
+Either create this user profile, or use your own / an existing one by changing the modules default login settings.  
 
 To create / manage a user account in MA2, go to `Setup > Console > User & Profiles Setup`.  
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/d5903138-d628-4ef3-9e6e-2ec3bc138a89" />  
 
 In this section you can also monitor / verify that the module is connecting correctly.  
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
-WHen starting a session, the logged in count should increase for the configured user.  
+When starting a session, the logged in count should increase for the configured user.  
 If it stays on `guest` the login process did not succeed and the session will die after a short time period.
 
 
