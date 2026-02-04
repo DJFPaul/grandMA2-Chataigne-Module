@@ -73,7 +73,7 @@ This should change from `guest` to your configured user, when the module logs in
 <img width="468" height="49" alt="image" src="https://github.com/user-attachments/assets/3f3fbf97-11ab-44f8-a96b-1e613676dfc9" />
 
 - **Server Path:**  
-     If running OnPC on the same machine it should work as is, otherwise change IP to the desired target. `<console ip>:80/?ma=1`
+     If OnPC is on the same PC it should just work, otherwise change to the target PC/Console IP. `<console ip>:80/?ma=1`
 - **Connected:**  
      If the IP is valid and the target can be reached, this should light up.  
 
