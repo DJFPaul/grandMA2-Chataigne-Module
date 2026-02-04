@@ -45,11 +45,6 @@ Using the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_c
   - Grandmaster Fader Value (Unsure if feasible)
 </details>
 
-
----
-### ⚠️ Below documentation is currently active work in progress.  ⚠️
----
-
 ## Preparing grandMA2  
 
 If you have not used the MA2 Web Remote before, you will need to enable it first.
@@ -111,22 +106,22 @@ In this Section you configure which executors you want to request from MA2.
 - **Request Playbacks:**  
      Enable to actively request data from MA2, if you only intend to SEND this can be off.  
 
-Then there is the Dynamic and Static config sections.  
+### The Dynamic and Static config sections.  
 
-1. In the Dynamic section you configer Faders and Buttons in relativity to the Active Page. 
+1. In the Dynamic section you configre Faders and Buttons to request in relativity to the **Active Page**. 
      <img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
 
      - **Active Page:**  
-       Specifies the page you want to request playbacks for.
+       Specifies the page you want to request playbacks for.  
        This is the value you want to reference / change for any kind of relative actions/mappings.  
 
      - **Sync to MA2:**  
           Enabling this will cause the module to send a page change request when ever you change the Active Page number to keep in sync.
    
      - **Faders / Buttons:**  
-          The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015 where x represents the page set as *Active Page**  
-          While the example `1-5;6-15` works, the simpler way to request x.001 to x.0016 would be to just write `1-16`.  
-          By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`
+          The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015 where x represents the page set as **Active Page**  
+          While the example `1-5;6-15` works, the simpler and expected way to request x.001 to x.0016 would be `1-16`.  
+          By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`  
 
           Generally, faders go from 1-90, Buttons go from 101-190.  
           Requesting any outside this range can/will lead to undesired behaviour.  
@@ -148,12 +143,27 @@ Then there is the Dynamic and Static config sections.
      You might notice that by default we are not requesting any Faders, but unlike in the Dynamic section, there is a 2. before each range in the Buttons default config.  
 
      The Static section can be best though of like classic hardcoded MIDI Mappings.  
-     The Faders/Buttons field in this section **REQUIRE** a page prefix before the range, telling it which Page you want the range from.  
-     This page will never change, irrelevant of that Active Page you are on, and will get processed into dedicated static value fields.
+     Faders/Buttons fields in this section **REQUIRE** a page prefix before the range, telling it which specific page you want the executors from.  
+     These pages will not be influenced by **Active Page** and get processed into dedicated static value fields for each page.  
 
-     Faders also go from 1-90 and Buttons also go from 101-190.  
-     Syntax: `Page.Start-End` so If you want Buttons 101 - 115 from Page 2, you put `2.101-115`.  
-     Just like in the dynamic section, you can use `;` to define multiple blocks.  Example: `2.101-115;2-131-145;3.101-130`  
-     You need to include the page prefix at the start of every block.  
+     Like before, **Faders** go from 1-90 and **Buttons** go from 101-190.  
+     The syntax is: `Page.Start-End`, so if you want **Buttons** 101 - 115 from Page 2, you put `2.101-115`.  
+     Just like in the dynamic section, you can use `;` to define multiple executor blocks.  Example: `2.101-115;2-131-145;3.101-130`  
+     You need to include the page prefix at the start of every block you define.  
      
-     Note: All blocks referencing the same page get combined into a single request but different pages will be separate data requests for each.  
+     Note: All blocks referencing the same page get combined into a single request but different pages will be separate data requests for each.
+
+## Values
+Here is where the data we are requesting is ending up in.  
+1. **Executors:**  
+     Here is where our requested playbacks end up in.
+
+     **Active Page:**  
+          This is where all executors defined in the **Dynamic** sections will generate and update their data elements in.  
+          When you change **Active Page** the elements will be overwritten / constatnly updated with the page you change to.  
+          
+     **Page1, Page2, Page3...**  
+          Playbacks from the **Static** section will generate separate page entries for each page and their respective defined Executors here.  
+          These pages will always contain the same Executors, regardless of what **Active Page** you are on.  
+3. Internal  
+     This section is at the moment mostly interesting for debugging reasons and contains various some API responses.
