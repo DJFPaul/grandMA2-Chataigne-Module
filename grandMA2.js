@@ -32,8 +32,7 @@ function init() {
 }
 
 function buildRequestArrays() {
-
-	//Erase all previous data and creat a new template array.
+	//Erase all previous data and create prepare a new array structure.
 	playbackRequestArray.splice(0, playbackRequestArray.length);
 	dynamicExecList.splice(0, dynamicExecList.length);
 	staticExecList.splice(0, staticExecList.length);
@@ -52,7 +51,7 @@ function buildRequestArrays() {
 		}
 	}
 
-	//Build Dynamic Buttons block
+	//Build Dynamic Buttons block.
 	if (local.parameters.playbacks.dynamic.buttons.get() != '') {
 		var loopTempArray = local.parameters.playbacks.dynamic.buttons.get().split(";");
 		for (var tempSplitIndex = 0; tempSplitIndex < loopTempArray.length; tempSplitIndex++ ) {    			
@@ -65,7 +64,7 @@ function buildRequestArrays() {
 		}
 	}
 
-	//Build Static Faders block
+	//Build Static Faders block.
 	if (local.parameters.playbacks.static.faders.get() != '') {
 		var tempPagePreparationArray = local.parameters.playbacks.static.faders.get().split(";");
 		var tempStaticObject = {};
@@ -82,7 +81,7 @@ function buildRequestArrays() {
 			tempStaticObject[tempPagePreparationArray[tempSplitIndex].split(".")[0]].push(tempPagePreparationArray[tempSplitIndex].split(".")[1]);
 		}
 
-		//Build array for each page block
+		//Build array for each page block.
 		for (var tempPageSplitIndex = 0; tempPageSplitIndex < tempPageList.length; tempPageSplitIndex++ ) {	
 			playbackRequestArray[2].push([[],[],[],0]);	
 			var loopTempArray = tempStaticObject[tempPageList[tempPageSplitIndex]].join(';').split(";");
@@ -98,7 +97,7 @@ function buildRequestArrays() {
 		}
 	}
 
-	//Build Static Buttons block
+	//Build Static Buttons block.
 	if (local.parameters.playbacks.static.buttons.get() != '') {
 		var tempPagePreparationArray = local.parameters.playbacks.static.buttons.get().split(";");
 		var tempStaticObject = {};
@@ -132,7 +131,7 @@ function buildRequestArrays() {
 	}
 }
 
-//Change readOnlyStart so config can not be changed while in session.
+//Change readOnlyState so config can not be changed while in session.
 function readOnlyPlaybacksConfig(stateToSetTo) {
 	local.parameters.playbacks.dynamic.faders.setAttribute("readonly",stateToSetTo);
 	local.parameters.playbacks.dynamic.buttons.setAttribute("readonly",stateToSetTo);
@@ -148,7 +147,7 @@ function update(deltaTime) {
 		//Is there any check queued up?
 		if (rateLimitArray.length != -1 ) {
 
-			//Check each existing entry
+			//Check each existing entry.
 			for (var rateLimitIndex = 0; rateLimitIndex < rateLimitArray.length; rateLimitIndex++) {
 
 				//If timestamp difference is great than set threshold check if should be value is actual last send value.
@@ -158,7 +157,7 @@ function update(deltaTime) {
 					if (rateLimitDataArray[rateLimitIndex].targetValue != rateLimitDataArray[rateLimitIndex].isValue) {
 						commandSetExecutorValue(rateLimitArray[rateLimitIndex][1], rateLimitArray[rateLimitIndex][0], rateLimitDataArray[rateLimitIndex].targetValue);
 					
-					//Setpoint was already hit, just clear
+					//Setpoint was already hit, just clear.
 					} else {
 						rateLimitArray.splice(rateLimitIndex, 1);
 						rateLimitDataArray.splice(rateLimitIndex, 1);
@@ -186,7 +185,7 @@ function update(deltaTime) {
 					}
 				}
 
-				//Dynamic Buttons
+				//Dynamic Buttons.
 				if ((timestamp - DBTimestamp) >= local.parameters.playbacks.dynamic.buttonIntervall.get()) {
 					if ((playbackStartOffset < 2) && (playbackRequestArray[1][0].length > 0)) {
 						DBTimestamp = timestamp;			
@@ -194,7 +193,7 @@ function update(deltaTime) {
 					}
 				}
 
-				//Static Faders
+				//Static Faders.
 				if ((timestamp - SFTimestamp) >= local.parameters.playbacks.static.faderIntervall.get()) {
 					if ((playbackStartOffset < 6) && (playbackRequestArray[2][0].length > 0)) {
 						SFTimestamp = timestamp;
@@ -204,7 +203,7 @@ function update(deltaTime) {
 					}
 				}
 
-				//Static Buttons
+				//Static Buttons.
 				if ((timestamp - SBTimestamp) >= local.parameters.playbacks.static.buttonIntervall.get()) {
 					if ((playbackStartOffset < 3) && (playbackRequestArray[3][0].length > 0)) {
 						SBTimestamp = timestamp;
@@ -245,7 +244,7 @@ function requestPlaybacks(RequestIndex, RequestItemCount, RequestPage, RequestIt
 
 function moduleParameterChanged(param) {		
 
-	//When Active Page get's changed and Sync to MA2 is enabled, send page change command to Active Page's value
+	//When Active Page get's changed and Sync to MA2 is enabled, send page change command to Active Page's value.
 	if (param.is(local.parameters.playbacks.dynamic.activePage)){
 		if (local.parameters.playbacks.dynamic.syncToMA2.get() == true) {
 			commandChangePage(local.parameters.playbacks.dynamic.activePage.get());
@@ -257,7 +256,7 @@ function moduleParameterChanged(param) {
 			commandChangePage(local.parameters.playbacks.dynamic.activePage.get());
 		}
 	
-	//Initialise a new Session
+	//Initialise a new Session.
 	} else if (param.is(local.parameters.session.startSession)){
 		local.parameters.session.startSession.setAttribute("enabled", false);
 		readOnlyPlaybacksConfig(false);
@@ -265,7 +264,7 @@ function moduleParameterChanged(param) {
 		sessionStarting = true;  //This flag causes a follow up request to happen in the Websocket receiver once MA2 responds to the following initialisation request.
 		local.send('{"session":0}');
 
-	//End Session
+	//End Session.
 	} else if (param.is(local.parameters.session.endSession)){
 		lastKeepAliveTime = util.getTime();
 		local.values.internal.forceLogin.set(true);
@@ -292,7 +291,7 @@ if (local.parameters.session.status.get() == true) {
 		//Per Executor send rate limiter. (As crazy amounts of requests can lead to overload of MA2)
 		limitCheckIndex = rateLimitArray.indexOf([iPage,iExec]);
 		
-		//Is it the first request since the last watchdog cleanup? Yes = Send immediately and create new entry in watchdog array
+		//Is it the first request since the last watchdog cleanup? Yes = Send immediately and create new entry in watchdog array.
 		if(limitCheckIndex == -1){
 			rateLimitArray.push([iPage, iExec]);
 			rateLimitDataArray.push({"page": iPage,"exec": iExec, "timestamp": timestamp, "isValue": iValue, "targetValue": iValue});
@@ -300,14 +299,14 @@ if (local.parameters.session.status.get() == true) {
 		} else {		
 			//Was the last request long enough ago?
 
-			// Yes = Send and update limit tracker
+			// Yes = Send and update limit tracker.
 	 		if ((timestamp - rateLimitDataArray[limitCheckIndex].timestamp) > 0.024999 + Math.max((0.0024 * rateLimitArray.length), 0.0)) {
 				rateLimitDataArray[limitCheckIndex].timestamp = timestamp;
 				rateLimitDataArray[limitCheckIndex].isValue = iValue;
 				rateLimitDataArray[limitCheckIndex].targetValue = iValue;
 				local.send('{"requestType":"playbacks_userInput","execIndex":' + (iExec - 1)  + ',"pageIndex":' + (iPage - 1) + ',"faderValue":' + iValue + ',"type":1,"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
 			
-			//No = Too fast re-trigger, do not send and only update limit tracker entry with the last requested send value
+			//No = Too fast re-trigger, do not send and only update limit tracker entry with the last requested send value.
 			} else {
 				rateLimitDataArray[limitCheckIndex].targetValue = iValue;
 			}
@@ -325,7 +324,7 @@ if (local.parameters.session.status.get() == true) {
 	}
 }
 
-//Console commands
+//Console commands.
 function commandSendCMD(cmdToSend) {
 if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"' + cmdToSend + '","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
@@ -339,13 +338,13 @@ if (local.parameters.session.status.get() == true) {
 }
 
 
-//Websocket receiver and parser
+//Websocket receiver and parser.
 function wsMessageReceived(message) {
 	var JSONMessageObject = JSON.parse(message);
 	timestamp = util.getTime();	
 	iPage = JSONMessageObject.iPage;
 	iPageString = 'page' + iPage;	
-	//Get responseType and proceed accordingly
+	//Get responseType and proceed accordingly.
 	if (JSONMessageObject.responseType === 'playbacks') {										
 
 		//Executor Type 2 (1-90) or Type 3 (101 - 190)
@@ -372,7 +371,7 @@ function wsMessageReceived(message) {
 							}
 							eObject = local.values.executors['activePage'][iExecString];
 
-							//Parse and update executor datablock
+							//Parse and update executor datablock.
 							eObject.label.set(iObject.tt.t);
 							eObject.isActive.set(iObject.isRun);
 							eObject.color.set(parseInt('0xff' + iObject.bdC.substring(1,7)));
@@ -396,7 +395,7 @@ function wsMessageReceived(message) {
 							}
 							eObject = local.values.executors[iPageString][iExecString];
 
-							//Parse and update executor datablock
+							//Parse and update executor datablock.
 							eObject.label.set(iObject.tt.t);
 							eObject.isActive.set(iObject.isRun);
 							eObject.color.set(parseInt('0xff' + iObject.bdC.substring(1,7)));
@@ -416,21 +415,21 @@ function wsMessageReceived(message) {
 			}
 		}
 
-	//If reposone type is not playbacks
+	//If reposone type is not playbacks.
 	} else {
 
-		//If responsonding to us asking for the command log
+		//If responsonding to us asking for the command log.
 		if (JSONMessageObject.responseType === 'commandHistory') {	
 		
 
-		//If responding to us asking to authenticate us for the provided Session ID
+		//If responding to us asking to authenticate us for the provided Session ID.
 		} else if (JSONMessageObject.responseType === 'login') {	
 			local.values.internal.result.set(JSONMessageObject.result);
 			local.values.internal.realtime.set(JSONMessageObject.realtime);
 			local.values.internal.prompt.set(JSONMessageObject.prompt);
 			local.values.internal.promptcolor.set(parseInt('0xff' + JSONMessageObject.promptcolor.substring(1,7)));
 			
-			//If Login was successful
+			//If Login was successful.
 			if (JSONMessageObject.result == true) {	
 				local.parameters.session.startSession.setAttribute("enabled", false);
 				local.parameters.session.endSession.setAttribute("enabled", true);
@@ -439,7 +438,7 @@ function wsMessageReceived(message) {
 				local.parameters.session.status.set(true);				
 				local.values.internal.connetionsLimitReached.set(false);
 			
-			//Login was not successful
+			//Login was not successful.
 			} else {
 				local.values.internal.forceLogin.set(true);
 				local.parameters.session.status.set(false);
@@ -449,7 +448,7 @@ function wsMessageReceived(message) {
 			}
 		}
 	
-		//Generic data
+		//Generic data.
 		local.parameters.session.sessionID.set(JSONMessageObject.session);
 		local.values.internal.forceLogin.set(JSONMessageObject.forceLogin);	
 		if (JSONMessageObject.forceLogin == true) {
@@ -477,7 +476,7 @@ function wsMessageReceived(message) {
 	}
 }
 
-//Called when no datablock for a received page + exec combination exists do create a new datablock for it
+//Called when no datablock for a received page + exec combination exists do create a new datablock for it.
 function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	
 	//Does the target page already exist? If not, create one.
