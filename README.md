@@ -24,7 +24,7 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 - Executor Fader Text (String) (Faders Only)
 - Executor Fader Value Text (String) (Faders Only)
 - Executor Upper Button Text (String) (Faders Only)
-- Executor Lower Button Button Text (String) (Faders Only)
+- Executor Lower Button Text (String) (Faders Only)
   
 
 <details>
