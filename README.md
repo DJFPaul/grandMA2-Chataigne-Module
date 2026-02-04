@@ -59,9 +59,8 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   - Grandmaster Fader Value (Unsure if feasible)
 </details>
 
-## How to use this Module
- 
-### Preparing grandMA2  
+
+## Preparing grandMA2  
 
 If you have not used the MA2 Web Remote before, you will need to enable it first.
 
@@ -82,29 +81,61 @@ In this section you can also later monitor / verify that the module is connected
 This should change from `guest` to your configured user, when the module logs into the session.  
 
 
-## The Parameters section.  
+## The Parameters section  
 
-### Basic Settings
+## Basic Settings
 <img width="468" height="49" alt="image" src="https://github.com/user-attachments/assets/3f3fbf97-11ab-44f8-a96b-1e613676dfc9" />
 
-Some basic settings.
+- **Server Path:** If running OnPC on the same machine it should work as is, otherwise change IP to the desired target. `<console ip>:80/?ma=1`
+- **Connected:** If the IP is valid and the target can be reached, this should light up.  
 
-**Server Path:** If running OnPC on the same machine it should work as is, otherwise change IP to the desired target. `<console ip>:80/?ma=1`
-**Connected:** If the IP is valid and the target can be reached, this should light up.  
-
-### Session
+## Session
 
 This Section is responsible for starting/stopping the connection to grandMA2.  
 This will need to be done every time a session timed out (GrandMA2 Restarted, Network interrupted, Chataigne Restarted).  
 
-**Status:** Indicates the current session state.  
-**Session ID:** This should tick up with every Session Login, untill MA2 has restarted and get's reset.  
-               If this ever ready -2, too many active connection requests have been made and the limit has been reached.   (3 Max)
-               This should reset once users leave of sessions time out.  
+<img width="466" height="144" alt="image" src="https://github.com/user-attachments/assets/7aef7ca9-565d-4217-94aa-0f37491e257d" />   
+   
+- **Status:** Indicates the current session state.  
+- **Session ID:** This should tick up with every Session Login, untill MA2 has restarted and get's reset.  
+               If this ever reads -2, too many active connection requests have been made and the limit has been reached.   (3 Max)  
+               This should reset once users leave of sessions time out.
+  
+- **Start Session:** To join the current GrandMA2 session of the WebRemote.  
+- **End Session:** Logout user from Session and terminate connection.  
 
-**Start Session:** To join the current GrandMA2 session of the WebRemote.  
-**End Session:** Logout user from Session and terminate connection.  
-<img width="466" height="144" alt="image" src="https://github.com/user-attachments/assets/7aef7ca9-565d-4217-94aa-0f37491e257d" />
-     
-**Credentials** If you do not use the MA2 user `chataigne` with the password `chataigne` you can configure the login details here.
-<img width="456" height="74" alt="image" src="https://github.com/user-attachments/assets/64c1a1f9-244f-443b-bed6-968d2f8e6dbf" />
+   
+- **Credentials:** If you do not use the MA2 user `chataigne` with the password `chataigne` configure the login details here.  
+<img width="456" height="74" alt="image" src="https://github.com/user-attachments/assets/64c1a1f9-244f-443b-bed6-968d2f8e6dbf" />   
+
+
+## The Playbacks section
+
+In this Section you configure which executors you want to request from MA2.  
+- **Request Playbacks:**  Enable to actively request data from MA2, if you only intend to SEND this can be off.  
+
+Then there is the Dynamic and Static config sections.  
+
+In the Dynamic section you configer Faders and Buttons in relativity to the Active Page. 
+<img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
+
+The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015  
+By using `;` you can specifiy multiple blocks that can have separation in between each other.  
+While the example `1-5;6-15` works, the simpler way to request x.001 to x.0016 would be to just write `1-16`.  
+
+Faders go from 1-90, Buttons go from 101-190.  
+Requesting any outside their expected field can/will lead to undesired behaviour.  
+
+If you do not need a specific field, make the field blank. (⚠️Make sure it's blank and not a space. ⚠️)
+
+
+**Fader/Button Intervall:**  
+     This specifices the time between requests, a longer intervall is less resource heavy.  
+     This works in steps of 20ms each.        The Default should work well for most cases.  
+
+
+
+
+
+
+Note that the more / faster you request the higher the processing load will be.  
