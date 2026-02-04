@@ -80,7 +80,7 @@ If it stays on `guest` the login process did not succeed and the session will di
 
 ## Session
 
-This Section is responsible for starting/stopping the connection to grandMA2.  
+This Section is responsible for starting / stopping the connection to grandMA2.  
 This will need to be done every time a session timed out (GrandMA2 Restarted, Network interrupted, Chataigne Restarted).  
 
 <img width="466" height="144" alt="image" src="https://github.com/user-attachments/assets/7aef7ca9-565d-4217-94aa-0f37491e257d" />   
