@@ -125,7 +125,7 @@ In this Section you configure which executors you want to request from MA2.
    
      - **Faders / Buttons:**  
           The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015 where x represents the page set as **Active Page**  
-          While the example `1-5;6-15` works, the simpler and expected way to request x.001 to x.0016 would be `1-16`.  
+          While the example `1-5;6-15` works, the simpler and expected way to request x.001 to x.016 would be `1-16`.  
           By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`  
 
           Generally, faders go from 1-90, Buttons go from 101-190.  
@@ -148,15 +148,15 @@ In this Section you configure which executors you want to request from MA2.
      You might notice that by default we are not requesting any Faders, but unlike in the Dynamic section, there is a 2. before each range in the Buttons default config.  
 
      The Static section can be best though of like classic hardcoded MIDI Mappings.  
-     Faders/Buttons fields in this section **REQUIRE** a page prefix before the range, telling it which specific page you want the executors from.  
+     Faders / Buttons in this section **REQUIRE** a page prefix before the range, telling it which specific page you want the executors from.  
      These pages will not be influenced by **Active Page** and get processed into dedicated static value fields for each page.  
 
      Like before, **Faders** go from 1-90 and **Buttons** go from 101-190.  
      The syntax is: `Page.Start-End`, so if you want **Buttons** 101 - 115 from Page 2, you put `2.101-115`.  
-     Just like in the dynamic section, you can use `;` to define multiple executor blocks.  Example: `2.101-115;2-131-145;3.101-130`  
+     Just like in the dynamic section, you can use `;` to define multiple executor blocks.  Example: `2.101-115;2.131-145;3.101-130`  
      You need to include the page prefix at the start of every block you define.  
      
-     Note: All blocks referencing the same page get combined into a single request but different pages will be separate data requests for each.
+     Note: All blocks referencing the same page get combined into a single request, but different pages will be separate data requests for each.
 
 ## Values
 Here is where the data we are requesting is ending up in.  
