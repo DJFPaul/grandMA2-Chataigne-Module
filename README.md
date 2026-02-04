@@ -73,9 +73,6 @@ Either create this user profile, or use your own or an existing one by changing 
 To create / manage a user account in MA2, go to `Setup > Console > User & Profiles Setup`.  
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/d5903138-d628-4ef3-9e6e-2ec3bc138a89" />  
 
-Please note that the password field in the Module needs to be a MD5 hash of the password you set in MA2.  
-You can use any [MD5 hash generator](https://www.md5hashgenerator.com) to generate the hash of the password. (Careful not to include extra spaces!)  
-
 In this section you can also later monitor / verify that the module is connected correctly.  
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
 This should change from `guest` to your configured user, when the module logs into the session.  
@@ -106,8 +103,10 @@ This will need to be done every time a session timed out (GrandMA2 Restarted, Ne
 
    
 - **Credentials:** If you do not use the MA2 user `chataigne` with the password `chataigne` configure the login details here.  
-<img width="456" height="74" alt="image" src="https://github.com/user-attachments/assets/64c1a1f9-244f-443b-bed6-968d2f8e6dbf" />   
+     <img width="456" height="74" alt="image" src="https://github.com/user-attachments/assets/64c1a1f9-244f-443b-bed6-968d2f8e6dbf" />   
 
+     Please note that the password field needs to be a MD5 hash of the password you set in MA2.  
+     You can use any [MD5 hash generator](https://www.md5hashgenerator.com) to generate the hash of the password. (Careful not to include extra spaces!)  
 
 ## The Playbacks section
 
@@ -119,23 +118,25 @@ Then there is the Dynamic and Static config sections.
 In the Dynamic section you configer Faders and Buttons in relativity to the Active Page. 
 <img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
 
-The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015  
-By using `;` you can specifiy multiple blocks that can have separation in between each other.  
-While the example `1-5;6-15` works, the simpler way to request x.001 to x.0016 would be to just write `1-16`.  
+- **Faders / Buttons:**  
+     The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015  
+     While the example `1-5;6-15` works, the simpler way to request x.001 to x.0016 would be to just write `1-16`.  
+     By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`
 
-Faders go from 1-90, Buttons go from 101-190.  
-Requesting any outside their expected field can/will lead to undesired behaviour.  
+     Generally, faders go from 1-90, Buttons go from 101-190.  
+     Requesting any outside this range can/will lead to undesired behaviour.  
 
-If you do not need a specific field, make the field blank. (⚠️Make sure it's blank and not a space. ⚠️)
+     If you do not need a specific field, leave it blank. (⚠️Make sure it's blank and not a space. ⚠️)  
+     The more / faster you request the higher the processing load will be.  
+     Only request what you really need, to not waste resources.   
 
-
-**Fader/Button Intervall:**  
+- **Fader/Button Intervall:**  
      This specifices the time between requests, a longer intervall is less resource heavy.  
-     This works in steps of 20ms each.        The Default should work well for most cases.  
+     The Default should work well for many cases but can be adjusted in steps of 20ms each.  
+
+     You want to keep this as high as is tollerable for your application, this exponential increases processing load.  
 
 
 
 
 
-
-Note that the more / faster you request the higher the processing load will be.  
