@@ -1,5 +1,5 @@
 # A [Chataigne](https://github.com/benkuper/Chataigne) Module for interfacing with grandMA2  
-Using the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) API to interface with grandMA2.  
+Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) API to communicate with grandMA2.  
 
 ## Features
 
@@ -156,7 +156,7 @@ In this Section you configure which executors you want to request from MA2.
 ## Values
 Here is where the data we are requesting is ending up in.  
 1. **Executors:**  
-     <img width="476" height="142" alt="image" src="https://github.com/user-attachments/assets/9960b243-0ae0-4ba0-a2b9-93fe971f985c" />  
+     <img width="466" height="82" alt="image" src="https://github.com/user-attachments/assets/b2a299f6-a497-466f-95b2-447b935c5d31" />  
      Here is where our requested playbacks end up in.
 
      **Active Page:**  
@@ -178,4 +178,5 @@ Here is where the data we are requesting is ending up in.
 
      
 3. Internal  
-     This section is at the moment mostly interesting for debugging reasons and contains various some API responses.
+     <img width="466" height="22" alt="image" src="https://github.com/user-attachments/assets/8a7b8f42-d457-4b96-950b-9159a02df509" />  
+     This section contains various debugging / internal API data.  
