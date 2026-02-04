@@ -145,7 +145,7 @@ Then there is the Dynamic and Static config sections.
      <img width="456" height="118" alt="image" src="https://github.com/user-attachments/assets/de115b48-786a-45e7-826b-881bcdb289a8" />
 
      **Faders/Buttons** and **Fader Intervall / Button Intervall** function ***nearly*** identical.  
-     However, you might notice that while we are not requesting any Faders, there is a 2. before the range in the Buttons section.  
+     You might notice that by default we are not requesting any Faders, but unlike in the Dynamic section, there is a 2. before each range in the Buttons default config.  
 
      The Static section can be best though of like classic hardcoded MIDI Mappings.  
      The Faders/Buttons field in this section **REQUIRE** a page prefix before the range, telling it which Page you want the range from.  
@@ -153,5 +153,7 @@ Then there is the Dynamic and Static config sections.
 
      Faders also go from 1-90 and Buttons also go from 101-190.  
      Syntax: `Page.Start-End` so If you want Buttons 101 - 115 from Page 2, you put `2.101-115`.  
-     Just like in the dynamic section, you can use `;` to define multiple blocks.  
-     You need to include the page prefix at the start of each block. Example: `2.101-115;2-131-145;3.101-130`
+     Just like in the dynamic section, you can use `;` to define multiple blocks.  Example: `2.101-115;2-131-145;3.101-130`  
+     You need to include the page prefix at the start of every block.  
+     
+     Note: All blocks referencing the same page get combined into a single request but different pages will be separate data requests for each.  
