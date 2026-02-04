@@ -113,7 +113,7 @@ In this Section you configure which executors you want to request from MA2.
 
 ### The Dynamic and Static config sections.  
 
-1. In the Dynamic section you configure Faders and Buttons to request in relativity to the **Active Page**. 
+1. In the Dynamic section you configure Faders and Buttons to request in **relativity** to the **Active Page**. 
      <img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
 
      - **Active Page:**  
@@ -125,7 +125,7 @@ In this Section you configure which executors you want to request from MA2.
    
      - **Faders / Buttons:**  
           The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015 where x represents the page set as **Active Page**  
-          While the example `1-5;6-15` works, the simpler and expected way to request x.001 to x.016 would be `1-16`.  
+          While the example `1-5;6-15` works, the simpler and expected way to request x.001 to x.015 would be `1-15`.  
           By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`  
 
           Generally, faders go from 1-90, Buttons go from 101-190.  
