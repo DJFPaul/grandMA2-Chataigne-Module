@@ -46,6 +46,7 @@ function buildRequestArrays() {
 			playbackRequestArray[0][1].push(parseInt(loopTempArray[tempSplitIndex].split("-")[1]) - parseInt(loopTempArray[tempSplitIndex].split("-")[0]) + 1);
 			playbackRequestArray[0][2].push(2);
 			for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
+				//Add element to the dynamic lookup table.
 				dynamicExecList.push('exec' + tempListIndex);
 			}
 		}
@@ -59,6 +60,7 @@ function buildRequestArrays() {
 			playbackRequestArray[1][1].push(parseInt(loopTempArray[tempSplitIndex].split("-")[1]) - parseInt(loopTempArray[tempSplitIndex].split("-")[0]) + 1);
 			playbackRequestArray[1][2].push(3);
 			for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
+				//Add element to the dynamic lookup table.
 				dynamicExecList.push('exec' + tempListIndex);
 			}
 		}
@@ -90,6 +92,7 @@ function buildRequestArrays() {
 				playbackRequestArray[2][tempPageSplitIndex][1].push(parseInt(loopTempArray[tempSplitIndex].split("-")[1]) - parseInt(loopTempArray[tempSplitIndex].split("-")[0]) + 1);
 				playbackRequestArray[2][tempPageSplitIndex][2].push(2);
 				for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
+				//Add element to the static lookup table.
 					staticExecList.push('page'+ tempPageList[tempPageSplitIndex]  + 'exec' + tempListIndex);
 				}	
 				playbackRequestArray[2][tempPageSplitIndex][3] = parseInt(tempPageList[tempPageSplitIndex]);	
@@ -123,6 +126,7 @@ function buildRequestArrays() {
 				playbackRequestArray[3][tempPageSplitIndex][1].push(parseInt(loopTempArray[tempSplitIndex].split("-")[1]) - parseInt(loopTempArray[tempSplitIndex].split("-")[0]) + 1);
 				playbackRequestArray[3][tempPageSplitIndex][2].push(3);
 				for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
+					//Add element to the static lookup table.
 					staticExecList.push('page'+ tempPageList[tempPageSplitIndex]  + 'exec' + tempListIndex);
 				}	
 				playbackRequestArray[3][tempPageSplitIndex][3] = parseInt(tempPageList[tempPageSplitIndex]);	
@@ -166,7 +170,7 @@ function update(deltaTime) {
 			}
 		}
 
-		//Keep alive timer as MA2 will terminate a session if it does not get this specific "blank" request in a 10 second interval.
+		//Keep alive timer trigger, as MA2 will terminate a session if it does not get this specific "blank" request in a 10 second interval.
 		//(Even if other requests are sent during that time, it's gotta be this specific "blank" one.)
 		if (local.parameters.session.status.get() == true){		
 			if ((timestamp - lastKeepAliveTime) > 10) {
@@ -184,7 +188,6 @@ function update(deltaTime) {
 						requestPlaybacks(playbackRequestArray[0][0].join(','), playbackRequestArray[0][1].join(','), local.parameters.playbacks.dynamic.activePage.get(), playbackRequestArray[0][2].join(','), 2, 1, 0, local.parameters.session.sessionID.get());	
 					}
 				}
-
 				//Dynamic Buttons.
 				if ((timestamp - DBTimestamp) >= local.parameters.playbacks.dynamic.buttonIntervall.get()) {
 					if ((playbackStartOffset < 2) && (playbackRequestArray[1][0].length > 0)) {
@@ -218,9 +221,6 @@ function update(deltaTime) {
 					playbackStartOffset--;
 				}
 			}
-
-			local.parameters.session.startSession.setAttribute("enabled", false);
-			local.parameters.session.endSession.setAttribute("enabled", true);
 		
 		//If websocket connections is active but Session is not.
 		} else {
@@ -337,7 +337,6 @@ if (local.parameters.session.status.get() == true) {
 	}
 }
 
-
 //Websocket receiver and parser.
 function wsMessageReceived(message) {
 	var JSONMessageObject = JSON.parse(message);
@@ -363,7 +362,8 @@ function wsMessageReceived(message) {
 						iExec = (iObject.iExec + 1);
 						iExecString = 'exec' + iExec;
 
-						//Check if received page is the same as the current selected Active Page, and if received executor is part of the Dynamic exec list and create / update the matching Active Page element if true.
+						//Check if received page matches the current Active Page, and if executor is part of the Dynamic lookup table
+						//If both checks succeed, create / update the matching Active Page element.
 						if ((iPage == (local.parameters.playbacks.dynamic.activePage.get())) && (dynamicExecList.indexOf(iExecString) != -1)){							
 							//Check if a datablock for the received executor already exists, otherwise request it's creation.
 							if (typeof local.values.executors['activePage'][iExecString] != 'object') {
@@ -387,7 +387,7 @@ function wsMessageReceived(message) {
 							}	
 						}
 
-						//Check if received page&executor is part of the Static exec list and create / update the matching static element if true.
+						//Check if received page & executor is part of the Static lookup table, and create / update the matching static element if true.
 						if (staticExecList.indexOf(iPageString + iExecString) != -1) {
 							//Check if a datablock for the received executor already exists, otherwise request it's creation.
 							if (typeof local.values.executors[iPageString][iExecString] != 'object') {
@@ -462,7 +462,7 @@ function wsMessageReceived(message) {
 		}
 		local.values.internal.worldIndex.set(JSONMessageObject.worldIndex);
 
-		//This flag get's set by the Start Session trigger and if true follow up to MA's response with our new Session ID by sending a login request to the assigned Session ID.
+		//This flag get's set by the Start Session trigger and if true follows up to MA responding with our assigned Session ID, by sending the login request for it.
 		if (sessionStarting === true) {
 			sessionStarting = false;
 			if(local.values.internal.connetionsLimitReached.get() != true){
@@ -470,7 +470,6 @@ function wsMessageReceived(message) {
 				local.values.internal.connetionsLimitReached.set(false);
 				buildRequestArrays();
 				local.send('{"requestType": "login","username":"' + local.parameters.session.credentials.ma2User.get() +'","password":"' + local.parameters.session.credentials.password_MD5_.get() +'","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}');
-	
 			}
 		}
 	}
@@ -512,7 +511,7 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	}
 }
 
-//Create the requested Chatainge parameter type and set some attributes.
+//Create the requested Chatainge parameter by type and set some attributes.
 function createNewExecParameter(iType, iPageString, iExecString, iKeyName, iKey, iDescription, iDefault, iDefault2, iDefault3) {
 	if (iType ==='String') {
 		local.values.executors[iPageString][iExecString].addStringParameter(iKey, iDescription, iDefault);
