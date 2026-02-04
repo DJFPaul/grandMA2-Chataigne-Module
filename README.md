@@ -57,14 +57,15 @@ Enable it by setting `Setup > Console > Global Settings > Remotes` to `Login Ena
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/d5798959-fbc4-4734-8d3f-a0d23b09200c" />
 
 By default, the module is configured to login with the user `chataigne` and the password `chataigne`.  
-Either create this user profile, or use your own or an existing one by changing the modules default login settings.  
+Either create this user profile, or use your own / an existing one by changing the modules default login settings.  
 
 To create / manage a user account in MA2, go to `Setup > Console > User & Profiles Setup`.  
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/d5903138-d628-4ef3-9e6e-2ec3bc138a89" />  
 
-In this section you can also later monitor / verify that the module is connected correctly.  
+In this section you can also monitor / verify that the module is connecting correctly.  
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
-This should change from `guest` to your configured user, when the module logs into the session.  
+When starting a session, the logged in count should increase for the configured user.  
+If it stays on `guest` the login process did not succeed and the session will die after a short time period.
 
 
 ## The Parameters section  
@@ -73,13 +74,13 @@ This should change from `guest` to your configured user, when the module logs in
 <img width="468" height="49" alt="image" src="https://github.com/user-attachments/assets/3f3fbf97-11ab-44f8-a96b-1e613676dfc9" />
 
 - **Server Path:**  
-     If running OnPC on the same machine it should work as is, otherwise change IP to the desired target. `<console ip>:80/?ma=1`
+     If OnPC is on the same PC it should just work, otherwise change to the target PC/Console IP. `<console ip>:80/?ma=1`
 - **Connected:**  
      If the IP is valid and the target can be reached, this should light up.  
 
 ## Session
 
-This Section is responsible for starting/stopping the connection to grandMA2.  
+This Section is responsible for starting / stopping the connection to grandMA2.  
 This will need to be done every time a session timed out (GrandMA2 Restarted, Network interrupted, Chataigne Restarted).  
 
 <img width="466" height="144" alt="image" src="https://github.com/user-attachments/assets/7aef7ca9-565d-4217-94aa-0f37491e257d" />   
@@ -112,7 +113,7 @@ In this Section you configure which executors you want to request from MA2.
 
 ### The Dynamic and Static config sections.  
 
-1. In the Dynamic section you configure Faders and Buttons to request in relativity to the **Active Page**. 
+1. In the Dynamic section you configure Faders and Buttons to request in **relativity** to the **Active Page**. 
      <img width="456" height="162" alt="image" src="https://github.com/user-attachments/assets/e31fc6bb-538f-45d9-8b6c-a3fd86dca0df" />  
 
      - **Active Page:**  
@@ -124,38 +125,42 @@ In this Section you configure which executors you want to request from MA2.
    
      - **Faders / Buttons:**  
           The default example config shows how you can request faders x.001 - x.005 and x.006 - x.015 where x represents the page set as **Active Page**  
-          While the example `1-5;6-15` works, the simpler and expected way to request x.001 to x.0016 would be `1-16`.  
+          While the example `1-5;6-15` works, the simpler and expected way to request x.001 to x.015 would be `1-15`.  
           By using `;` you rather specifiy blocks that have separation in between each other, for example `1-15;61-75`  
 
           Generally, faders go from 1-90, Buttons go from 101-190.  
           Requesting any outside this range can/will lead to undesired behaviour.  
      
-          If you do not need a specific field, leave it blank. (⚠️Make sure it's blank and not a space. ⚠️)  
-          The more / faster you request the higher the processing load will be.  
+          If you do not need a specific field, leave it blank.  
+          ⚠️Make sure it is indeed blank and not a space.⚠️
+       
+          The more you request the higher the processing load will be.  
           Only request what you really need, to not waste resources.   
 
-     - **Fader/Button Intervall:**  
+     - **Fader / Button Intervall:**  
           This specifices the time between requests, a longer intervall is less resource heavy.  
-          The Default should work well for many cases but can be adjusted in steps of 20ms each.  
+          The defaults should work well for many cases, but can be adjusted in steps of 20ms each.  
      
-          You want to keep this as high as is tollerable for your application, this exponential increases processing load.  
+          You want to keep this as high as is tollerable for your application.  
+          The faster you request the more it increases processing load exponentially.  
 
 2. The Static section works slightly different.  
      <img width="456" height="118" alt="image" src="https://github.com/user-attachments/assets/de115b48-786a-45e7-826b-881bcdb289a8" />
 
      **Faders/Buttons** and **Fader Intervall / Button Intervall** function ***nearly*** identical.  
-     You might notice that by default we are not requesting any Faders, but unlike in the Dynamic section, there is a 2. before each range in the Buttons default config.  
+     By default we are not requesting any Faders however, you might notice that there is a 2. before each range in the Buttons config.  
 
      The Static section can be best though of like classic hardcoded MIDI Mappings.  
-     Faders/Buttons fields in this section **REQUIRE** a page prefix before the range, telling it which specific page you want the executors from.  
+     Faders / Buttons in this section **REQUIRE** a page prefix before the range, telling it which specific page you want the executors from.  
      These pages will not be influenced by **Active Page** and get processed into dedicated static value fields for each page.  
 
      Like before, **Faders** go from 1-90 and **Buttons** go from 101-190.  
      The syntax is: `Page.Start-End`, so if you want **Buttons** 101 - 115 from Page 2, you put `2.101-115`.  
-     Just like in the dynamic section, you can use `;` to define multiple executor blocks.  Example: `2.101-115;2-131-145;3.101-130`  
+     Just like in the dynamic section, you can use `;` to define multiple executor blocks.  
+     Example: `2.101-115;2.131-145;3.101-130`  
      You need to include the page prefix at the start of every block you define.  
      
-     Note: All blocks referencing the same page get combined into a single request but different pages will be separate data requests for each.
+     Note: All blocks referencing the same page get combined into a single request, but different pages will be separate data requests for each.
 
 ## Values
 Here is where the data we are requesting is ending up in.  
@@ -165,10 +170,10 @@ Here is where the data we are requesting is ending up in.
 
      **Active Page:**  
           This is where all executors defined in the **Dynamic** sections will generate and update their data elements in.  
-          When you change **Active Page** the elements will be overwritten / constatnly updated with the page you change to.  
+          When you change **Active Page** the same elements will be updated with the new incomming data of the selected page.  
           
      **Page1, Page2, Page3...**  
-          Playbacks from the **Static** section will generate separate page entries for each page and their respective defined Executors here.  
+          Playbacks from the **Static** section will generate separate page entries for each page and their respective Executors here.  
           These pages will always contain the same Executors, regardless of what **Active Page** you are on.  
 
      ### Datablocks
