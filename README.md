@@ -10,7 +10,7 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 - Send executor button state (Bool)
 - Change executor Label (String)
 - Change page (Integer)
-- Sync Chatainge page to MA2
+- Sync the modules **Active Page** to MA2
      
 *Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.
 
