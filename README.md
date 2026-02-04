@@ -166,10 +166,10 @@ Here is where the data we are requesting is ending up in.
 
      **Active Page:**  
           This is where all executors defined in the **Dynamic** sections will generate and update their data elements in.  
-          When you change **Active Page** the elements will be overwritten / constatnly updated with the page you change to.  
+          When you change **Active Page** the same elements will be updated with the new incomming data of the selected page.  
           
      **Page1, Page2, Page3...**  
-          Playbacks from the **Static** section will generate separate page entries for each page and their respective defined Executors here.  
+          Playbacks from the **Static** section will generate separate page entries for each page and their respective Executors here.  
           These pages will always contain the same Executors, regardless of what **Active Page** you are on.  
 
      ### Datablocks
