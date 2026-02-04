@@ -1,19 +1,5 @@
-# A [Chataigne](https://github.com/benkuper/Chataigne) Module for interfacing with grandMA2
----
-
-### Pre-Release repository as placeholder for linking and starting documentation.  
-#### Expect initial first module release in February.  
-
-
----
-### ⚠️ Below documentation is currently active work in progress.  ⚠️
----
-
-
-
-
-
-This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) to interface with grandMA2.  
+# A [Chataigne](https://github.com/benkuper/Chataigne) Module for interfacing with grandMA2  
+Using the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) API to interface with grandMA2.  
 
 ## Features
 
@@ -59,6 +45,10 @@ This module mimics a [Web Remote](https://help.malighting.com/grandMA2/en/help/k
   - Grandmaster Fader Value (Unsure if feasible)
 </details>
 
+
+---
+### ⚠️ Below documentation is currently active work in progress.  ⚠️
+---
 
 ## Preparing grandMA2  
 
