@@ -32,7 +32,7 @@ function init() {
 }
 
 function buildRequestArrays() {
-	//Erase all previous data and create prepare a new array structure.
+	//Erase all previous data and prepare a new array structure.
 	playbackRequestArray.splice(0, playbackRequestArray.length);
 	dynamicExecList.splice(0, dynamicExecList.length);
 	staticExecList.splice(0, staticExecList.length);
@@ -73,7 +73,7 @@ function buildRequestArrays() {
 		var tempPageCount = 0;
 		var tempPageList = [];
 
-		//Process all entries into an Object with with combined page blocks.
+		//Process all entries into an Object with combined page blocks.
 		for (var tempSplitIndex = 0; tempSplitIndex < tempPagePreparationArray.length; tempSplitIndex++ ) {    
 			if (typeof tempStaticObject[tempPagePreparationArray[tempSplitIndex].split(".")[0]] != 'object') {
 				tempStaticObject[tempPagePreparationArray[tempSplitIndex].split(".")[0]] = [];
@@ -107,7 +107,7 @@ function buildRequestArrays() {
 		var tempPageCount = 0;
 		var tempPageList = [];
 
-		//Process all entries into an Object with with combined page blocks.
+		//Process all entries into an Object with combined page blocks.
 		for (var tempSplitIndex = 0; tempSplitIndex < tempPagePreparationArray.length; tempSplitIndex++ ) {    
 			if (typeof tempStaticObject[tempPagePreparationArray[tempSplitIndex].split(".")[0]] != 'object') {
 				tempStaticObject[tempPagePreparationArray[tempSplitIndex].split(".")[0]] = [];
@@ -135,7 +135,7 @@ function buildRequestArrays() {
 	}
 }
 
-//Change readOnlyState so config can not be changed while in session.
+//Changes readOnlyState so config can not be changed while in session.
 function readOnlyPlaybacksConfig(stateToSetTo) {
 	local.parameters.playbacks.dynamic.faders.setAttribute("readonly",stateToSetTo);
 	local.parameters.playbacks.dynamic.buttons.setAttribute("readonly",stateToSetTo);
@@ -146,7 +146,7 @@ function readOnlyPlaybacksConfig(stateToSetTo) {
 function update(deltaTime) {
 	timestamp = util.getTime();	
 	if (local.parameters.connected.get() == true) {
-		//Rate limiter watchdog, ensures sending the last requested value if it was cut of by rate limiting.
+		//This rate limiter watchdog cleans the limit list and ensures sending the final target value, if it was cut of by rate limiting.
 
 		//Is there any check queued up?
 		if (rateLimitArray.length != -1 ) {
@@ -421,7 +421,6 @@ function wsMessageReceived(message) {
 		//If responsonding to us asking for the command log.
 		if (JSONMessageObject.responseType === 'commandHistory') {	
 		
-
 		//If responding to us asking to authenticate us for the provided Session ID.
 		} else if (JSONMessageObject.responseType === 'login') {	
 			local.values.internal.result.set(JSONMessageObject.result);
@@ -492,13 +491,14 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 		local.values.executors[iPageString][iExecString].execid = parseInt(iExec);
 		local.values.executors[iPageString][iExecString].setCollapsed(true);
 	}
-		
+
+	//Common data fields for either type.
 	createNewExecParameter('String', iPageString, iExecString, "label", "Label","Label of Executor", "empty");
    	createNewExecParameter('Bool', iPageString, iExecString, "isActive",  "Is Active","State of Executor", false);
     createNewExecParameter('Color', iPageString, iExecString, "color",  "Color","Color of Executor", 0x303030ff);
    	createNewExecParameter('String', iPageString, iExecString, "cues",  "Cues","Cue datablock","");
 
-	//1 - 90 = Type 2 | 101 - 190 = Type 3
+	//1 - 90 = Type 2 (Faders) | 101 - 190 = Type 3 (Buttons)
 	if (iExec < 100) {
     	createNewExecParameter('String', iPageString, iExecString, "upperText",  "Upper Text","State of Executor Upper Button","");
    		createNewExecParameter('String', iPageString, iExecString, "lowerText",  "Lower Text","State of Executor Lower Button","");
