@@ -222,6 +222,8 @@ function update(deltaTime) {
 					playbackStartOffset--;
 				}
 			}
+			local.parameters.session.startSession.setAttribute("enabled", false);
+			local.parameters.session.endSession.setAttribute("enabled", true);
 		
 		//If websocket connections is active but Session is not.
 		} else {
