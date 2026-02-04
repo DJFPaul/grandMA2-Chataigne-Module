@@ -132,7 +132,7 @@ In this Section you configure which executors you want to request from MA2.
           Requesting any outside this range can/will lead to undesired behaviour.  
      
           If you do not need a specific field, leave it blank.  
-          (⚠️Make sure it is indeed blank and not a space.⚠️)
+          ⚠️Make sure it is indeed blank and not a space.⚠️
        
           The more / faster you request the higher the processing load will be.  
           Only request what you really need, to not waste resources.   
