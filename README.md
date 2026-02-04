@@ -47,6 +47,8 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
   - Grandmaster Fader Value (Unsure if feasible)
 </details>
 
+# How to use this module.
+
 ## Preparing grandMA2  
 
 If you have not used the MA2 Web Remote before, you will need to enable it first.
