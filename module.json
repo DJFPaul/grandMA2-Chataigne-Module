@@ -3,7 +3,7 @@
   "type": "WebSocket Client",
   "path": "Software",
 
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "GrandMA2 Module for Chataigne.\n Allows sending and receiving various parameters or actions to/from grandMA2.",
   "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
   "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/refs/heads/main.zip",
@@ -287,6 +287,30 @@
           "Label": {
             "type": "String",
             "description": "Label to set Executor to."
+          }
+        }
+      },
+      "Change Executor Color": {
+        "menu": "Executors",
+        "callback": "commandSetColor",
+        "parameters": {
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
+            "default": 1
+          },
+          "Page": {
+            "type": "Integer",
+             "min": 1,
+            "max": 99999,
+            "description": "Page of Executor to change",
+            "default": 1
+          },
+          "Label": {
+            "type": "Color",
+            "description": "Colorto set Executor to."
           }
         }
       },

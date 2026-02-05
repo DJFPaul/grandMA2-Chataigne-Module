@@ -9,6 +9,7 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 - Send executor fader value (Float)*
 - Send executor button state (Bool)
 - Change executor Label (String)
+- Change executor Color (Color)
 - Change page (Integer)
 - Sync the modules **Active Page** to MA2
      
@@ -34,7 +35,6 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
   ###### Sending
   - Send Encoders
   - Send hardkeys (Function buttons)
-  - Change executor color (Appearance)
   - Change executor button functions (GO/FLASH/TEMP/...)
   - Send dimmer wheel
   - Send grandmaster / B.O. (Unsure if feasible other than a CMD Wrapper)
