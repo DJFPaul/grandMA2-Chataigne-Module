@@ -20,6 +20,7 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 - Executor Run State (Bool)
 - Executor Button Text (String)
 - Executor Color (Color)
+- Previous / Current / Next cue (String)
 - Executor Fader Value (Float) (Faders Only)
 - Executor Fader Text (String) (Faders Only)
 - Executor Fader Value Text (String) (Faders Only)
@@ -39,7 +40,6 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
   - Send grandmaster / B.O. (Unsure if feasible other than a CMD Wrapper)
 
   ###### Receiving
-  - Executor cue list
   - Encoder page/parameters
   - Console log
   - Sync MA2 page to Chataigne (A little more complex)
@@ -178,10 +178,12 @@ Here is where the data we are requesting is ending up in.
 
      ### Datablocks
      **Fader** datablocks contain this data:  
-          <img width="446" height="250" alt="image" src="https://github.com/user-attachments/assets/f2f8bce9-bd87-41ff-84c0-b2b8de0caeaa" />  
+          <img width="446" height="294" alt="image" src="https://github.com/user-attachments/assets/89c7b67b-82ba-4907-b0fd-9d2b5f3d5116" />
+ 
 
      While **Button** datablocks contain this data:  
-          <img width="446" height="140" alt="image" src="https://github.com/user-attachments/assets/1bc474df-0476-4a7e-a607-06d492bab940" />  
+          <img width="444" height="187" alt="image" src="https://github.com/user-attachments/assets/05d1060a-0f64-4090-8262-1d536437a4dc" />
+
 
      Note: Cues are at the moment only a placeholder, this datafield is not getting filled with informations yet.  
 
