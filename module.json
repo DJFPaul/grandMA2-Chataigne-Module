@@ -308,7 +308,7 @@
             "description": "Page of Executor to change",
             "default": 1
           },
-          "Label": {
+          "Color": {
             "type": "Color",
             "description": "Colorto set Executor to."
           }
