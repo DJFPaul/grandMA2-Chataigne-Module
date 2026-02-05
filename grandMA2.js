@@ -380,6 +380,21 @@ function wsMessageReceived(message) {
 							eObject.isActive.set(iObject.isRun);
 							eObject.color.set(parseInt('0xff' + iObject.bdC.substring(1,7)));
 							eObject.buttonText.set(iObject.executorBlocks[0].button1.t);
+
+							//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
+							if (iObject.cues.items.length < 3){
+								eObject.previousCue.set('');
+								eObject.currentCue.set(iObject.cues.items[0].t);
+								eObject.nextCue.set('');
+							} else {
+								eObject.previousCue.set(iObject.cues.items[0].t);
+								if (typeof iObject.cues.items[1].t != 'string') {
+									eObject.currentCue.set('');
+								} else {
+									eObject.currentCue.set(iObject.cues.items[1].t);
+								}
+								eObject.nextCue.set(iObject.cues.items[2].t);
+							}
 						
 							//Type 2 extra data (Faders)
 							if (JSONMessageObject.responseSubType == 2) {
@@ -404,6 +419,21 @@ function wsMessageReceived(message) {
 							eObject.isActive.set(iObject.isRun);
 							eObject.color.set(parseInt('0xff' + iObject.bdC.substring(1,7)));
 							eObject.buttonText.set(iObject.executorBlocks[0].button1.t);
+
+							//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
+							if (iObject.cues.items.length < 3){
+								eObject.previousCue.set('');
+								eObject.currentCue.set(iObject.cues.items[0].t);
+								eObject.nextCue.set('');
+							} else {
+								eObject.previousCue.set(iObject.cues.items[0].t);
+								if (typeof iObject.cues.items[1].t != 'string') {
+									eObject.currentCue.set('');
+								} else {
+									eObject.currentCue.set(iObject.cues.items[1].t);
+								}
+								eObject.nextCue.set(iObject.cues.items[2].t);
+							}
 						
 							//Type 2 extra data (Faders)
 							if (JSONMessageObject.responseSubType == 2) {
@@ -500,7 +530,9 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	createNewExecParameter('String', iPageString, iExecString, "label", "Label","Label of Executor", "empty");
    	createNewExecParameter('Bool', iPageString, iExecString, "isActive",  "Is Active","State of Executor", false);
     createNewExecParameter('Color', iPageString, iExecString, "color",  "Color","Color of Executor", 0x303030ff);
-   	createNewExecParameter('String', iPageString, iExecString, "cues",  "Cues","Cue datablock","");
+   	createNewExecParameter('String', iPageString, iExecString, "previousCue",  "Previous Cue","Previous Cue","");
+   	createNewExecParameter('String', iPageString, iExecString, "currentCue",  "Current Cue","Current Cue","");
+   	createNewExecParameter('String', iPageString, iExecString, "nextCue",  "Next Cue","Previous Cue","");
 
 	//1 - 90 = Type 2 (Faders) | 101 - 190 = Type 3 (Buttons)
 	if (iExec < 100) {
