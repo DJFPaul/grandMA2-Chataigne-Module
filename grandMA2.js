@@ -367,82 +367,14 @@ function wsMessageReceived(message) {
 						iExecString = 'exec' + iExec;
 
 						//Check if received page matches the current Active Page, and if executor is part of the Dynamic lookup table
-						//If both checks succeed, create / update the matching Active Page element.
+						//If both checks succeed, call parse function for Active Page and current iExec.
 						if ((iPage == (local.parameters.playbacks.dynamic.activePage.get())) && (dynamicExecList.indexOf(iExecString) != -1)){							
-							//Check if a datablock for the received executor already exists, otherwise request it's creation.
-							if (typeof local.values.executors['activePage'][iExecString] != 'object') {
-								createNewExecutor(iPage, 'activePage', iExec, iExecString);
-							}
-							eObject = local.values.executors['activePage'][iExecString];
-
-							//Parse and update executor datablock.
-							eObject.label.set(iObject.tt.t);
-							eObject.isActive.set(iObject.isRun);
-							eObject.color.set(parseInt('0xff' + iObject.bdC.substring(1,7)));
-							eObject.buttonText.set(iObject.executorBlocks[0].button1.t);
-
-							//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
-							if (iObject.cues.items.length < 3){
-								eObject.previousCue.set('');
-								eObject.currentCue.set(iObject.cues.items[0].t);
-								eObject.nextCue.set('');
-							} else {
-								eObject.previousCue.set(iObject.cues.items[0].t);
-								if (typeof iObject.cues.items[1].t != 'string') {
-									eObject.currentCue.set('');
-								} else {
-									eObject.currentCue.set(iObject.cues.items[1].t);
-								}
-								eObject.nextCue.set(iObject.cues.items[2].t);
-							}
-						
-							//Type 2 extra data (Faders)
-							if (JSONMessageObject.responseSubType == 2) {
-								eObject.lowerText.set(iObject.executorBlocks[0].button2.t);
-								eObject.upperText.set(iObject.executorBlocks[0].button3.t);
-								eObject.faderText.set(iObject.executorBlocks[0].fader.tt);	
-								eObject.faderValue.set(iObject.executorBlocks[0].fader.v);	
-								eObject.faderValueText.set(iObject.executorBlocks[0].fader.vT);
-							}	
+							parseItemData(iPage, 'activePage', iExec, iExecString, iObject);
 						}
 
-						//Check if received page & executor is part of the Static lookup table, and create / update the matching static element if true.
+						//Check if received page & executor is part of the Static lookup table, and call parse function with passed trough data, if true.
 						if (staticExecList.indexOf(iPageString + iExecString) != -1) {
-							//Check if a datablock for the received executor already exists, otherwise request it's creation.
-							if (typeof local.values.executors[iPageString][iExecString] != 'object') {
-								createNewExecutor(iPage, iPageString, iExec, iExecString);
-							}
-							eObject = local.values.executors[iPageString][iExecString];
-
-							//Parse and update executor datablock.
-							eObject.label.set(iObject.tt.t);
-							eObject.isActive.set(iObject.isRun);
-							eObject.color.set(parseInt('0xff' + iObject.bdC.substring(1,7)));
-							eObject.buttonText.set(iObject.executorBlocks[0].button1.t);
-
-							//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
-							if (iObject.cues.items.length < 3){
-								eObject.previousCue.set('');
-								eObject.currentCue.set(iObject.cues.items[0].t);
-								eObject.nextCue.set('');
-							} else {
-								eObject.previousCue.set(iObject.cues.items[0].t);
-								if (typeof iObject.cues.items[1].t != 'string') {
-									eObject.currentCue.set('');
-								} else {
-									eObject.currentCue.set(iObject.cues.items[1].t);
-								}
-								eObject.nextCue.set(iObject.cues.items[2].t);
-							}
-						
-							//Type 2 extra data (Faders)
-							if (JSONMessageObject.responseSubType == 2) {
-								eObject.lowerText.set(iObject.executorBlocks[0].button2.t);
-								eObject.upperText.set(iObject.executorBlocks[0].button3.t);
-								eObject.faderText.set(iObject.executorBlocks[0].fader.tt);	
-								eObject.faderValue.set(iObject.executorBlocks[0].fader.v);	
-								eObject.faderValueText.set(iObject.executorBlocks[0].fader.vT);
-							}
+							parseItemData(iPage, iPageString, iExec, iExecString, iObject);
 						}
 					}
 				}
@@ -508,7 +440,46 @@ function wsMessageReceived(message) {
 	}
 }
 
-//Called when no datablock for a received page + exec combination exists do create a new datablock for it.
+//This is the function that parses and updates the datablocks.
+function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
+	//Check if a datablock for the received executor already exists, otherwise request it's creation.
+	if (typeof local.values.executors[iPageString][iExecString] != 'object') {
+		createNewExecutor(iPage, iPageString, iExec, iExecString);
+	}
+	eObject = local.values.executors[iPageString][iExecString];
+
+	//Parse and update executor datablock.
+	eObject.label.set(iObject.tt.t);
+	eObject.isActive.set(iObject.isRun);
+	eObject.color.set(parseInt('0xff' + iObject.bdC.substring(1,7)));
+	eObject.buttonText.set(iObject.executorBlocks[0].button1.t);
+
+	//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
+	if (iObject.cues.items.length < 3){
+		eObject.previousCue.set('');
+		eObject.currentCue.set(iObject.cues.items[0].t);
+		eObject.nextCue.set('');
+	} else {
+		eObject.previousCue.set(iObject.cues.items[0].t);
+		if (typeof iObject.cues.items[1].t != 'string') {
+			eObject.currentCue.set('');
+		} else {
+			eObject.currentCue.set(iObject.cues.items[1].t);
+		}
+		eObject.nextCue.set(iObject.cues.items[2].t);
+	}
+						
+	//Type 2 extra data (Faders)
+	if (JSONMessageObject.responseSubType == 2) {
+		eObject.lowerText.set(iObject.executorBlocks[0].button2.t);
+		eObject.upperText.set(iObject.executorBlocks[0].button3.t);
+		eObject.faderText.set(iObject.executorBlocks[0].fader.tt);	
+		eObject.faderValue.set(iObject.executorBlocks[0].fader.v);	
+		eObject.faderValueText.set(iObject.executorBlocks[0].fader.vT);
+	}
+}
+
+//Called when no datablock for a received page + exec combination exists to create a new datablock for it.
 function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	
 	//Does the target page already exist? If not, create one.
