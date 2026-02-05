@@ -327,6 +327,11 @@ if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"Label Exec ' + iPage +'.'+ iExec + ' "' + labelToSet + '" Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}
 }
+function commandSetColor(iExec, iPage, colorToSet) {
+	if (local.parameters.session.status.get() == true) {
+		local.send('{"command":"Appearance Exec ' + iPage +'.'+ iExec + ' /r=' + parseInt(colorToSet[0] * 100) + ' /g=' + parseInt(colorToSet[1] * 100) + ' /b=' + parseInt(colorToSet[2] * 100) + '","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+	}
+}
 
 //Console commands.
 function commandSendCMD(cmdToSend) {
