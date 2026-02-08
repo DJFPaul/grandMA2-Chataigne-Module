@@ -5,13 +5,13 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 
 🐌 Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
 #### Sending
-- Send command (String)
-- Send hardkeys (Enum)*
-- Send executor fader value (Float)**
-- Send executor button state (Bool)
-- Change executor Label (String)
-- Change executor Color (Color)
-- Change page (Integer)
+- Send command
+- Send hardkeys*
+- Send executor fader value**
+- Send executor button state
+- Change executor Label
+- Change executor Color
+- Change page
 - Sync the modules **Active Page** to MA2
 
 *These features requires the Web Remote user to have ADMIN rights set in MA, as this uses a LUA wrapper and will error with insuficient rights.  
