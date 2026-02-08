@@ -319,7 +319,7 @@
           },
           "Color": {
             "type": "Color",
-            "description": "Colorto set Executor to."
+            "description": "Color to set Executor to."
           }
         }
       },
