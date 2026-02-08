@@ -290,7 +290,10 @@ function moduleValueChanged(param) {
 */
 
 //Executor Commands
-function commandSetExecutorValue(iExec, iPage, iValue) {
+function commandSetExecutorValue(useActivePage, iPage, iExec, iValue) {
+	if (useActivePage == 1) {
+		iPage = local.parameters.playbacks.dynamic.activePage.get();
+	}
 if (local.parameters.session.status.get() == true) {
 		timestamp = util.getTime();	
 
@@ -320,17 +323,27 @@ if (local.parameters.session.status.get() == true) {
 		}
 	}
 }
-function commandSendExecutorButtons(iExec, iPage, iButton, iState) {
+function commandSendExecutorButtons(useActivePage, iPage, iExec, iButton, iState) {
+	if (useActivePage == 1) {
+		iPage = local.parameters.playbacks.dynamic.activePage.get();
+	}
 if (local.parameters.session.status.get() == true) {
 		local.send('{"requestType":"playbacks_userInput","cmdline":"","execIndex":' + (iExec - 1) +',"pageIndex":' + (iPage - 1) +',"buttonId":' + iButton +',"pressed":' + iState +',"released":' + !iState +',"type":0,"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
 	}
 }
-function commandSetLabel(iExec, iPage, labelToSet) {
+function commandSetLabel(useActivePage, iPage, iExec, labelToSet) {
+	if (useActivePage == 1) {
+		iPage = local.parameters.playbacks.dynamic.activePage.get();
+	}
 if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"Label Exec ' + iPage +'.'+ iExec + ' "' + labelToSet + '" Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}
 }
-function commandSetColor(iExec, iPage, colorToSet) {
+function commandSetColor(useActivePage, iPage, iExec, colorToSet) {
+	if (useActivePage == 1) {
+		iPage = local.parameters.playbacks.dynamic.activePage.get();
+	}
+	script.log(useActivePage, iPage, iExec, colorToSet);
 	if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"Appearance Exec ' + iPage +'.'+ iExec + ' /r=' + parseInt(colorToSet[0] * 100) + ' /g=' + parseInt(colorToSet[1] * 100) + ' /b=' + parseInt(colorToSet[2] * 100) + '","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}

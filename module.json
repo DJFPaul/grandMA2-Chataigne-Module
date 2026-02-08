@@ -220,18 +220,29 @@
         "menu": "Executors",
         "callback": "commandSetExecutorValue",
         "parameters": {
-          "Exec ID": {
-            "type": "Integer",
-             "min": 1,
-            "max": 190,
-            "description": "Number of Executor to change",
-            "default": 1
+          "Use Active Page": {
+            "type": "Boolean",
+            "default": false,
+            "description": "Use current Active Page istead of fixed page number."
           },
           "Page": {
             "type": "Integer",
              "min": 1,
             "max": 99999,
             "description": "Page of Executor to change",
+            "default": 1,
+            "dependency": {
+                "source": "useActivePage",
+                "value": false,
+                "check": "equals",
+                "action": "show"
+            }
+          },
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
             "default": 1
           },
           "Value": {
@@ -246,18 +257,29 @@
         "menu": "Executors",
         "callback": "commandSendExecutorButtons",
         "parameters": {
-          "Exec ID": {
-            "type": "Integer",
-             "min": 1,
-            "max": 190,
-            "description": "Number of Executor to change",
-            "default": 1
+          "Use Active Page": {
+            "type": "Boolean",
+            "default": false,
+            "description": "Use current Active Page istead of fixed page number."
           },
           "Page": {
             "type": "Integer",
              "min": 1,
             "max": 99999,
             "description": "Page of Executor to change",
+            "default": 1,
+            "dependency": {
+                "source": "useActivePage",
+                "value": false,
+                "check": "equals",
+                "action": "show"
+            }
+          },
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
             "default": 1
           },
           "Type": {
@@ -279,18 +301,29 @@
         "menu": "Executors",
         "callback": "commandSetLabel",
         "parameters": {
-          "Exec ID": {
-            "type": "Integer",
-             "min": 1,
-            "max": 190,
-            "description": "Number of Executor to change",
-            "default": 1
+          "Use Active Page": {
+            "type": "Boolean",
+            "default": false,
+            "description": "Use current Active Page istead of fixed page number."
           },
           "Page": {
             "type": "Integer",
              "min": 1,
             "max": 99999,
             "description": "Page of Executor to change",
+            "default": 1,
+            "dependency": {
+                "source": "useActivePage",
+                "value": false,
+                "check": "equals",
+                "action": "show"
+            }
+          },
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
             "default": 1
           },
           "Label": {
@@ -303,18 +336,29 @@
         "menu": "Executors",
         "callback": "commandSetColor",
         "parameters": {
-          "Exec ID": {
-            "type": "Integer",
-             "min": 1,
-            "max": 190,
-            "description": "Number of Executor to change",
-            "default": 1
+            "Use Active Page": {
+            "type": "Boolean",
+            "default": false,
+            "description": "Use current Active Page istead of fixed page number."
           },
           "Page": {
             "type": "Integer",
              "min": 1,
             "max": 99999,
             "description": "Page of Executor to change",
+            "default": 1,
+            "dependency": {
+                "source": "useActivePage",
+                "value": false,
+                "check": "equals",
+                "action": "show"
+            }
+          },
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
             "default": 1
           },
           "Color": {
