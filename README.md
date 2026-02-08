@@ -60,10 +60,11 @@ By default, the module is configured to login with the user `chataigne` and the 
 Either create this user profile, or use your own / an existing one by changing the modules default login settings.  
 
 To create / manage a user account in MA2, go to `Setup > Console > User & Profiles Setup`.  
-<img width="520" alt="image" src="https://github.com/user-attachments/assets/d5903138-d628-4ef3-9e6e-2ec3bc138a89" />  
+<img width="731" height="445" alt="image" src="https://github.com/user-attachments/assets/e3d8b703-7fd9-48cd-acb1-5654e8ba7912" />
+
 
 In this section you can also monitor / verify that the module is connecting correctly.  
-<img width="520" alt="image" src="https://github.com/user-attachments/assets/c7c80507-b330-4dea-ab0d-9410dc9984af" />  
+<img width="727" height="151" alt="image" src="https://github.com/user-attachments/assets/8fcb885f-1c5f-46ec-899a-485ee5129894" />
 When starting a session, the logged in count should increase for the configured user.  
 If it stays on `guest` the login process did not succeed and the session will die after a short time period.
 
