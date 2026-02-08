@@ -348,9 +348,21 @@ if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"Page ' + pageToChangeTo + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}
 }
-function commandSendHardKey(hardKeyToSend) {
+
+function commandSendHardKey(hardKeyToSend, pressedState, holdState) {
+	script.log(pressedState);
+
 if (local.parameters.session.status.get() == true) {
-		local.send('{"command":"LUA \'gma.canbus.hardkey (' + hardKeyToSend + ', true, false)\'","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+		local.send('{"command":"LUA \'gma.canbus.hardkey (' + hardKeyToSend + ', ' + intToBoolString(pressedState) + ', ' + intToBoolString(holdState) + ')\'","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+	}
+}
+
+
+function intToBoolString (inputInt) {
+	if (inputInt == 1) {
+		return "true";
+	} else {
+		return "false";
 	}
 }
 

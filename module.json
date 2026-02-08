@@ -471,6 +471,16 @@
             "V10": 129
             },
             "description": "HardKey to send."
+        },
+        "Pressed": {
+          "type": "Boolean",
+          "default": true,
+          "description": "Press state to set."
+        },
+        "Hold": {
+          "type": "Boolean",
+          "default": false,
+          "description": "Hold state to set."
         }
       }
     }
