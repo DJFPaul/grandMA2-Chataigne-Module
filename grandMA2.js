@@ -229,6 +229,7 @@ function update(deltaTime) {
 		} else {
 			local.parameters.session.startSession.setAttribute("enabled", true);
 			local.parameters.session.endSession.setAttribute("enabled", false);
+			readOnlyPlaybacksConfig(false);
 		}
 
 	//If Websocket connection is not active.
@@ -238,6 +239,7 @@ function update(deltaTime) {
 		local.parameters.session.startSession.setAttribute("enabled", true);
 		local.parameters.session.endSession.setAttribute("enabled", false);
 		local.parameters.session.sessionID.set(0);
+		readOnlyPlaybacksConfig(false);
 	}
 }
 
@@ -249,6 +251,7 @@ function moduleParameterChanged(param) {
 
 	//When Active Page get's changed and Sync to MA2 is enabled, send page change command to Active Page's value.
 	if (param.is(local.parameters.playbacks.dynamic.activePage)){
+		local.values.executors.activePage.page.set(local.parameters.playbacks.dynamic.activePage.get());
 		if (local.parameters.playbacks.dynamic.syncToMA2.get() == true) {
 			commandChangePage(local.parameters.playbacks.dynamic.activePage.get());
 		}
@@ -260,7 +263,7 @@ function moduleParameterChanged(param) {
 		}
 	
 	//Initialise a new Session.
-	} else if (param.is(local.parameters.session.startSession)){
+	} else if (param.is(local.parameters.session.startSession) && local.parameters.connected.get() == true){
 		local.parameters.session.startSession.setAttribute("enabled", false);
 		readOnlyPlaybacksConfig(false);
 		local.values.internal.connetionsLimitReached.set(false);
@@ -343,6 +346,11 @@ if (local.parameters.session.status.get() == true) {
 function commandChangePage(pageToChangeTo) {
 if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"Page ' + pageToChangeTo + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+	}
+}
+function commandSendHardKey(hardKeyToSend) {
+if (local.parameters.session.status.get() == true) {
+		local.send('{"command":"LUA \'gma.canbus.hardkey (' + hardKeyToSend + ', true, false)\'","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}
 }
 

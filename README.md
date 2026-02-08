@@ -6,15 +6,17 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 🐌 Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
 #### Sending
 - Send command (String)
-- Send executor fader value (Float)*
+- Send hardkeys (Function buttons) *
+- Send executor fader value (Float)**
 - Send executor button state (Bool)
 - Change executor Label (String)
 - Change executor Color (Color)
 - Change page (Integer)
 - Sync the modules **Active Page** to MA2
-     
-*Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.
 
+*These features require ADMIN permissions for the user, as this uses the LUA functionality and MA2 will error with insuficient permissions.  
+
+**Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.  
 
 #### Receiving
 - Executor Label (String)
@@ -34,10 +36,9 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
   
   ###### Sending
   - Send Encoders
-  - Send hardkeys (Function buttons)
   - Change executor button functions (GO/FLASH/TEMP/...)
   - Send dimmer wheel
-  - Send grandmaster / B.O. (Unsure if feasible other than a CMD Wrapper)
+  - Send grandmaster (Unsure if feasible other than a CMD Wrapper)
 
   ###### Receiving
   - Encoder page/parameters

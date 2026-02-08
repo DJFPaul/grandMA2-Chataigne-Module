@@ -3,8 +3,8 @@
   "type": "WebSocket Client",
   "path": "Software",
 
-  "version": "0.3.8",
-  "description": "GrandMA2 Module for Chataigne.\n Allows sending and receiving various parameters or actions to/from grandMA2.",
+  "version": "0.4.0",
+  "description": "A grandMA2 module for Chataigne that utilises the Web Remote API for interaction.\nAllows sending and receiving various parameters and actions to/from grandMA2.",
   "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
   "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/refs/heads/main.zip",
 
@@ -35,11 +35,12 @@
         "default": 0
       }, 
       "Start Session": {
-        "type": "Trigger"
+        "type": "Trigger",
+        "description": "Initiate a new Web Remote session with grandMA2 using the supplied credentials."
       },
       "End Session": {
         "type": "Trigger",
-        "description": "Notify MA that this connection will no longer access the session and can be considered done. this will release the session ID."
+        "description": "Notify MA that this connection will no longer access the session and release the session ID."
       },
       "Credentials": {
         "type": "Container",
@@ -50,7 +51,8 @@
         },
         "Password (MD5)": {
           "type": "String",
-          "default": "e31b120e31610e45bcc5d7e1e5d00290"
+          "default": "e31b120e31610e45bcc5d7e1e5d00290",
+        "description": "MD5 Hash of the user password set in grandMA2. (Default: chataigne)"
         }
       }
     },
@@ -67,7 +69,8 @@
         "collapsed": false,
         "Active Page": {
           "type": "Integer",
-          "default": 1
+          "default": 1,
+        "description": "Active Page to request the dynamic elements from."
         },
         "Sync to MA2": {
         "type": "Boolean",
@@ -143,7 +146,13 @@
       "collapsed": true,
       "Active Page": {
         "type": "Container",
-        "collapsed": true
+        "collapsed": true,
+        "Page": {
+        "type": "Integer",    
+        "description": "Active Page number",
+        "default": 1,
+        "readOnly": true
+          }
       }
     },
     
@@ -334,6 +343,135 @@
               "description": "Page to change to.",
               "default": 1
           }
+      }
+    },
+        "Send HardKey": {
+          "menu": "Console",
+          "callback": "commandSendHardKey",
+          "parameters": {
+            "HardKey": {
+            "type": "Enum",
+            "options": {
+            "Ch Pg +": 3,
+            "Ch Pg -": 4,
+            "Fd Pg +": 5,
+            "Fd Pg -": 6,
+            "Bt Pg +": 7,
+            "Bt Pg ": 8,
+            "Pause (Large)": 9,
+            "Go - (Large)": 10,
+            "Go + (Large)": 11,
+            "X1": 12,
+            "X2": 13,
+            "X3": 14,
+            "X4": 15,
+            "X5": 16,
+            "X6": 17,
+            "X7": 18,
+            "X8": 19,
+            "X9": 20,
+            "X10": 21,
+            "X11": 22,
+            "X12": 23,
+            "X13": 24,
+            "X14": 25,
+            "X15": 26,
+            "X16": 27,
+            "X17": 28,
+            "X18": 29,
+            "X19": 30,
+            "X20": 31,
+            "List": 32,
+            "User 1": 33,
+            "User 2": 34,
+            "U1": 36,
+            "U2": 37,
+            "U3": 38,
+            "U4": 39,
+            "Screen Action": 40,
+            "Fix": 41,
+            "Select": 42,
+            "Off": 43,
+            "Temp": 44,
+            "Top": 45,
+            "On": 46,
+            "<<<": 47,
+            "Learn": 48,
+            ">>>": 49,
+            "Go -": 50,
+            "Pause": 51,
+            "Go +": 52,
+            "Oops": 53,
+            "Esc": 54,
+            "Edit": 55,
+            "Goto": 56,
+            "Update": 57,
+            "Time": 58,
+            "Store": 59,
+            "Blind": 60,
+            "Freeze": 61,
+            "Preview": 62,
+            "Assign": 63,
+            "Align": 64,
+            "Blackout": 65,
+            "View": 66,
+            "Effect": 67,
+            "MA": 68,
+            "Delete": 69,
+            "Page": 70,
+            "Macro": 71,
+            "Preset": 72,
+            "Copy": 73,
+            "Sequence": 74,
+            "Cue": 75,
+            "Executor": 76,
+            "Channel": 82,
+            "Fixture": 83,
+            "Group": 84,
+            "Move": 85,
+            "0": 86,
+            "1": 87,
+            "2": 88,
+            "3": 89,
+            "4": 90,
+            "5": 91,
+            "6": 92,
+            "7": 93,
+            "8": 94,
+            "9": 95,
+            "+": 96,
+            "-": 97,
+            ".": 98,
+            "Full": 99,
+            "Highlight": 100,
+            "Solo": 101,
+            "Thru": 102,
+            "If": 103,
+            "At": 104,
+            "Clear": 105,
+            "Please": 106,
+            "Up": 107,
+            "Set": 108,
+            "Previous": 109,
+            "Next": 110,
+            "Down": 111,
+            "Help": 116,
+            "Backup": 117,
+            "Setup": 118,
+            "Tools": 119,
+            "V1": 120,
+            "V2": 121,
+            "V3": 122,
+            "V4": 123,
+            "V5": 124,
+            "V6": 125,
+            "V7": 126,
+            "V8": 127,
+            "V9": 128,
+            "V10": 129
+            },
+            "description": "HardKey to send."
+        }
       }
     }
   }
