@@ -14,7 +14,7 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 - Change page (Integer)
 - Sync the modules **Active Page** to MA2
 
-*These features require ADMIN permissions for the user, as this uses the LUA functionality and MA2 will error with insuficient permissions.  
+*These features requires the Web Remote user to have ADMIN rights set in MA, as this uses the LUA functionality and will error with insuficient rights.  
 
 **Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.  
 
