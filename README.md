@@ -7,9 +7,9 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 #### Sending
 - Send command
 - Send hardkeys*
-- Send Encoder by Wheel
+- Send Encoder by Wheel**
 - Send Encoder by Attribute
-- Send executor fader value**
+- Send executor fader value***
 - Send executor button state
 - Change executor Label
 - Change executor Color
@@ -18,7 +18,10 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 
 *These features requires the Web Remote user to have ADMIN rights set in MA, as this uses a LUA wrapper and will error with insuficient rights.  
 
-**Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.  
+**Sending Encoder by Wheel is currently implemented trough a CMD wrapper which will spams the commandline for each step.  
+This is planned to change to a more sophisticated method which however is a little more complex and time consuming to implement.  
+
+***Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.  
 
 #### Receiving
 - Executor Label (String)
