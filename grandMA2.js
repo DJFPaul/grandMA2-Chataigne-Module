@@ -331,12 +331,12 @@ if (local.parameters.session.status.get() == true) {
 		local.send('{"requestType":"playbacks_userInput","cmdline":"","execIndex":' + (iExec - 1) +',"pageIndex":' + (iPage - 1) +',"buttonId":' + iButton +',"pressed":' + iState +',"released":' + !iState +',"type":0,"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
 	}
 }
-function commandSetLabel(useActivePage, targetPage, iExec, labelToSet) {
+function commandSetLabel(useActivePage, iPage, iExec, labelToSet) {
 	if (useActivePage == 1) {
 		iPage = local.parameters.playbacks.dynamic.activePage.get();
 	}
 if (local.parameters.session.status.get() == true) {
-		local.send('{"command":"Label Exec ' + iPage +'.'+ iExec + ' "' + labelToSet + '" Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+		local.send('{"command":"Label Exec ' + iPage +'.'+ iExec + ' "' + labelToSet + '"","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}
 }
 function commandSetColor(useActivePage, iPage, iExec, colorToSet) {
