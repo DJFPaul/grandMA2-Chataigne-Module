@@ -14,7 +14,8 @@
   "hideDefaultCommands": true,
 
   "defaults": {
-    "protocol": "JSON",
+    "protocol": "Lines",
+    "messageStructure": 7,
     "serverPath": "127.0.0.1:80/?ma=1",
     "useSecureConnection": false,
     "autoAdd": false
