@@ -3,7 +3,7 @@
   "type": "WebSocket Client",
   "path": "Software",
 
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "A grandMA2 module for Chataigne that utilises the Web Remote API for interaction.\nAllows sending and receiving various parameters and actions to/from grandMA2.",
   "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
   "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/refs/heads/main.zip",
@@ -216,113 +216,6 @@
     }
   },
     "commands": {
-      "Send Executor Value": {
-        "menu": "Executors",
-        "callback": "commandSetExecutorValue",
-        "parameters": {
-          "Exec ID": {
-            "type": "Integer",
-             "min": 1,
-            "max": 190,
-            "description": "Number of Executor to change",
-            "default": 1
-          },
-          "Page": {
-            "type": "Integer",
-             "min": 1,
-            "max": 99999,
-            "description": "Page of Executor to change",
-            "default": 1
-          },
-          "Value": {
-            "type": "Float",
-             "min": 0,
-            "max": 1.0,
-            "description": "Value to set Executor to."
-          }
-        }
-      },
-      "Send Executor Buttons": {
-        "menu": "Executors",
-        "callback": "commandSendExecutorButtons",
-        "parameters": {
-          "Exec ID": {
-            "type": "Integer",
-             "min": 1,
-            "max": 190,
-            "description": "Number of Executor to change",
-            "default": 1
-          },
-          "Page": {
-            "type": "Integer",
-             "min": 1,
-            "max": 99999,
-            "description": "Page of Executor to change",
-            "default": 1
-          },
-          "Type": {
-          "type": "Enum",
-          "options": {
-              "Button": 0,
-              "Lower": 1,
-              "Upper": 2
-            }
-          },
-          "State": {
-            "type": "Boolean",
-            "default": false,
-            "description": "State to set Executor Button to."
-          }
-        }
-      },
-      "Change Executor Label": {
-        "menu": "Executors",
-        "callback": "commandSetLabel",
-        "parameters": {
-          "Exec ID": {
-            "type": "Integer",
-             "min": 1,
-            "max": 190,
-            "description": "Number of Executor to change",
-            "default": 1
-          },
-          "Page": {
-            "type": "Integer",
-             "min": 1,
-            "max": 99999,
-            "description": "Page of Executor to change",
-            "default": 1
-          },
-          "Label": {
-            "type": "String",
-            "description": "Label to set Executor to."
-          }
-        }
-      },
-      "Change Executor Color": {
-        "menu": "Executors",
-        "callback": "commandSetColor",
-        "parameters": {
-          "Exec ID": {
-            "type": "Integer",
-             "min": 1,
-            "max": 190,
-            "description": "Number of Executor to change",
-            "default": 1
-          },
-          "Page": {
-            "type": "Integer",
-             "min": 1,
-            "max": 99999,
-            "description": "Page of Executor to change",
-            "default": 1
-          },
-          "Color": {
-            "type": "Color",
-            "description": "Colorto set Executor to."
-          }
-        }
-      },
         "Send command": {
           "menu": "Console",
           "callback": "commandSendCMD",
@@ -330,9 +223,9 @@
             "Command": {
             "type": "String",
             "description": "Command to send."
+          }
         }
-      }
-    },
+      },
         "Change Page": {
           "menu": "Console",
           "callback": "commandChangePage",
@@ -343,8 +236,8 @@
               "description": "Page to change to.",
               "default": 1
           }
-      }
-    },
+        }
+      },
         "Send HardKey": {
           "menu": "Console",
           "callback": "commandSendHardKey",
@@ -483,6 +376,193 @@
           "description": "Hold state to set."
         }
       }
-    }
+    },
+
+    "Send Executor Value": {
+        "menu": "Executors",
+        "callback": "commandSetExecutorValue",
+        "parameters": {
+          "Use Active Page": {
+            "type": "Boolean",
+            "default": false,
+            "description": "Use current Active Page istead of fixed page number."
+          },
+          "Page": {
+            "type": "Integer",
+             "min": 1,
+            "max": 99999,
+            "description": "Page of Executor to change",
+            "default": 1,
+            "dependency": {
+                "source": "useActivePage",
+                "value": false,
+                "check": "equals",
+                "action": "show"
+            }
+          },
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
+            "default": 1
+          },
+          "Value": {
+            "type": "Float",
+             "min": 0,
+            "max": 1.0,
+            "description": "Value to set Executor to."
+          }
+        }
+      },
+      "Send Executor Buttons": {
+        "menu": "Executors",
+        "callback": "commandSendExecutorButtons",
+        "parameters": {
+          "Use Active Page": {
+            "type": "Boolean",
+            "default": false,
+            "description": "Use current Active Page istead of fixed page number."
+          },
+          "Page": {
+            "type": "Integer",
+             "min": 1,
+            "max": 99999,
+            "description": "Page of Executor to change",
+            "default": 1,
+            "dependency": {
+                "source": "useActivePage",
+                "value": false,
+                "check": "equals",
+                "action": "show"
+            }
+          },
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
+            "default": 1
+          },
+          "Type": {
+          "type": "Enum",
+          "options": {
+              "Button": 0,
+              "Lower": 1,
+              "Upper": 2
+            }
+          },
+          "State": {
+            "type": "Boolean",
+            "default": false,
+            "description": "State to set Executor Button to."
+          }
+        }
+      },
+      "Change Executor Label": {
+        "menu": "Executors",
+        "callback": "commandSetLabel",
+        "parameters": {
+          "Use Active Page": {
+            "type": "Boolean",
+            "default": false,
+            "description": "Use current Active Page istead of fixed page number."
+          },
+          "Page": {
+            "type": "Integer",
+             "min": 1,
+            "max": 99999,
+            "description": "Page of Executor to change",
+            "default": 1,
+            "dependency": {
+                "source": "useActivePage",
+                "value": false,
+                "check": "equals",
+                "action": "show"
+            }
+          },
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
+            "default": 1
+          },
+          "Label": {
+            "type": "String",
+            "description": "Label to set Executor to."
+          }
+        }
+      },
+      "Change Executor Color": {
+        "menu": "Executors",
+        "callback": "commandSetColor",
+        "parameters": {
+            "Use Active Page": {
+            "type": "Boolean",
+            "default": false,
+            "description": "Use current Active Page istead of fixed page number."
+          },
+          "Page": {
+            "type": "Integer",
+             "min": 1,
+            "max": 99999,
+            "description": "Page of Executor to change",
+            "default": 1,
+            "dependency": {
+                "source": "useActivePage",
+                "value": false,
+                "check": "equals",
+                "action": "show"
+            }
+          },
+          "Exec ID": {
+            "type": "Integer",
+             "min": 1,
+            "max": 190,
+            "description": "Number of Executor to change",
+            "default": 1
+          },
+          "Color": {
+            "type": "Color",
+            "description": "Color to set Executor to."
+          }
+        }
+      },
+      "Encoder by Wheel": {
+        "menu": "Encoders",
+        "callback": "commandSendEncoderByWheel",
+        "parameters": {
+          "Encoder": {
+            "type": "Integer",
+             "min": 1,
+            "max": 5,
+            "description": "Executor ID",
+            "default": 1},
+          "Step Amount": {
+            "type": "Float",
+             "min": -10.0,
+            "max": 10.0,
+            "description": "Amount to add / substract per tick."
+          }
+        }
+      },
+      "Encoder by Attribute": {
+        "menu": "Encoders",
+        "callback": "commandSendEncoderByAttribute",
+        "parameters": {
+          "Attribute": {
+            "type": "String",
+            "description": "Attribute to control.",
+            "default": "DIM"},
+          "Step Amount": {
+            "type": "Float",
+             "min": -10.0,
+            "max": 10.0,
+            "description": "Amount to add / substract per tick."
+          }
+        }
+      }
+
   }
 }

@@ -7,6 +7,8 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 #### Sending
 - Send command
 - Send hardkeys*
+- Send Encoder by Wheel
+- Send Encoder by Attribute
 - Send executor fader value**
 - Send executor button state
 - Change executor Label
@@ -35,9 +37,7 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
   <summary><b>ToDo</b></summary>
   
   ###### Sending
-  - Send Encoders
   - Change executor button functions (GO/FLASH/TEMP/...)
-  - Send dimmer wheel
   - Send grandmaster (Unsure if feasible other than a CMD Wrapper)
 
   ###### Receiving
