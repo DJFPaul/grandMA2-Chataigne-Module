@@ -3,7 +3,7 @@
   "type": "WebSocket Client",
   "path": "Software",
 
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A grandMA2 module for Chataigne that utilises the Web Remote API for interaction.\nAllows sending and receiving various parameters and actions to/from grandMA2.",
   "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
   "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/refs/heads/main.zip",
