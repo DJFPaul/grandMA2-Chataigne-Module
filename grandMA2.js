@@ -160,7 +160,7 @@ function update(deltaTime) {
 					
 					//If not true, trigger one send of the should be value to ensure final setpoint get's hit.
 					if (rateLimitDataArray[rateLimitIndex].targetValue != rateLimitDataArray[rateLimitIndex].isValue) {
-						commandSetExecutorValue(rateLimitArray[rateLimitIndex][1], rateLimitArray[rateLimitIndex][0], rateLimitDataArray[rateLimitIndex].targetValue);
+						commandSetExecutorValue(0, rateLimitArray[rateLimitIndex][0], rateLimitArray[rateLimitIndex][1], rateLimitDataArray[rateLimitIndex].targetValue);
 					
 					//Setpoint was already hit, just clear.
 					} else {
@@ -331,7 +331,7 @@ if (local.parameters.session.status.get() == true) {
 		local.send('{"requestType":"playbacks_userInput","cmdline":"","execIndex":' + (iExec - 1) +',"pageIndex":' + (iPage - 1) +',"buttonId":' + iButton +',"pressed":' + iState +',"released":' + !iState +',"type":0,"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
 	}
 }
-function commandSetLabel(useActivePage, iPage, iExec, labelToSet) {
+function commandSetLabel(useActivePage, targetPage, iExec, labelToSet) {
 	if (useActivePage == 1) {
 		iPage = local.parameters.playbacks.dynamic.activePage.get();
 	}
@@ -343,7 +343,6 @@ function commandSetColor(useActivePage, iPage, iExec, colorToSet) {
 	if (useActivePage == 1) {
 		iPage = local.parameters.playbacks.dynamic.activePage.get();
 	}
-	script.log(useActivePage, iPage, iExec, colorToSet);
 	if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"Appearance Exec ' + iPage +'.'+ iExec + ' /r=' + parseInt(colorToSet[0] * 100) + ' /g=' + parseInt(colorToSet[1] * 100) + ' /b=' + parseInt(colorToSet[2] * 100) + '","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}
@@ -363,12 +362,25 @@ if (local.parameters.session.status.get() == true) {
 }
 
 function commandSendHardKey(hardKeyToSend, pressedState, holdState) {
-	script.log(pressedState);
-
 if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"LUA \'gma.canbus.hardkey (' + hardKeyToSend + ', ' + intToBoolString(pressedState) + ', ' + intToBoolString(holdState) + ')\'","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}
 }
+
+
+//Encoders
+function commandSendEncoderByWheel(encoderID, stepAmount) {
+if (local.parameters.session.status.get() == true) {
+		local.send('{"command":"Feature $feature.' + encoderID + ' At +  ' + stepAmount + '","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+	}
+}
+
+function commandSendEncoderByAttribute(encoderAttribute, stepAmount) {
+if (local.parameters.session.status.get() == true) {
+		local.send('{"requestType":"encoder","name":"' + encoderAttribute + '","value":' + stepAmount + ',"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
+	}
+}
+
 
 
 function intToBoolString (inputInt) {
