@@ -188,9 +188,6 @@ Here is where the data we are requesting is ending up in.
      While **Button** datablocks contain this data:  
           <img width="446" height="184" alt="image" src="https://github.com/user-attachments/assets/20d52e00-53da-44a0-be4d-5d4c734f5534" />
 
-
-     Note: Cues are at the moment only a placeholder, this datafield is not getting filled with informations yet.  
-
      
 3. Internal  
      <img width="466" height="22" alt="image" src="https://github.com/user-attachments/assets/8a7b8f42-d457-4b96-950b-9159a02df509" />  
