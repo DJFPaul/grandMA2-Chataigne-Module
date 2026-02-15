@@ -381,7 +381,11 @@ if (local.parameters.session.status.get() == true) {
 	}
 }
 
-
+function commandSetPGMRGBColor(colorToSet) {
+	if (local.parameters.session.status.get() == true) {
+		local.send('{"command":"Attribute COLORRGB1 At ' + parseInt(colorToSet[0] * 100) + ' ; Attribute COLORRGB2 At ' + parseInt(colorToSet[1] * 100) + ' ; Attribute COLORRGB3 At ' + parseInt(colorToSet[2] * 100) + '","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+	}
+}
 
 function intToBoolString (inputInt) {
 	if (inputInt == 1) {
@@ -390,6 +394,7 @@ function intToBoolString (inputInt) {
 		return "false";
 	}
 }
+
 
 //Websocket receiver and parser.
 function wsMessageReceived(message) {
