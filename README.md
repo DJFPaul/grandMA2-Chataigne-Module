@@ -6,10 +6,10 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 🐌 Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
 #### Sending
 - Send command
-- Send hardkeys[^1]
-- Send Encoder by Wheel[^2]
+- Send hardkeys [^1]
+- Send Encoder by Wheel [^2]
 - Send Encoder by Attribute
-- Send executor fader value[^3]
+- Send executor fader value [^3]
 - Send executor button state
 - Change executor Label
 - Change executor Color
