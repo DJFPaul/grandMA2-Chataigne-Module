@@ -280,6 +280,9 @@ function moduleParameterChanged(param) {
 		readOnlyPlaybacksConfig(false);
 		sessionStarting = false;
 		local.parameters.session.sessionID.set(0);
+	//End Session.
+	} else if (param.is(local.parameters.advanced.unstuckCMD)){
+		local.send('{"requestType":"commandConfirmationResult","result":1,"option":[],"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
 	} 
 }
 
