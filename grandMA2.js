@@ -359,8 +359,9 @@ if (local.parameters.session.status.get() == true) {
 }
 
 function commandChangePage(pageToChangeTo) {
-if (local.parameters.session.status.get() == true) {
+	if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"Page ' + pageToChangeTo + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+		local.parameters.playbacks.dynamic.activePage.set(pageToChangeTo);
 	}
 }
 
