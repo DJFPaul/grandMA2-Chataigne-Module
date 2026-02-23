@@ -9,6 +9,7 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 - Send hardkeys [^1]
 - Send Encoder by Wheel [^2]
 - Send Encoder by Attribute
+- Set RGB Programmer Attributes by color
 - Send executor fader value [^3]
 - Send executor button state
 - Change executor Label
@@ -85,7 +86,7 @@ If it stays on `guest` the login process did not succeed and the session will di
 ## Session
 
 This Section is responsible for starting / stopping the connection to grandMA2.  
-This will need to be done every time a session timed out (GrandMA2 Restarted, Network interrupted, Chataigne Restarted).  
+This will need to be done every time a session timed out (Showfile changed, GrandMA2 restarted, Network interrupted, Chataigne started).  
 
 <img width="466" height="144" alt="image" src="https://github.com/user-attachments/assets/7aef7ca9-565d-4217-94aa-0f37491e257d" />   
    
