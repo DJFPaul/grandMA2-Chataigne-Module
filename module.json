@@ -239,12 +239,42 @@
           "menu": "Console",
           "callback": "commandChangePage",
           "parameters": {
-            "Page": {
-              "type": "Integer",
-              "min": 1,
-              "description": "Page to change to.",
-              "default": 1
-          }
+
+        "Relative": {
+          "type": "Boolean",
+          "default": false,
+          "description": "Relative mode navigates to the next or previous page instead of a absolute page number."
+        },
+        "Page": {
+          "type": "Integer",
+          "min": 1,
+          "description": "Page to change to.",
+          "default": 1,
+          "dependency": {
+            "source": "relative",
+            "value": false,
+            "check": "equals",
+            "action": "show"
+            }
+          },
+          "Action": {
+          "type": "Enum",
+          "options": {
+              "Next Page": "+1",
+              "Previous Page": "-1"
+            },
+          "dependency": {
+            "source": "relative",
+            "value": true,
+            "check": "equals",
+            "action": "show"
+            }
+          },
+        "Sync Active Page": {
+        "type": "Boolean",
+        "default": true,
+        "description": "Also changes the modules Active Page."
+      }
         }
       },
         "Send HardKey": {
