@@ -253,13 +253,15 @@ function moduleParameterChanged(param) {
 	if (param.is(local.parameters.playbacks.dynamic.activePage)){
 		local.values.executors.activePage.page.set(local.parameters.playbacks.dynamic.activePage.get());
 		if (local.parameters.playbacks.dynamic.syncToMA2.get() == true) {
-			commandChangePage(local.parameters.playbacks.dynamic.activePage.get());
+			//commandChangePage(local.parameters.playbacks.dynamic.activePage.get());
+			local.send('{"command":"Page ' + local.parameters.playbacks.dynamic.activePage.get() + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 		}
 	
 	//When this get's enabled during a active session, send the current Active Page now to ensure MA2 is getting synced up.
 	} else if (param.is(local.parameters.playbacks.dynamic.syncToMA2)){
 		if (local.parameters.playbacks.dynamic.syncToMA2.get() == true) {
-			commandChangePage(local.parameters.playbacks.dynamic.activePage.get());
+			//commandChangePage(local.parameters.playbacks.dynamic.activePage.get());
+			local.send('{"command":"Page ' + local.parameters.playbacks.dynamic.activePage.get() + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 		}
 	
 	//Initialise a new Session.
@@ -358,9 +360,31 @@ if (local.parameters.session.status.get() == true) {
 	}
 }
 
-function commandChangePage(pageToChangeTo) {
-if (local.parameters.session.status.get() == true) {
-		local.send('{"command":"Page ' + pageToChangeTo + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+function commandChangePage(isRelative, pageToChangeTo, relativAction, syncActivePage) {
+	if (local.parameters.session.status.get() == true) {
+
+			
+			if (syncActivePage == true) {
+				if (isRelative == true) {
+					local.parameters.playbacks.dynamic.activePage.set(local.parameters.playbacks.dynamic.activePage.get() + parseInt(relativAction));
+				} else {
+					local.parameters.playbacks.dynamic.activePage.set(pageToChangeTo);
+				}
+					
+				if (local.parameters.playbacks.dynamic.syncToMA2.get() == false) {
+					if (isRelative == true) {
+							local.send('{"command":"Page ' + relativAction + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+					} else {
+						local.send('{"command":"Page ' + pageToChangeTo + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+					}				
+				}
+			} else {
+				if (isRelative == true) {
+						local.send('{"command":"Page ' + relativAction + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+				} else {
+					local.send('{"command":"Page ' + pageToChangeTo + ' Please","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
+				}
+			}
 	}
 }
 
