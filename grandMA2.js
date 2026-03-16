@@ -294,7 +294,7 @@ function moduleValueChanged(param) {
 }
 */
 
-//Executor Commands
+//Executor Commands.
 function commandSetExecutorValue(useActivePage, iPage, iExec, iValue) {
 	if (useActivePage == 1) {
 		iPage = local.parameters.playbacks.dynamic.activePage.get();
@@ -312,10 +312,10 @@ if (local.parameters.session.status.get() == true) {
 			local.send('{"requestType":"playbacks_userInput","execIndex":' + (iExec - 1)  + ',"pageIndex":' + (iPage - 1) + ',"faderValue":' + iValue + ',"type":1,"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
 		} else {		
 			//Was the last request long enough ago?
-
+			//(The minimum intervall dynamically adjusts based on the amount of faders simultaniously send.)
+	 		
 			//Yes = Send and update limit tracker.
-			//The minimum intervall dynamically adjusts based on the amount of faders simultaniously send.
-	 		if ((timestamp - rateLimitDataArray[limitCheckIndex].timestamp) > 0.024999 + Math.max((0.0024 * rateLimitArray.length), 0.0)) {
+			if ((timestamp - rateLimitDataArray[limitCheckIndex].timestamp) > 0.024999 + Math.max((0.0024 * rateLimitArray.length), 0.0)) {
 				rateLimitDataArray[limitCheckIndex].timestamp = timestamp;
 				rateLimitDataArray[limitCheckIndex].isValue = iValue;
 				rateLimitDataArray[limitCheckIndex].targetValue = iValue;
@@ -395,7 +395,7 @@ if (local.parameters.session.status.get() == true) {
 }
 
 
-//Encoders
+//Encoder commands.
 function commandSendEncoderByWheel(encoderID, stepAmount) {
 if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"Feature $feature.' + encoderID + ' At +  ' + stepAmount + '","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
@@ -463,7 +463,7 @@ function wsMessageReceived(message) {
 			}
 		}
 
-	//If reposone type is not playbacks.
+	//If response type is not playbacks.
 	} else {
 
 		//If responsonding to us asking for the command log.
@@ -533,7 +533,8 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 	//Parse and update executor datablock.
 	eObject.label.set(iObject.tt.t);
 	eObject.isActive.set(iObject.isRun);
-	eObject.color.set(parseInt('0xff' + iObject.bdC.substring(1,7)));
+	eObject.color.set(parseInt(('0xff' + iObject.bdC).replace("#","")));
+	eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC).replace("#","")));
 	eObject.buttonText.set(iObject.executorBlocks[0].button1.t);
 
 	//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
@@ -583,6 +584,7 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	createNewExecParameter('String', iPageString, iExecString, "label", "Label","Label of Executor", "empty");
    	createNewExecParameter('Bool', iPageString, iExecString, "isActive",  "Is Active","State of Executor", false);
     createNewExecParameter('Color', iPageString, iExecString, "color",  "Color","Color of Executor", 0x303030ff);
+    createNewExecParameter('Color', iPageString, iExecString, "cueColor",  "Cue Color","Cue Color of Executor", 0x303030ff);
    	createNewExecParameter('String', iPageString, iExecString, "previousCue",  "Previous Cue","Previous Cue","");
    	createNewExecParameter('String', iPageString, iExecString, "currentCue",  "Current Cue","Current Cue","");
    	createNewExecParameter('String', iPageString, iExecString, "nextCue",  "Next Cue","Previous Cue","");
