@@ -533,11 +533,23 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 	//Parse and update executor datablock.
 	eObject.label.set(iObject.tt.t);
 	eObject.isActive.set(iObject.isRun);
+	if (iObject.bC == '#00FF00') {
+		eObject.isSelected.set(true);
+	} else {
+		eObject.isSelected.set(false);
+	}
+
+	eObject.id.set(iObject.i.t);
+	eObject.type.set(iObject.oType.t);
+	eObject.sequence.set(iObject.oI.t);
+
 	eObject.color.set(parseInt(('0xff' + iObject.bdC).replace("#","")));
-	eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC).replace("#","")));
 	eObject.buttonText.set(iObject.executorBlocks[0].button1.t);
 
+	//Check if executor is not empty.
+	if (iObject.executorBlocks[0].button1.t != "Empty") {
 	//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
+	eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC).replace("#","")));
 	if (iObject.cues.items.length < 3){
 		eObject.previousCue.set('');
 		eObject.currentCue.set(iObject.cues.items[0].t);
@@ -550,6 +562,14 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 			eObject.currentCue.set(iObject.cues.items[1].t);
 		}
 		eObject.nextCue.set(iObject.cues.items[2].t);
+	}
+
+	//If executor is empty, clear out data blocks that would otherwise parse incorrectly.
+	} else {
+		eObject.cueColor.set(parseInt('0xff' + '1A1A1A'));
+		eObject.previousCue.set('');
+		eObject.currentCue.set('');
+		eObject.nextCue.set('');
 	}
 						
 	//Type 2 extra data (Faders)
@@ -577,28 +597,35 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 		local.values.executors[iPageString].addContainer('Exec' + iExec);
 		local.values.executors[iPageString][iExecString].pageid = parseInt(iPage);
 		local.values.executors[iPageString][iExecString].execid = parseInt(iExec);
+		//createNewExecParameter('Int', iPageString, iExecString, "execID", "Exec ID","ID of the Executor", parseInt(iExec));
 		local.values.executors[iPageString][iExecString].setCollapsed(true);
 	}
 
 	//Common data fields for either type.
-	createNewExecParameter('String', iPageString, iExecString, "label", "Label","Label of Executor", "empty");
-   	createNewExecParameter('Bool', iPageString, iExecString, "isActive",  "Is Active","State of Executor", false);
-    createNewExecParameter('Color', iPageString, iExecString, "color",  "Color","Color of Executor", 0x303030ff);
-    createNewExecParameter('Color', iPageString, iExecString, "cueColor",  "Cue Color","Cue Color of Executor", 0x303030ff);
-   	createNewExecParameter('String', iPageString, iExecString, "previousCue",  "Previous Cue","Previous Cue","");
-   	createNewExecParameter('String', iPageString, iExecString, "currentCue",  "Current Cue","Current Cue","");
-   	createNewExecParameter('String', iPageString, iExecString, "nextCue",  "Next Cue","Previous Cue","");
+   	createNewExecParameter('Bool', iPageString, iExecString, "isActive",  "Is Active", "State of the Executor", false);
+   	createNewExecParameter('Bool', iPageString, iExecString, "isSelected",  "Is Selected","Selectection state of the Executor", false);
+	
+	createNewExecParameter('String', iPageString, iExecString, "id", "ID","ID of the Executor", "");
+	createNewExecParameter('String', iPageString, iExecString, "type", "Type","Type of the Executor", "");
+	createNewExecParameter('String', iPageString, iExecString, "sequence", "Sequence","Assigned Sequence", "");
+	createNewExecParameter('String', iPageString, iExecString, "label", "Label","Label of the Executor", "");
+
+	createNewExecParameter('Color', iPageString, iExecString, "color",  "Color", "Color of the Executor", 0x303030ff);
+    createNewExecParameter('Color', iPageString, iExecString, "cueColor",  "Cue Color", "Cue Color of the Executor", 0x303030ff);
+   	createNewExecParameter('String', iPageString, iExecString, "previousCue",  "Previous Cue", "Previous Cue","");
+   	createNewExecParameter('String', iPageString, iExecString, "currentCue",  "Current Cue", "Current Cue","");
+   	createNewExecParameter('String', iPageString, iExecString, "nextCue",  "Next Cue", "Previous Cue","");
 
 	//1 - 90 = Type 2 (Faders) | 101 - 190 = Type 3 (Buttons)
 	if (iExec < 100) {
-    	createNewExecParameter('String', iPageString, iExecString, "upperText",  "Upper Text","State of Executor Upper Button","");
-   		createNewExecParameter('String', iPageString, iExecString, "lowerText",  "Lower Text","State of Executor Lower Button","");
-	    createNewExecParameter('String', iPageString, iExecString, "buttonText",  "Button Text","State of Executor Button","");
+    	createNewExecParameter('String', iPageString, iExecString, "upperText",  "Upper Text","Function of Executor Upper Button","");
+   		createNewExecParameter('String', iPageString, iExecString, "lowerText",  "Lower Text","Function of Executor Lower Button","");
+	    createNewExecParameter('String', iPageString, iExecString, "buttonText",  "Button Text","Function of Executor Button","");
 	    createNewExecParameter('String', iPageString, iExecString, "faderText",  "Fader Text","Executor Fader Text","");
     	createNewExecParameter('Float', iPageString, iExecString, "faderValue",  "Fader Value","Value of Executor Fader",0,0,1);
    		createNewExecParameter('String', iPageString, iExecString, "faderValueText",  "Fader Value Text","Fader Text of Executor","");
 	} else {
-	    createNewExecParameter('String', iPageString, iExecString, "buttonText",  "Button Text","State of Executor Button","");
+	    createNewExecParameter('String', iPageString, iExecString, "buttonText",  "Button Text","Function of Executor Button","");
 	}
 }
 
