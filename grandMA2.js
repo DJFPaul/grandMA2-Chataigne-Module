@@ -17,8 +17,12 @@ var rateLimitDataArray = [];
 var playbackRequestArray = [];
 var dynamicExecList = [];
 var staticExecList = [];
+var readyToParse = true;
+
+var preGenerate = false;
 
 function init() {	
+	//local.scripts.grandMA2.enableLog.set(true);
 	readOnlyPlaybacksConfig(false);
 	script.setUpdateRate(50);
 	//local.parameters.session.status.set(false);
@@ -27,8 +31,10 @@ function init() {
 	local.parameters.session.startSession.setAttribute("enabled", true);
 	local.parameters.session.endSession.setAttribute("enabled", false);
 	local.values.internal.connetionsLimitReached.set(false);
-	util.delayThreadMS(100);
-	buildRequestArrays();
+
+	if (local.parameters.session.status.get() == true) {
+		buildRequestArrays();
+	}
 }
 
 function buildRequestArrays() {
@@ -48,6 +54,9 @@ function buildRequestArrays() {
 			for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
 				//Add element to the dynamic lookup table.
 				dynamicExecList.push('exec' + tempListIndex);
+				if (typeof local.values.executors["activePage"]["exec" + tempListIndex] != 'object' && preGenerate == true) {
+					createNewExecutor(1, "activePage", tempListIndex, "exec" + tempListIndex);
+				}
 			}
 		}
 	}
@@ -62,6 +71,9 @@ function buildRequestArrays() {
 			for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
 				//Add element to the dynamic lookup table.
 				dynamicExecList.push('exec' + tempListIndex);
+				if (typeof local.values.executors["activePage"]["exec" + tempListIndex] != 'object' && preGenerate == true) {
+					createNewExecutor(1, "activePage", tempListIndex, "exec" + tempListIndex);
+				}
 			}
 		}
 	}
@@ -94,6 +106,10 @@ function buildRequestArrays() {
 				for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
 				//Add element to the static lookup table.
 					staticExecList.push('page'+ tempPageList[tempPageSplitIndex]  + 'exec' + tempListIndex);
+
+					if (typeof local.values.executors['page'+ tempPageList[tempPageSplitIndex]]['exec' + tempListIndex] != 'object' && preGenerate == true) {
+						createNewExecutor(tempPageList[tempPageSplitIndex], 'page'+ tempPageList[tempPageSplitIndex], tempListIndex, 'exec' + tempListIndex);
+					}
 				}	
 				playbackRequestArray[2][tempPageSplitIndex][3] = parseInt(tempPageList[tempPageSplitIndex]);	
 			}				
@@ -128,6 +144,9 @@ function buildRequestArrays() {
 				for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
 					//Add element to the static lookup table.
 					staticExecList.push('page'+ tempPageList[tempPageSplitIndex]  + 'exec' + tempListIndex);
+					if (typeof local.values.executors['page'+ tempPageList[tempPageSplitIndex]]['exec' + tempListIndex] != 'object' && preGenerate == true) {
+						createNewExecutor(tempPageList[tempPageSplitIndex], 'page'+ tempPageList[tempPageSplitIndex], tempListIndex, 'exec' + tempListIndex);
+					}
 				}	
 				playbackRequestArray[3][tempPageSplitIndex][3] = parseInt(tempPageList[tempPageSplitIndex]);	
 			}				
@@ -520,6 +539,7 @@ function wsMessageReceived(message) {
 			}
 		}
 	}
+	readyToParse = true;
 }
 
 //This is the function that parses and updates the datablocks.
@@ -554,6 +574,15 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 		eObject.previousCue.set('');
 		eObject.currentCue.set(iObject.cues.items[0].t);
 		eObject.nextCue.set('');
+
+		
+
+		if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
+			eObject.currentProgress.set(0.0);
+		} else {
+			eObject.currentProgress.set(iObject.cues.items[0].pgs.v);
+		}
+
 	} else {
 		eObject.previousCue.set(iObject.cues.items[0].t);
 		if (typeof iObject.cues.items[1].t != 'string') {
@@ -562,6 +591,26 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 			eObject.currentCue.set(iObject.cues.items[1].t);
 		}
 		eObject.nextCue.set(iObject.cues.items[2].t);
+
+		if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
+			eObject.previousProgress.set(0.0);
+		} else {
+			eObject.previousProgress.set(iObject.cues.items[1].pgs.v);
+		}
+
+		if (typeof iObject.cues.items[1].pgs.v == 'undefined') {
+			eObject.currentProgress.set(0.0);
+		} else {
+			eObject.currentProgress.set(iObject.cues.items[1].pgs.v);
+		}
+
+		if (typeof iObject.cues.items[2].pgs.v == 'undefined') {
+			eObject.nextProgress.set(0.0);
+		} else {
+			eObject.nextProgress.set(iObject.cues.items[2].pgs.v);
+		}
+
+		
 	}
 
 	//If executor is empty, clear out data blocks that would otherwise parse incorrectly.
@@ -613,8 +662,11 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	createNewExecParameter('Color', iPageString, iExecString, "color",  "Color", "Color of the Executor", 0x303030ff);
     createNewExecParameter('Color', iPageString, iExecString, "cueColor",  "Cue Color", "Cue Color of the Executor", 0x303030ff);
    	createNewExecParameter('String', iPageString, iExecString, "previousCue",  "Previous Cue", "Previous Cue","");
+   	createNewExecParameter('Float', iPageString, iExecString, "previousProgress",  "Previous Progress","Cue Progress",0,0,1);
    	createNewExecParameter('String', iPageString, iExecString, "currentCue",  "Current Cue", "Current Cue","");
+   	createNewExecParameter('Float', iPageString, iExecString, "currentProgress",  "Current Progress","Cue Progress",0,0,1);
    	createNewExecParameter('String', iPageString, iExecString, "nextCue",  "Next Cue", "Previous Cue","");
+   	createNewExecParameter('Float', iPageString, iExecString, "nextProgress",  "Next Progress","Cue Progress",0,0,1);
 
 	//1 - 90 = Type 2 (Faders) | 101 - 190 = Type 3 (Buttons)
 	if (iExec < 100) {
@@ -642,8 +694,10 @@ function createNewExecParameter(iType, iPageString, iExecString, iKeyName, iKey,
 	} else if (iType ==='Color') {
 		local.values.executors[iPageString][iExecString].addColorParameter(iKey,iDescription, iDefault);
 	}
+	
+
 	local.values.executors[iPageString][iExecString][iKeyName].setAttribute("readonly",true);
-	local.values.executors[iPageString][iExecString][iKeyName].setAttribute("alwaysNotify", false);
+	//local.values.executors[iPageString][iExecString][iKeyName].setAttribute("alwaysNotify", false);
 
 	//Ensures the data structure is maintained when loading a saved showfile in Chataigne again.
 	local.values.executors[iPageString][iExecString][iKeyName].setAttribute("saveValueOnly",false);
