@@ -583,7 +583,7 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 		eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC).replace("#","")));
 		if (iObject.cues.items.length < 3){
 			eObject.previousCue.set('');
-			if (typeof iObject.cues.items[1].t != 'string') {
+			if (typeof iObject.cues.items[0].t != 'string') {
 				eObject.currentCue.set('');
 			} else {
 				eObject.currentCue.set(iObject.cues.items[0].t);
