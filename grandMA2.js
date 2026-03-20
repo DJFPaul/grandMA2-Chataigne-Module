@@ -19,7 +19,7 @@ var dynamicExecList = [];
 var staticExecList = [];
 var readyToParse = true;
 
-var preGenerate = false;
+var preGenerate = true;
 
 function init() {	
 	//local.scripts.grandMA2.enableLog.set(true);
@@ -544,90 +544,104 @@ function wsMessageReceived(message) {
 
 //This is the function that parses and updates the datablocks.
 function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
-	//Check if a datablock for the received executor already exists, otherwise request it's creation.
-	if (typeof local.values.executors[iPageString][iExecString] != 'object') {
-		createNewExecutor(iPage, iPageString, iExec, iExecString);
-	}
-	eObject = local.values.executors[iPageString][iExecString];
+	//For each datablock. (1 Is Normal. up to 5 for multi width executors.)
+	for (var execBlocks = 0; execBlocks < iObject.executorBlocks.length; execBlocks++) {
+		iExecString = 'exec' + parseInt(iExec + execBlocks);
+		eObject = local.values.executors[iPageString][iExecString];
 
-	//Parse and update executor datablock.
-	eObject.label.set(iObject.tt.t);
-	eObject.isActive.set(iObject.isRun);
-	if (iObject.bC == '#00FF00') {
+		if (execBlocks == 0) {			
+			eObject.width.set(iObject.executorBlocks.length);
+		} else {
+			eObject.width.set(0);
+		}
+
+		//Check if a datablock for the received executor already exists, otherwise request it's creation.
+		if (typeof local.values.executors[iPageString][iExecString] != 'object') {
+			createNewExecutor(iPage, iPageString, parseInt(iExec + execBlocks) + execBlocks, iExecString);
+		}
+
+
+		//Parse and update executor datablock.
+		eObject.label.set(iObject.tt.t);
+		eObject.isActive.set(iObject.isRun);
+		if (iObject.bC == '#00FF00') {
 		eObject.isSelected.set(true);
-	} else {
-		eObject.isSelected.set(false);
-	}
-
-	eObject.id.set(iObject.i.t);
-	eObject.type.set(iObject.oType.t);
-	eObject.sequence.set(iObject.oI.t);
-
-	eObject.color.set(parseInt(('0xff' + iObject.bdC).replace("#","")));
-	eObject.buttonText.set(iObject.executorBlocks[0].button1.t);
-
-	//Check if executor is not empty.
-	if (iObject.executorBlocks[0].button1.t != "Empty") {
-	//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
-	eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC).replace("#","")));
-	if (iObject.cues.items.length < 3){
-		eObject.previousCue.set('');
-		eObject.currentCue.set(iObject.cues.items[0].t);
-		eObject.nextCue.set('');
-
-		
-
-		if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
-			eObject.currentProgress.set(0.0);
 		} else {
-			eObject.currentProgress.set(iObject.cues.items[0].pgs.v);
+			eObject.isSelected.set(false);
 		}
 
-	} else {
-		eObject.previousCue.set(iObject.cues.items[0].t);
-		if (typeof iObject.cues.items[1].t != 'string') {
+		eObject.id.set(iObject.i.t);
+		eObject.type.set(iObject.oType.t);
+		eObject.sequence.set(iObject.oI.t);
+
+		eObject.color.set(parseInt(('0xff' + iObject.bdC).replace("#","")));
+		eObject.buttonText.set(iObject.executorBlocks[execBlocks].button1.t);
+
+		//Check if executor is not empty.
+		if (iObject.executorBlocks[execBlocks].button1.t != "Empty") {
+		//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
+		eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC).replace("#","")));
+		if (iObject.cues.items.length < 3){
+			eObject.previousCue.set('');
+			if (typeof iObject.cues.items[1].t != 'string') {
+				eObject.currentCue.set('');
+			} else {
+				eObject.currentCue.set(iObject.cues.items[0].t);
+			}
+			
+			eObject.nextCue.set('');
+
+			if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
+				eObject.currentProgress.set(0.0);
+			} else {
+				eObject.currentProgress.set(iObject.cues.items[0].pgs.v);
+			}
+
+		} else {
+			eObject.previousCue.set(iObject.cues.items[0].t);
+			if (typeof iObject.cues.items[1].t != 'string') {
+				eObject.currentCue.set('');
+			} else {
+				eObject.currentCue.set(iObject.cues.items[1].t);
+			}
+			eObject.nextCue.set(iObject.cues.items[2].t);
+			if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
+				eObject.previousProgress.set(0.0);
+			} else {
+				eObject.previousProgress.set(iObject.cues.items[1].pgs.v);
+			}
+			if (typeof iObject.cues.items[1].pgs.v == 'undefined') {
+				eObject.currentProgress.set(0.0);
+			} else {
+				eObject.currentProgress.set(iObject.cues.items[1].pgs.v);
+			}
+			if (typeof iObject.cues.items[2].pgs.v == 'undefined') {
+				eObject.nextProgress.set(0.0);
+			} else {
+				eObject.nextProgress.set(iObject.cues.items[2].pgs.v);
+			}
+		}
+
+		//If executor is empty, clear out data blocks that would otherwise parse incorrectly.
+		} else {
+			eObject.cueColor.set(parseInt('0xff' + '1A1A1A'));
+			eObject.previousCue.set('');
 			eObject.currentCue.set('');
-		} else {
-			eObject.currentCue.set(iObject.cues.items[1].t);
-		}
-		eObject.nextCue.set(iObject.cues.items[2].t);
-
-		if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
+			eObject.nextCue.set('');
 			eObject.previousProgress.set(0.0);
-		} else {
-			eObject.previousProgress.set(iObject.cues.items[1].pgs.v);
-		}
-
-		if (typeof iObject.cues.items[1].pgs.v == 'undefined') {
 			eObject.currentProgress.set(0.0);
-		} else {
-			eObject.currentProgress.set(iObject.cues.items[1].pgs.v);
-		}
-
-		if (typeof iObject.cues.items[2].pgs.v == 'undefined') {
 			eObject.nextProgress.set(0.0);
-		} else {
-			eObject.nextProgress.set(iObject.cues.items[2].pgs.v);
+			eObject.width.set(1);
 		}
-
-		
-	}
-
-	//If executor is empty, clear out data blocks that would otherwise parse incorrectly.
-	} else {
-		eObject.cueColor.set(parseInt('0xff' + '1A1A1A'));
-		eObject.previousCue.set('');
-		eObject.currentCue.set('');
-		eObject.nextCue.set('');
-	}
 						
-	//Type 2 extra data (Faders)
-	if (JSONMessageObject.responseSubType == 2) {
-		eObject.lowerText.set(iObject.executorBlocks[0].button2.t);
-		eObject.upperText.set(iObject.executorBlocks[0].button3.t);
-		eObject.faderText.set(iObject.executorBlocks[0].fader.tt);	
-		eObject.faderValue.set(iObject.executorBlocks[0].fader.v);	
-		eObject.faderValueText.set(iObject.executorBlocks[0].fader.vT);
+		//Type 2 extra data (Faders)
+		if (JSONMessageObject.responseSubType == 2) {
+			eObject.lowerText.set(iObject.executorBlocks[execBlocks].button2.t);
+			eObject.upperText.set(iObject.executorBlocks[execBlocks].button3.t);
+			eObject.faderText.set(iObject.executorBlocks[execBlocks].fader.tt);	
+			eObject.faderValue.set(iObject.executorBlocks[execBlocks].fader.v);	
+			eObject.faderValueText.set(iObject.executorBlocks[execBlocks].fader.vT);
+		}
 	}
 }
 
@@ -651,6 +665,8 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	}
 
 	//Common data fields for either type.
+		
+   	createNewExecParameter('Int', iPageString, iExecString, "width",  "Width","Cue Width of Executor. Is 0 if child of earlier executor.", 0);
    	createNewExecParameter('Bool', iPageString, iExecString, "isActive",  "Is Active", "State of the Executor", false);
    	createNewExecParameter('Bool', iPageString, iExecString, "isSelected",  "Is Selected","Selectection state of the Executor", false);
 	
