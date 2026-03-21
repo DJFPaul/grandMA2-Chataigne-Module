@@ -182,6 +182,10 @@
     "Internal": {
       "type": "Container",
       "collapsed": true,
+    "Data Versions": {
+      "type": "Container",
+      "collapsed": true    
+    },
       "realtime": {
         "type": "Boolean",
         "readOnly": true,

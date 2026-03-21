@@ -3,6 +3,7 @@
 //	############################################
 
 var legacyKeys = ["cues", "color"];
+var codeVersion = 1;
 
 var timestamp = 0.0;
 var lastKeepAliveTime = 0.0;
@@ -21,7 +22,15 @@ var dynamicExecList = [];
 var staticExecList = [];
 var readyToParse = true;
 
-function init() {	
+function init() {
+	
+	//local.parameters.dataVersion.setAttribute("readonly",true);
+	//local.parameters.dataVersion.setAttribute("saveValueOnly",false);
+	//local.values.internal.dataVersions.clear();
+	if (typeof local.values.internal.dataVersions[codeVersion + ''] == 'undefined' && local.values.executors.activePage.getContainers().length > 0) {
+		util.showMessageBox("Module update detected!", "It looks like you have updated the module and it expects a higher Datablock version.\nThis likely will cause errors if not resolved before session start.\n\nYou can either try the Validate Databocks button in the Advanced settings, or clear the Datablocks.\n\nAlternatively you can also remove and re-add the module in Chataigne.", "info", "Got it");
+	}
+
 	//local.scripts.grandMA2.enableLog.set(true);
 	readOnlyPlaybacksConfig(false);
 	script.setUpdateRate(50);
@@ -375,7 +384,7 @@ function messageBoxCallback(id, result)
 				local.values.executors[local.values.executors.getContainers()[pageBlocks].name].clear(true, true);
 			}
 			local.values.executors.clear(true, true);
-			util.showOkCancelBox("clearinfo", "ATTENTION!", "Chataigne might crash uppon re-creation of the Datablocks if the showfile has not been reloaded. Save your project and reload it to fix/avoid this issue.", "warning", "Got it", "Okay");
+			util.showMessageBox("ATTENTION!", "Chataigne might crash uppon re-creation of the Datablocks if the showfile has not been reloaded.\nSave your project and reload it to fix/avoid this issue.", "warning", "Got it");
 		}	
 	}
 }
@@ -616,7 +625,7 @@ function wsMessageReceived(message) {
 
 //This is the function that parses and updates the datablocks.
 function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
-	//For each datablock. (1 Is Normal. up to 5 for multi width executors.)
+	//For each datablock. (1 Is Normal. up to 5 for multi width executors. For multiple exetuors, the button data is rendered into the next executors element which it occupies within MA as well.)
 	for (var execBlocks = 0; execBlocks < iObject.executorBlocks.length; execBlocks++) {
 		iExecString = 'exec' + parseInt(iExec + execBlocks);
 		eObject = local.values.executors[iPageString][iExecString];
@@ -858,5 +867,9 @@ function createNewExecParameter(iType, iPageString, iExecString, iKeyName, iKey,
 			//Ensures the data structure is maintained when loading a saved showfile in Chataigne again.
 			local.values.executors[iPageString][iExecString][iKeyName].setAttribute("saveValueOnly",false);
 		}
+	}
+	if (typeof local.values.internal.dataVersions[codeVersion + ''] == 'undefined') {
+		local.values.internal.dataVersions.addContainer(codeVersion + '');
+		local.values.internal.dataVersions[codeVersion + ''].setCollapsed(true);
 	}
 }
