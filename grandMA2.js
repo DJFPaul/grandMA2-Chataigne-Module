@@ -325,7 +325,7 @@ function moduleParameterChanged(param) {
 					}
 				}
 				//Call creation function to create possibly missing entries.
-				createNewExecutor(0, local.values.executors.getContainers()[pageBlocks].name, parseInt(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].name.replace("Exec","")), local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].name);			
+				createNewExecutor(0, local.values.executors.getContainers()[pageBlocks].name, parseInt(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].name.replace("exec","")), local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].name);			
 			}			
 		}
 	} else if (param.is(local.parameters.advanced.clearExecutorDatablocks)){
