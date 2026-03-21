@@ -338,7 +338,7 @@ function messageBoxCallback(id, result)
 {
 	if (result == 1) {
 		if (id == "clearexecs"){
-
+			
 			//Check for and if true end active session.
 			if (local.parameters.session.status.get() == true) {
 				lastKeepAliveTime = util.getTime();
@@ -469,7 +469,6 @@ if (local.parameters.session.status.get() == true) {
 		local.send('{"command":"LUA \'gma.canbus.hardkey (' + hardKeyToSend + ', ' + intToBoolString(pressedState) + ', ' + intToBoolString(holdState) + ')\'","session":' + local.parameters.session.sessionID.get() + ',"requestType":"command","maxRequests":0}');
 	}
 }
-
 
 //Encoder commands.
 function commandSendEncoderByWheel(encoderID, stepAmount) {
@@ -631,51 +630,84 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 		eObject.type.set(iObject.oType.t);
 		eObject.sequence.set(iObject.oI.t);
 
-		eObject.execColor.set(parseInt(('0xff' + iObject.bdC).replace("#","")));
+		eObject.execColor.set(parseInt(('0xff' + iObject.bdC)));
+		eObject.idTextColor.set(parseInt('0xff' + iObject.i.c));
+		eObject.typeTextColor.set(parseInt('0xff' + iObject.oType.c));
+		eObject.sequenceTextColor.set(parseInt('0xff' + iObject.oI.c));
+		eObject.labelTextColor.set(parseInt('0xff' + iObject.tt.c));
+
 		eObject.buttonText.set(iObject.executorBlocks[execBlocks].button1.t);
 
 		//Check if executor is not empty.
 		if (iObject.executorBlocks[execBlocks].button1.t != "Empty") {
 		//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
-		eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC).replace("#","")));
+		eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC)));
 		if (iObject.cues.items.length < 3){
-			eObject.previousCue.set('');
 			if (typeof iObject.cues.items[0].t != 'string') {
 				eObject.currentCue.set('');
 			} else {
 				eObject.currentCue.set(iObject.cues.items[0].t);
 			}
-			
-			eObject.nextCue.set('');
 
 			if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
 				eObject.currentProgress.set(0.0);
 			} else {
 				eObject.currentProgress.set(iObject.cues.items[0].pgs.v);
 			}
+			
+			eObject.previousCue.set('');
+			eObject.previousProgress.set(0.0);
+			eObject.previousProgressBarColor.set(0xFF0000FF);
+			eObject.nextCue.set('');
+			eObject.nextProgress.set(0.0);
+			eObject.nextProgressBarColor.set(0xff0000FF);
 
 		} else {
-			eObject.previousCue.set(iObject.cues.items[0].t);
+			if (typeof iObject.cues.items[0].t != 'string') {
+				eObject.previousCue.set('');
+				eObject.previousTextColor.set(0xFFFFFFFF); 
+			} else {
+				eObject.previousCue.set(iObject.cues.items[0].t);
+				eObject.previousTextColor.set(parseInt('0xff' + iObject.cues.items[0].c)); 
+			}
 			if (typeof iObject.cues.items[1].t != 'string') {
 				eObject.currentCue.set('');
+				eObject.currentTextColor.set(0xFFFFFFFF); 		
 			} else {
 				eObject.currentCue.set(iObject.cues.items[1].t);
+				eObject.currentTextColor.set(parseInt('0xff' + iObject.cues.items[1].c)); 		
+
 			}
-			eObject.nextCue.set(iObject.cues.items[2].t);
+			if (typeof iObject.cues.items[2].t != 'string') {
+				eObject.nextCue.set('');
+				eObject.nextTextColor.set(0xFFFFFFFF); 	
+			} else {
+				eObject.nextCue.set(iObject.cues.items[2].t);
+				eObject.nextTextColor.set(parseInt('0xff' + iObject.cues.items[2].c)); 	
+			}
+
 			if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
 				eObject.previousProgress.set(0.0);
+				eObject.previousProgressBarColor.set(0xFF0000FF);
 			} else {
-				eObject.previousProgress.set(iObject.cues.items[1].pgs.v);
+				eObject.previousProgress.set(iObject.cues.items[0].pgs.v);
+				eObject.previousProgressBarColor.set(parseInt('0xff' + iObject.cues.items[0].pgs.bC)); 
 			}
+
 			if (typeof iObject.cues.items[1].pgs.v == 'undefined') {
 				eObject.currentProgress.set(0.0);
+				eObject.currentProgressBarColor.set(0xff0000FF);
 			} else {
 				eObject.currentProgress.set(iObject.cues.items[1].pgs.v);
+				eObject.currentProgressBarColor.set(parseInt('0xff' + iObject.cues.items[1].pgs.bC));
 			}
+
 			if (typeof iObject.cues.items[2].pgs.v == 'undefined') {
 				eObject.nextProgress.set(0.0);
+				eObject.nextProgressBarColor.set(0xff0000FF);
 			} else {
 				eObject.nextProgress.set(iObject.cues.items[2].pgs.v);
+				eObject.nextProgressBarColor.set(parseInt('0xff' + iObject.cues.items[2].pgs.bC));
 			}
 		}
 
@@ -689,6 +721,9 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 			eObject.currentProgress.set(0.0);
 			eObject.nextProgress.set(0.0);
 			eObject.width.set(1);
+			eObject.typeTextColor.set(0xFFFFFFFF);
+			eObject.sequenceTextColor.set(0xFFFFFFFF);
+			eObject.labelTextColor.set(0xFFFFFFFF);
 		}
 						
 		//Type 2 extra data (Faders)
@@ -728,8 +763,11 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
    	createNewExecParameter('Bool', iPageString, iExecString, "isSelected",  "Is Selected","Selectection state of the Executor", false);
 	
 	createNewExecParameter('String', iPageString, iExecString, "id", "ID","ID of the Executor", "");
+    createNewExecParameter('Color', iPageString, iExecString, "idTextColor",  "ID Text Color", "ID text color of the Executor", 0xffffffff);
 	createNewExecParameter('String', iPageString, iExecString, "type", "Type","Type of the Executor", "");
+    createNewExecParameter('Color', iPageString, iExecString, "typeTextColor",  "Type Text Color", "Type Text color of the Executor", 0xffffffff);
 	createNewExecParameter('String', iPageString, iExecString, "sequence", "Sequence","Assigned Sequence", "");
+    createNewExecParameter('Color', iPageString, iExecString, "sequenceTextColor",  "Sequence Text Color", "Sequence text color of the Executor", 0xffffffff);
 	createNewExecParameter('String', iPageString, iExecString, "label", "Label","Label of the Executor", "");
     createNewExecParameter('Color', iPageString, iExecString, "labelTextColor",  "Label Text Color", "Text Color", 0xffffffff);
 
