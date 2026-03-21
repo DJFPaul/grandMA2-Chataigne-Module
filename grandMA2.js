@@ -313,15 +313,28 @@ function moduleParameterChanged(param) {
 	} else if (param.is(local.parameters.advanced.unstuckCMD)){
 		local.send('{"requestType":"commandConfirmationResult","result":1,"option":[],"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
 	}  else if (param.is(local.parameters.advanced.validateDatablocks)){
+		
+		//Check each existing Executor block if it contains legacy keys and then run create function to add potentially missing enties of older or partial generated blocks.
 		//For each page.
 		for (var pageBlocks = 0; pageBlocks < local.values.executors.getContainers().length; pageBlocks++ ) {   
 			//For each executor.
-			for (var execBlocks = 0; execBlocks < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers().length; execBlocks++ ) {    		
-					//For each key.
-					for (var execKeys = 0; execKeys < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables().length; execKeys++ ) {    	
+			for (var execBlocks = 0; execBlocks < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers().length; execBlocks++ ) {    	
+					
+				//Does block contain colors container?
+				if (typeof local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].colors == 'object') {
+					//If yes, for each colors key.
+					for (var execKeys = 0; execKeys < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].colors.getControllables().length; execKeys++ ) {    	
 						//Check if key is on the list of old keys that no longer are in use and remove it if true.
-						if (legacyKeys.indexOf(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables()[execKeys].name) != -1){		
-							local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].removeParameter(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables()[execKeys].name);
+						if (legacyKeys.indexOf(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].colors.getControllables()[execKeys].name) != -1){		
+							local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].removeParameter(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].colors.getControllables()[execKeys].name);
+						}
+					}
+				}
+				//For each key.
+				for (var execKeys = 0; execKeys < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables().length; execKeys++ ) {    	
+					//Check if key is on the list of old keys that no longer are in use and remove it if true.
+					if (legacyKeys.indexOf(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables()[execKeys].name) != -1){		
+						local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].removeParameter(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables()[execKeys].name);
 					}
 				}
 				//Call creation function to create possibly missing entries.
@@ -354,6 +367,9 @@ function messageBoxCallback(id, result)
 			//Sequencially clear executor blocks.
 			for (var pageBlocks = 0; pageBlocks < local.values.executors.getContainers().length; pageBlocks++ ) {   
 				for (var execBlocks = 0; execBlocks < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers().length; execBlocks++ ) {    		
+					if (typeof local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].colors == 'object') {
+					local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].colors.clear(true, true);
+					}
 						local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].clear(true, true);
 					}
 				local.values.executors[local.values.executors.getContainers()[pageBlocks].name].clear(true, true);
@@ -630,18 +646,19 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 		eObject.type.set(iObject.oType.t);
 		eObject.sequence.set(iObject.oI.t);
 
-		eObject.execColor.set(parseInt(('0xff' + iObject.bdC)));
-		eObject.idTextColor.set(parseInt('0xff' + iObject.i.c));
-		eObject.typeTextColor.set(parseInt('0xff' + iObject.oType.c));
-		eObject.sequenceTextColor.set(parseInt('0xff' + iObject.oI.c));
-		eObject.labelTextColor.set(parseInt('0xff' + iObject.tt.c));
+		eObject.colors.execColor.set(parseInt(('0xff' + iObject.bdC)));
+		eObject.colors.idTextColor.set(parseInt('0xff' + iObject.i.c));
+		eObject.colors.typeTextColor.set(parseInt('0xff' + iObject.oType.c));
+		eObject.colors.sequenceTextColor.set(parseInt('0xff' + iObject.oI.c));
+		eObject.colors.labelTextColor.set(parseInt('0xff' + iObject.tt.c));
 
 		eObject.buttonText.set(iObject.executorBlocks[execBlocks].button1.t);
+		eObject.colors.buttonTextColor.set(parseInt('0xff' +iObject.executorBlocks[execBlocks].button1.c));
 
 		//Check if executor is not empty.
 		if (iObject.executorBlocks[execBlocks].button1.t != "Empty") {
 		//Parse cue block. Single Cue or Prev/Current/Next debending on what is stored on the Executor.
-		eObject.cueColor.set(parseInt(('0xff' + iObject.cues.bC)));
+		eObject.colors.cueBackgroundColor.set(parseInt(('0xff' + iObject.cues.bC)));
 		if (iObject.cues.items.length < 3){
 			if (typeof iObject.cues.items[0].t != 'string') {
 				eObject.currentCue.set('');
@@ -657,63 +674,63 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 			
 			eObject.previousCue.set('');
 			eObject.previousProgress.set(0.0);
-			eObject.previousProgressBarColor.set(0xFF0000FF);
+			eObject.colors.previousProgressBarColor.set(0xFF0000FF);
 			eObject.nextCue.set('');
 			eObject.nextProgress.set(0.0);
-			eObject.nextProgressBarColor.set(0xff0000FF);
+			eObject.colors.nextProgressBarColor.set(0xff0000FF);
 
 		} else {
 			if (typeof iObject.cues.items[0].t != 'string') {
 				eObject.previousCue.set('');
-				eObject.previousTextColor.set(0xFFFFFFFF); 
+				eObject.colors.previousTextColor.set(0xFFFFFFFF); 
 			} else {
 				eObject.previousCue.set(iObject.cues.items[0].t);
-				eObject.previousTextColor.set(parseInt('0xff' + iObject.cues.items[0].c)); 
+				eObject.colors.previousTextColor.set(parseInt('0xff' + iObject.cues.items[0].c)); 
 			}
 			if (typeof iObject.cues.items[1].t != 'string') {
 				eObject.currentCue.set('');
-				eObject.currentTextColor.set(0xFFFFFFFF); 		
+				eObject.colors.currentTextColor.set(0xFFFFFFFF); 		
 			} else {
 				eObject.currentCue.set(iObject.cues.items[1].t);
-				eObject.currentTextColor.set(parseInt('0xff' + iObject.cues.items[1].c)); 		
+				eObject.colors.currentTextColor.set(parseInt('0xff' + iObject.cues.items[1].c)); 		
 
 			}
 			if (typeof iObject.cues.items[2].t != 'string') {
 				eObject.nextCue.set('');
-				eObject.nextTextColor.set(0xFFFFFFFF); 	
+				eObject.colors.nextTextColor.set(0xFFFFFFFF); 	
 			} else {
 				eObject.nextCue.set(iObject.cues.items[2].t);
-				eObject.nextTextColor.set(parseInt('0xff' + iObject.cues.items[2].c)); 	
+				eObject.colors.nextTextColor.set(parseInt('0xff' + iObject.cues.items[2].c)); 	
 			}
 
 			if (typeof iObject.cues.items[0].pgs.v == 'undefined') {
 				eObject.previousProgress.set(0.0);
-				eObject.previousProgressBarColor.set(0xFF0000FF);
+				eObject.colors.previousProgressBarColor.set(0xFF0000FF);
 			} else {
 				eObject.previousProgress.set(iObject.cues.items[0].pgs.v);
-				eObject.previousProgressBarColor.set(parseInt('0xff' + iObject.cues.items[0].pgs.bC)); 
+				eObject.colors.previousProgressBarColor.set(parseInt('0xff' + iObject.cues.items[0].pgs.bC)); 
 			}
 
 			if (typeof iObject.cues.items[1].pgs.v == 'undefined') {
 				eObject.currentProgress.set(0.0);
-				eObject.currentProgressBarColor.set(0xff0000FF);
+				eObject.colors.currentProgressBarColor.set(0xff0000FF);
 			} else {
 				eObject.currentProgress.set(iObject.cues.items[1].pgs.v);
-				eObject.currentProgressBarColor.set(parseInt('0xff' + iObject.cues.items[1].pgs.bC));
+				eObject.colors.currentProgressBarColor.set(parseInt('0xff' + iObject.cues.items[1].pgs.bC));
 			}
 
 			if (typeof iObject.cues.items[2].pgs.v == 'undefined') {
 				eObject.nextProgress.set(0.0);
-				eObject.nextProgressBarColor.set(0xff0000FF);
+				eObject.colors.nextProgressBarColor.set(0xff0000FF);
 			} else {
 				eObject.nextProgress.set(iObject.cues.items[2].pgs.v);
-				eObject.nextProgressBarColor.set(parseInt('0xff' + iObject.cues.items[2].pgs.bC));
+				eObject.colors.nextProgressBarColor.set(parseInt('0xff' + iObject.cues.items[2].pgs.bC));
 			}
 		}
 
 		//If executor is empty, clear out data blocks that would otherwise parse incorrectly.
 		} else {
-			eObject.cueColor.set(parseInt('0xff' + '1A1A1A'));
+			eObject.colors.cueBackgroundColor.set(0xff1A1A1A);
 			eObject.previousCue.set('');
 			eObject.currentCue.set('');
 			eObject.nextCue.set('');
@@ -721,9 +738,9 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 			eObject.currentProgress.set(0.0);
 			eObject.nextProgress.set(0.0);
 			eObject.width.set(1);
-			eObject.typeTextColor.set(0xFFFFFFFF);
-			eObject.sequenceTextColor.set(0xFFFFFFFF);
-			eObject.labelTextColor.set(0xFFFFFFFF);
+			eObject.colors.typeTextColor.set(0xFFFFFFFF);
+			eObject.colors.sequenceTextColor.set(0xFFFFFFFF);
+			eObject.colors.labelTextColor.set(0xFFFFFFFF);
 		}
 						
 		//Type 2 extra data (Faders)
@@ -733,6 +750,10 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 			eObject.faderText.set(iObject.executorBlocks[execBlocks].fader.tt);	
 			eObject.faderValue.set(iObject.executorBlocks[execBlocks].fader.v);	
 			eObject.faderValueText.set(iObject.executorBlocks[execBlocks].fader.vT);
+
+			eObject.colors.lowerTextColor.set(parseInt('0xff' +iObject.executorBlocks[execBlocks].button2.c));
+			eObject.colors.upperTextColor.set(parseInt('0xff' +iObject.executorBlocks[execBlocks].button3.c));
+			//eObject.colors.faderTextColor.set(iObject.executorBlocks[execBlocks].fader.c);			
 		}
 	}
 }
@@ -756,34 +777,40 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 		local.values.executors[iPageString][iExecString].setCollapsed(true);
 	}
 
-	//Common data fields for either type.
-		
+		if (typeof local.values.executors[iPageString][iExecString].colors != 'object') {
+		local.values.executors[iPageString][iExecString].addContainer('Colors');
+		local.values.executors[iPageString][iExecString].colors.setCollapsed(true);
+	}
+
+	//Common data fields for either type.		
    	createNewExecParameter('Int', iPageString, iExecString, "width",  "Width","Cue Width of Executor. Is 0 if child of earlier executor.", 0);
    	createNewExecParameter('Bool', iPageString, iExecString, "isActive",  "Is Active", "State of the Executor", false);
    	createNewExecParameter('Bool', iPageString, iExecString, "isSelected",  "Is Selected","Selectection state of the Executor", false);
 	
 	createNewExecParameter('String', iPageString, iExecString, "id", "ID","ID of the Executor", "");
-    createNewExecParameter('Color', iPageString, iExecString, "idTextColor",  "ID Text Color", "ID text color of the Executor", 0xffffffff);
 	createNewExecParameter('String', iPageString, iExecString, "type", "Type","Type of the Executor", "");
-    createNewExecParameter('Color', iPageString, iExecString, "typeTextColor",  "Type Text Color", "Type Text color of the Executor", 0xffffffff);
 	createNewExecParameter('String', iPageString, iExecString, "sequence", "Sequence","Assigned Sequence", "");
-    createNewExecParameter('Color', iPageString, iExecString, "sequenceTextColor",  "Sequence Text Color", "Sequence text color of the Executor", 0xffffffff);
 	createNewExecParameter('String', iPageString, iExecString, "label", "Label","Label of the Executor", "");
-    createNewExecParameter('Color', iPageString, iExecString, "labelTextColor",  "Label Text Color", "Text Color", 0xffffffff);
 
-	createNewExecParameter('Color', iPageString, iExecString, "execColor",  "Exec Color", "Color of the Executor", 0x303030ff);
-    createNewExecParameter('Color', iPageString, iExecString, "cueColor",  "Cue Color", "Cue Color of the Executor", 0x303030ff);
    	createNewExecParameter('String', iPageString, iExecString, "previousCue",  "Previous Cue", "Previous Cue","");
-    createNewExecParameter('Color', iPageString, iExecString, "previousTextColor",  "Previous Text Color", "Text Color", 0xffffffff);
    	createNewExecParameter('Float', iPageString, iExecString, "previousProgress",  "Previous Progress","Cue Progress",0,0,1);
-    createNewExecParameter('Color', iPageString, iExecString, "previousProgressBarColor",  "Previous Progress Bar Color", "Progress Bar Color", 0x0000FFFF);
    	createNewExecParameter('String', iPageString, iExecString, "currentCue",  "Current Cue", "Current Cue","");
-    createNewExecParameter('Color', iPageString, iExecString, "currentTextColor",  "Current Text Color", "Text Color", 0xffffffff);
    	createNewExecParameter('Float', iPageString, iExecString, "currentProgress",  "Current Progress","Cue Progress",0,0,1);
-    createNewExecParameter('Color', iPageString, iExecString, "currentProgressBarColor",  "Current Progress Bar Color", "Text Color", 0x0000FFFF);
    	createNewExecParameter('String', iPageString, iExecString, "nextCue",  "Next Cue", "Previous Cue","");
-    createNewExecParameter('Color', iPageString, iExecString, "nextTextColor",  "Next Text Color", "Text Color", 0xffffffff);
    	createNewExecParameter('Float', iPageString, iExecString, "nextProgress",  "Next Progress","Cue Progress",0,0,1);
+
+	//Color Block
+	createNewExecParameter('Color', iPageString, iExecString, "execColor",  "Exec Color", "Color of the Executor", 0x303030ff);
+    createNewExecParameter('Color', iPageString, iExecString, "cueBackgroundColor",  "Cue Background Color", "Cue Background Color of the Executor", 0x303030ff);
+    createNewExecParameter('Color', iPageString, iExecString, "idTextColor",  "ID Text Color", "ID text color of the Executor", 0xffffffff);
+    createNewExecParameter('Color', iPageString, iExecString, "typeTextColor",  "Type Text Color", "Type Text color of the Executor", 0xffffffff);
+    createNewExecParameter('Color', iPageString, iExecString, "sequenceTextColor",  "Sequence Text Color", "Sequence text color of the Executor", 0xffffffff);
+    createNewExecParameter('Color', iPageString, iExecString, "labelTextColor",  "Label Text Color", "Text Color", 0xffffffff);
+    createNewExecParameter('Color', iPageString, iExecString, "previousTextColor",  "Previous Text Color", "Text Color", 0xffffffff);
+    createNewExecParameter('Color', iPageString, iExecString, "previousProgressBarColor",  "Previous Progress Bar Color", "Progress Bar Color", 0x0000FFFF);
+    createNewExecParameter('Color', iPageString, iExecString, "currentTextColor",  "Current Text Color", "Text Color", 0xffffffff);
+    createNewExecParameter('Color', iPageString, iExecString, "currentProgressBarColor",  "Current Progress Bar Color", "Text Color", 0x0000FFFF);
+    createNewExecParameter('Color', iPageString, iExecString, "nextTextColor",  "Next Text Color", "Text Color", 0xffffffff);
     createNewExecParameter('Color', iPageString, iExecString, "nextProgressBarColor",  "Next Progress Bar Color", "Text Color", 0x0000FFFF);
 
 	//1 - 90 = Type 2 (Faders) | 101 - 190 = Type 3 (Buttons)
@@ -794,8 +821,17 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	    createNewExecParameter('String', iPageString, iExecString, "faderText",  "Fader Text","Executor Fader Text","");
     	createNewExecParameter('Float', iPageString, iExecString, "faderValue",  "Fader Value","Value of Executor Fader",0,0,1);
    		createNewExecParameter('String', iPageString, iExecString, "faderValueText",  "Fader Value Text","Fader Text of Executor","");
+		
+		//Color Block
+	    createNewExecParameter('Color', iPageString, iExecString, "upperTextColor",  "Upper Text Color", "Text Color", 0xffffffff);
+    	createNewExecParameter('Color', iPageString, iExecString, "lowerTextColor",  "Lower Text Color", "Text Color", 0xffffffff);
+    	createNewExecParameter('Color', iPageString, iExecString, "buttonTextColor",  "Button Text Color", "Text Color", 0xffffffff);
+   		createNewExecParameter('Color', iPageString, iExecString, "faderTextColor",  "Fader Text Color", "Text Color", 0xffffffff);
 	} else {
 	    createNewExecParameter('String', iPageString, iExecString, "buttonText",  "Button Text","Function of Executor Button","");
+		
+		//Color Block
+    	createNewExecParameter('Color', iPageString, iExecString, "buttonTextColor",  "Button Text Color", "Text Color", 0xffffffff);
 	}
 }
 
@@ -811,13 +847,16 @@ function createNewExecParameter(iType, iPageString, iExecString, iKeyName, iKey,
 		} else if (iType ==='Float') {
 			local.values.executors[iPageString][iExecString].addFloatParameter(iKey,iDescription, iDefault, iDefault2, iDefault3);
 		} else if (iType ==='Color') {
-			local.values.executors[iPageString][iExecString].addColorParameter(iKey,iDescription, iDefault);
+			local.values.executors[iPageString][iExecString].colors.addColorParameter(iKey,iDescription, iDefault);
+		}
+		if (iType ==='Color') {
+			local.values.executors[iPageString][iExecString].colors[iKeyName].setAttribute("readonly",true);
+			//Ensures the data structure is maintained when loading a saved showfile in Chataigne again.
+			local.values.executors[iPageString][iExecString].colors[iKeyName].setAttribute("saveValueOnly",false);
+		} else {
+			local.values.executors[iPageString][iExecString][iKeyName].setAttribute("readonly",true);
+			//Ensures the data structure is maintained when loading a saved showfile in Chataigne again.
+			local.values.executors[iPageString][iExecString][iKeyName].setAttribute("saveValueOnly",false);
 		}
 	}
-
-	local.values.executors[iPageString][iExecString][iKeyName].setAttribute("readonly",true);
-	//local.values.executors[iPageString][iExecString][iKeyName].setAttribute("alwaysNotify", false);
-
-	//Ensures the data structure is maintained when loading a saved showfile in Chataigne again.
-	local.values.executors[iPageString][iExecString][iKeyName].setAttribute("saveValueOnly",false);
 }
