@@ -128,12 +128,25 @@
         }
       }
     },
-        "Advanced": {
+    "Advanced": {
       "type": "Container",
       "collapsed": true,
+      "Pre generate values": {
+        "type": "Boolean",
+        "default": true,
+        "description": "Pre generates missing value blocks based on Playback config uppon session start."
+      },
       "Unstuck CMD": {
         "type": "Trigger",
         "description": "Certain commands might lock out the Web Remote by asking for a confirmation trough a message box. This button force sends a cancellation."
+      },
+      "Validate Datablocks": {
+        "type": "Trigger",
+        "description": "Cycles through each datablock to upgrade from an older version or fix partial generated blocks due to errors."
+      },
+      "Clear Executor Datablocks": {
+        "type": "Trigger",
+        "description": "Removes all executor datablocks."
       }
     }
   },

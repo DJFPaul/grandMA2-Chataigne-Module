@@ -2,6 +2,8 @@
 //	**** grandMA2 Chataigne Module by FPaul ****
 //	############################################
 
+var legacyKeys = ["cues", "color"];
+
 var timestamp = 0.0;
 var lastKeepAliveTime = 0.0;
 var DFTimestamp = 0.0;
@@ -19,8 +21,6 @@ var dynamicExecList = [];
 var staticExecList = [];
 var readyToParse = true;
 
-var preGenerate = true;
-
 function init() {	
 	//local.scripts.grandMA2.enableLog.set(true);
 	readOnlyPlaybacksConfig(false);
@@ -33,11 +33,11 @@ function init() {
 	local.values.internal.connetionsLimitReached.set(false);
 
 	if (local.parameters.session.status.get() == true) {
-		buildRequestArrays();
+		buildRequestArrays(false);
 	}
 }
 
-function buildRequestArrays() {
+function buildRequestArrays( forceCreate) {
 	//Erase all previous data and prepare a new array structure.
 	playbackRequestArray.splice(0, playbackRequestArray.length);
 	dynamicExecList.splice(0, dynamicExecList.length);
@@ -54,7 +54,9 @@ function buildRequestArrays() {
 			for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
 				//Add element to the dynamic lookup table.
 				dynamicExecList.push('exec' + tempListIndex);
-				if (typeof local.values.executors["activePage"]["exec" + tempListIndex] != 'object' && preGenerate == true) {
+				if (typeof local.values.executors["activePage"]["exec" + tempListIndex] != 'object' && local.parameters.advanced.preGenerateValues.get() == true) {
+					createNewExecutor(1, "activePage", tempListIndex, "exec" + tempListIndex);
+				} else if (forceCreate == true) {
 					createNewExecutor(1, "activePage", tempListIndex, "exec" + tempListIndex);
 				}
 			}
@@ -71,7 +73,9 @@ function buildRequestArrays() {
 			for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
 				//Add element to the dynamic lookup table.
 				dynamicExecList.push('exec' + tempListIndex);
-				if (typeof local.values.executors["activePage"]["exec" + tempListIndex] != 'object' && preGenerate == true) {
+				if (typeof local.values.executors["activePage"]["exec" + tempListIndex] != 'object' && local.parameters.advanced.preGenerateValues.get() == true) {
+					createNewExecutor(1, "activePage", tempListIndex, "exec" + tempListIndex);
+				} else if (forceCreate == true) {
 					createNewExecutor(1, "activePage", tempListIndex, "exec" + tempListIndex);
 				}
 			}
@@ -107,7 +111,9 @@ function buildRequestArrays() {
 				//Add element to the static lookup table.
 					staticExecList.push('page'+ tempPageList[tempPageSplitIndex]  + 'exec' + tempListIndex);
 
-					if (typeof local.values.executors['page'+ tempPageList[tempPageSplitIndex]]['exec' + tempListIndex] != 'object' && preGenerate == true) {
+					if (typeof local.values.executors['page'+ tempPageList[tempPageSplitIndex]]['exec' + tempListIndex] != 'object' && local.parameters.advanced.preGenerateValues.get() == true) {
+						createNewExecutor(tempPageList[tempPageSplitIndex], 'page'+ tempPageList[tempPageSplitIndex], tempListIndex, 'exec' + tempListIndex);
+					} else if (forceCreate == true) {
 						createNewExecutor(tempPageList[tempPageSplitIndex], 'page'+ tempPageList[tempPageSplitIndex], tempListIndex, 'exec' + tempListIndex);
 					}
 				}	
@@ -144,7 +150,9 @@ function buildRequestArrays() {
 				for (var tempListIndex = parseInt(loopTempArray[tempSplitIndex].split("-")[0]); tempListIndex < parseInt(loopTempArray[tempSplitIndex].split("-")[1]) + 1; tempListIndex++ ) {  
 					//Add element to the static lookup table.
 					staticExecList.push('page'+ tempPageList[tempPageSplitIndex]  + 'exec' + tempListIndex);
-					if (typeof local.values.executors['page'+ tempPageList[tempPageSplitIndex]]['exec' + tempListIndex] != 'object' && preGenerate == true) {
+					if (typeof local.values.executors['page'+ tempPageList[tempPageSplitIndex]]['exec' + tempListIndex] != 'object' && local.parameters.advanced.preGenerateValues.get() == true) {
+						createNewExecutor(tempPageList[tempPageSplitIndex], 'page'+ tempPageList[tempPageSplitIndex], tempListIndex, 'exec' + tempListIndex);
+					} else if (forceCreate == true) {
 						createNewExecutor(tempPageList[tempPageSplitIndex], 'page'+ tempPageList[tempPageSplitIndex], tempListIndex, 'exec' + tempListIndex);
 					}
 				}	
@@ -304,7 +312,56 @@ function moduleParameterChanged(param) {
 	//End Session.
 	} else if (param.is(local.parameters.advanced.unstuckCMD)){
 		local.send('{"requestType":"commandConfirmationResult","result":1,"option":[],"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
-	} 
+	}  else if (param.is(local.parameters.advanced.validateDatablocks)){
+		//For each page.
+		for (var pageBlocks = 0; pageBlocks < local.values.executors.getContainers().length; pageBlocks++ ) {   
+			//For each executor.
+			for (var execBlocks = 0; execBlocks < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers().length; execBlocks++ ) {    		
+					//For each key.
+					for (var execKeys = 0; execKeys < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables().length; execKeys++ ) {    	
+						//Check if key is on the list of old keys that no longer are in use and remove it if true.
+						if (legacyKeys.indexOf(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables()[execKeys].name) != -1){		
+							local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].removeParameter(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].getControllables()[execKeys].name);
+					}
+				}
+				//Call creation function to create possibly missing entries.
+				createNewExecutor(0, local.values.executors.getContainers()[pageBlocks].name, parseInt(local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].name.replace("Exec","")), local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].name);			
+			}			
+		}
+	} else if (param.is(local.parameters.advanced.clearExecutorDatablocks)){
+		util.showOkCancelBox("clearexecs", "Clear Executor Datablocks?", "Will remove all current executor datablocks from Values to be generated from scratch on next connection.", "warning", "Confirm","Abort");
+	}
+}
+
+
+function messageBoxCallback(id, result)
+{
+	if (result == 1) {
+		if (id == "clearexecs"){
+
+			//Check for and if true end active session.
+			if (local.parameters.session.status.get() == true) {
+				lastKeepAliveTime = util.getTime();
+				local.values.internal.forceLogin.set(true);
+				local.values.internal.connetionsLimitReached.set(false);		
+				local.send('{"requestType": "close","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}'); //Tells MA2 to end the session, log out the user and release the Session ID.
+				local.parameters.session.status.set(false);
+				readOnlyPlaybacksConfig(false);
+				sessionStarting = false;
+				local.parameters.session.sessionID.set(0);
+			}
+
+			//Sequencially clear executor blocks.
+			for (var pageBlocks = 0; pageBlocks < local.values.executors.getContainers().length; pageBlocks++ ) {   
+				for (var execBlocks = 0; execBlocks < local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers().length; execBlocks++ ) {    		
+						local.values.executors[local.values.executors.getContainers()[pageBlocks].name].getContainers()[execBlocks].clear(true, true);
+					}
+				local.values.executors[local.values.executors.getContainers()[pageBlocks].name].clear(true, true);
+			}
+			local.values.executors.clear(true, true);
+			util.showOkCancelBox("clearinfo", "ATTENTION!", "Chataigne might crash uppon re-creation of the Datablocks if the showfile has not been reloaded. Save your project and reload it to fix/avoid this issue.", "warning", "Got it", "Okay");
+		}	
+	}
 }
 
 /*
@@ -534,7 +591,7 @@ function wsMessageReceived(message) {
 			if(local.values.internal.connetionsLimitReached.get() != true){
 				readOnlyPlaybacksConfig(true);
 				local.values.internal.connetionsLimitReached.set(false);
-				buildRequestArrays();
+				buildRequestArrays(false);
 				local.send('{"requestType": "login","username":"' + local.parameters.session.credentials.ma2User.get() +'","password":"' + local.parameters.session.credentials.password_MD5_.get() +'","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}');
 			}
 		}
@@ -574,7 +631,7 @@ function parseItemData(iPage, iPageString, iExec, iExecString, iObject) {
 		eObject.type.set(iObject.oType.t);
 		eObject.sequence.set(iObject.oI.t);
 
-		eObject.color.set(parseInt(('0xff' + iObject.bdC).replace("#","")));
+		eObject.execColor.set(parseInt(('0xff' + iObject.bdC).replace("#","")));
 		eObject.buttonText.set(iObject.executorBlocks[execBlocks].button1.t);
 
 		//Check if executor is not empty.
@@ -674,15 +731,22 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 	createNewExecParameter('String', iPageString, iExecString, "type", "Type","Type of the Executor", "");
 	createNewExecParameter('String', iPageString, iExecString, "sequence", "Sequence","Assigned Sequence", "");
 	createNewExecParameter('String', iPageString, iExecString, "label", "Label","Label of the Executor", "");
+    createNewExecParameter('Color', iPageString, iExecString, "labelTextColor",  "Label Text Color", "Text Color", 0xffffffff);
 
-	createNewExecParameter('Color', iPageString, iExecString, "color",  "Color", "Color of the Executor", 0x303030ff);
+	createNewExecParameter('Color', iPageString, iExecString, "execColor",  "Exec Color", "Color of the Executor", 0x303030ff);
     createNewExecParameter('Color', iPageString, iExecString, "cueColor",  "Cue Color", "Cue Color of the Executor", 0x303030ff);
    	createNewExecParameter('String', iPageString, iExecString, "previousCue",  "Previous Cue", "Previous Cue","");
+    createNewExecParameter('Color', iPageString, iExecString, "previousTextColor",  "Previous Text Color", "Text Color", 0xffffffff);
    	createNewExecParameter('Float', iPageString, iExecString, "previousProgress",  "Previous Progress","Cue Progress",0,0,1);
+    createNewExecParameter('Color', iPageString, iExecString, "previousProgressBarColor",  "Previous Progress Bar Color", "Progress Bar Color", 0x0000FFFF);
    	createNewExecParameter('String', iPageString, iExecString, "currentCue",  "Current Cue", "Current Cue","");
+    createNewExecParameter('Color', iPageString, iExecString, "currentTextColor",  "Current Text Color", "Text Color", 0xffffffff);
    	createNewExecParameter('Float', iPageString, iExecString, "currentProgress",  "Current Progress","Cue Progress",0,0,1);
+    createNewExecParameter('Color', iPageString, iExecString, "currentProgressBarColor",  "Current Progress Bar Color", "Text Color", 0x0000FFFF);
    	createNewExecParameter('String', iPageString, iExecString, "nextCue",  "Next Cue", "Previous Cue","");
+    createNewExecParameter('Color', iPageString, iExecString, "nextTextColor",  "Next Text Color", "Text Color", 0xffffffff);
    	createNewExecParameter('Float', iPageString, iExecString, "nextProgress",  "Next Progress","Cue Progress",0,0,1);
+    createNewExecParameter('Color', iPageString, iExecString, "nextProgressBarColor",  "Next Progress Bar Color", "Text Color", 0x0000FFFF);
 
 	//1 - 90 = Type 2 (Faders) | 101 - 190 = Type 3 (Buttons)
 	if (iExec < 100) {
@@ -699,18 +763,19 @@ function createNewExecutor(iPage, iPageString, iExec, iExecString) {
 
 //Create the requested Chatainge parameter by type and set some attributes.
 function createNewExecParameter(iType, iPageString, iExecString, iKeyName, iKey, iDescription, iDefault, iDefault2, iDefault3) {
-	if (iType ==='String') {
-		local.values.executors[iPageString][iExecString].addStringParameter(iKey, iDescription, iDefault);
-	} else if (iType ==='Int') {
-		local.values.executors[iPageString][iExecString].addIntParameter(iKey,iDescription, iDefault);
-	} else if (iType ==='Bool') {
-		local.values.executors[iPageString][iExecString].addBoolParameter(iKey, iDescription, iDefault);
-	} else if (iType ==='Float') {
-		local.values.executors[iPageString][iExecString].addFloatParameter(iKey,iDescription, iDefault, iDefault2, iDefault3);
-	} else if (iType ==='Color') {
-		local.values.executors[iPageString][iExecString].addColorParameter(iKey,iDescription, iDefault);
+	if (typeof local.values.executors[iPageString][iExecString][iKey] == 'undefined') {
+		if (iType ==='String') {
+			local.values.executors[iPageString][iExecString].addStringParameter(iKey, iDescription, iDefault);
+		} else if (iType ==='Int') {
+			local.values.executors[iPageString][iExecString].addIntParameter(iKey,iDescription, iDefault);
+		} else if (iType ==='Bool') {
+			local.values.executors[iPageString][iExecString].addBoolParameter(iKey, iDescription, iDefault);
+		} else if (iType ==='Float') {
+			local.values.executors[iPageString][iExecString].addFloatParameter(iKey,iDescription, iDefault, iDefault2, iDefault3);
+		} else if (iType ==='Color') {
+			local.values.executors[iPageString][iExecString].addColorParameter(iKey,iDescription, iDefault);
+		}
 	}
-	
 
 	local.values.executors[iPageString][iExecString][iKeyName].setAttribute("readonly",true);
 	//local.values.executors[iPageString][iExecString][iKeyName].setAttribute("alwaysNotify", false);
