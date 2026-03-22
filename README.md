@@ -43,13 +43,15 @@ This is planned to change to a more sophisticated method which however is a litt
   ###### Sending
   - Change executor button functions (GO/FLASH/TEMP/...)
   - Send grandmaster (Unsure if feasible other than a CMD Wrapper)
+  - Set/Change preset data (Especially color!)
 
   ###### Receiving
-  - Encoder page/parameters
+  - Encoder page/attributes/parameters
   - Console log
   - Sync MA2 page to Chataigne (A little more complex)
   - B/O State (Unsure if feasible)
   - Grandmaster Fader Value (Unsure if feasible)
+  - Read preset data (Unsure how much will be possible)
 </details>
 
 # How to use this module.
