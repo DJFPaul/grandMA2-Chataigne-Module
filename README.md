@@ -25,16 +25,21 @@ This is planned to change to a more sophisticated method which however is a litt
 [^3]: Due to MA2 being able to fully lock up with very high request rates, sending of the fader value has a module sided **DYNAMIC** rate limiter.  
 
 #### Receiving
-- Executor Label (String)
-- Executor Run State (Bool)
-- Executor Button Text (String)
+- Executor width (Int)
+- Executor active state (Bool)
+- Executor selection state (Bool)
+- Executor ID / Type / Sequence / Label (String)
+- Executor ID / Type / Sequence / Label Color (Color)
 - Executor Color (Color)
+- Executor Cue Background Color (Color)
 - Previous / Current / Next cue (String)
+- Prvious / Current / Next Progress (Float)
+- Prvious / Current / Next Progress Bar Color (Color)
+- Executor Button Text (String)
+- Executor Button Text Color (Color)
 - Executor Fader Value (Float) (Faders Only)
-- Executor Fader Text (String) (Faders Only)
-- Executor Fader Value Text (String) (Faders Only)
-- Executor Upper Button Text (String) (Faders Only)
-- Executor Lower Button Text (String) (Faders Only)
+- Executor Fader Text / Fader Value Text / Upper Button Text / Lower button Text (String) (Faders Only)
+- Executor Fader Text Color / Upper Button Text Color / Lower button Text Color (Color) (Faders Only)
   
 
 <details>
