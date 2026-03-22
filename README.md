@@ -185,11 +185,12 @@ Here is where the data we are requesting is ending up in.
 
      ### Datablocks
      **Fader** datablocks contain this data:  
-          <img width="446" height="294" alt="image" src="https://github.com/user-attachments/assets/89c7b67b-82ba-4907-b0fd-9d2b5f3d5116" />
+          <img width="407" height="834" alt="image" src="https://github.com/user-attachments/assets/5601ab30-24e4-4a99-a730-cba14840b9ad" />  
  
 
      While **Button** datablocks contain this data:  
-          <img width="446" height="184" alt="image" src="https://github.com/user-attachments/assets/20d52e00-53da-44a0-be4d-5d4c734f5534" />
+          <img width="407" height="658" alt="image" src="https://github.com/user-attachments/assets/f6de1800-5e66-48fa-9acf-ca69668ba7fc" />  
+
 
      
 3. Internal  
