@@ -593,6 +593,22 @@ function wsMessageReceived(message) {
 				local.parameters.session.startSession.setAttribute("enabled", true);
 				local.parameters.session.endSession.setAttribute("enabled", false);
 			}
+
+		// If intitial WebSocket connection response
+		} else if (JSONMessageObject.status == 'server ready') {
+			// Store Values
+			local.values.internal.appType.set(JSONMessageObject.appType);
+			// Considered storing status, but then it'd show persistently even when WebSocket connection is later closed.
+			// local.values.internal.status.set(JSONMessageObject.status);
+
+			if (JSONMessageObject.appType == 'dot2') {
+			// Set & lock username field to dot2 pre-set username for dot2, as dot2's Web Remote does not support multiple user logins and will only accept the username "remote" for a successful login.
+			local.parameters.session.credentials.ma2User.set('remote');
+			local.parameters.session.credentials.ma2User.setAttribute("enabled", false);
+			} else {
+				// If not dot2, unlock username field in Chataigne GUI
+				local.parameters.session.credentials.ma2User.setAttribute("enabled", true);
+			}
 		}
 	
 		//Generic data.
