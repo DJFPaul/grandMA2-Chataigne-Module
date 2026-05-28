@@ -44,6 +44,11 @@ function init() {
 	if (local.parameters.session.status.get() == true) {
 		buildRequestArrays(false);
 	}
+	
+	// Populate default Server Path after the script is running so that console type can be detected
+	if (local.parameters.serverPath.get() == '') {
+		local.parameters.serverPath.set('127.0.0.1:80/?ma=1');
+	}
 }
 
 function buildRequestArrays( forceCreate) {
