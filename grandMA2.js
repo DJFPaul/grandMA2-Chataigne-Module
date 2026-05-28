@@ -1,5 +1,5 @@
 //	############################################
-//	**** grandMA2 Chataigne Module by FPaul ****
+//	**** grandMA2/dot2 Chataigne Module by FPaul ****
 //	############################################
 
 var legacyKeys = ["cues", "color"];
