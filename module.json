@@ -1,5 +1,5 @@
 {
-  "name": "grandMA2",
+  "name": "grandMA2/dot2",
   "type": "WebSocket Client",
   "path": "Software",
 
@@ -161,7 +161,7 @@
     "pass_through"
   ],
 
-  "scripts": ["./grandMA2.js"],
+  "scripts": ["./grandMA2-dot2.js"],
 
   "values": {
     "Executors": {
