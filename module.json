@@ -83,7 +83,7 @@
           "type": "String",
           "default": "1-5;6-15"
         },
-        "Fader Intervall": {
+        "Fader Interval": {
           "type": "Float",
           "ui": "time",
           "min": 0.02,
@@ -94,7 +94,7 @@
           "type": "String",
           "default": "101-115"
         },
-        "Button Intervall": {
+        "Button Interval": {
           "type": "Float",
           "ui": "time",
           "min": 0.02,
@@ -109,7 +109,7 @@
           "type": "String",
           "default": ""
         },
-        "Fader Intervall": {
+        "Fader Interval": {
           "type": "Float",
           "ui": "time",
           "min": 0.02,
@@ -120,7 +120,7 @@
           "type": "String",
           "default": "2.101-115;2.116-190"
         },
-        "Button Intervall": {
+        "Button Interval": {
           "type": "Float",
           "ui": "time",
           "min": 0.02,
@@ -228,7 +228,7 @@
         "readOnly": true,
         "default": ""
       },
-      "connetionsLimitReached": {
+      "connectionsLimitReached": {
         "type": "Boolean",
         "readOnly": true,
         "default": false,
