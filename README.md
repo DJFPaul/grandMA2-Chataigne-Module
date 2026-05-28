@@ -1,5 +1,7 @@
-# A [Chataigne](https://github.com/benkuper/Chataigne) Module for interfacing with grandMA2  
-Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html) API to communicate with grandMA2.  
+# A [Chataigne](https://github.com/benkuper/Chataigne) Module for interfacing with grandMA2 and dot2 
+Utilises the Web Remote APIs to communicate with the console/onPC software  
+ - [grandMA2 Web Remote documentation](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html)
+ - [dot2 Web Remote documentation](https://help.malighting.com/dot2/en/help/key_ht_use_web_remote.html)
 
 ## Features
 
@@ -15,7 +17,7 @@ Utilises the [Web Remote](https://help.malighting.com/grandMA2/en/help/key_remot
 - Change executor Label
 - Change executor Color
 - Change page
-- Sync the modules **Active Page** to MA2
+- Sync the module's **Active Page** to MA2/dot2
 
 [^1]: These features require the Web Remote user to have ADMIN rights set in MA, as this uses a LUA wrapper and will error with insuficient rights.  
 
@@ -61,7 +63,9 @@ This is planned to change to a more sophisticated method which however is a litt
 
 # How to use this module.
 
-## Preparing grandMA2  
+## Preparing lighting console/onPC  
+
+### Instructions for grandMA2
 
 If you have not used the MA2 Web Remote before, you will need to enable it first.
 
@@ -79,6 +83,10 @@ In this section you can also monitor / verify that the module is connecting corr
 When starting a session, the logged in count should increase for the configured user.  
 If it stays on `guest` the login process did not succeed and the session will die after a short time period.
 
+### Instructions for dot2
+1. Click [Setup] > Show > **Global Settings**
+2. Enable **Web Remote**
+3. The default password is "remote", and Chataigne will default to this password. If you want to change this for more security, next to Web Remote Password, click **Change** and enter your new password.
 
 ## The Parameters section  
 
@@ -86,42 +94,48 @@ If it stays on `guest` the login process did not succeed and the session will di
 <img width="468" height="49" alt="image" src="https://github.com/user-attachments/assets/3f3fbf97-11ab-44f8-a96b-1e613676dfc9" />
 
 - **Server Path:**  
-     If OnPC is on the same PC it should just work, otherwise change to the target PC/Console IP. `<console ip>:80/?ma=1`
+     If onPC is on the same PC it should just work, otherwise change to the target console/onPC IP. `<console ip>:80/?ma=1`
 - **Connected:**  
      If the IP is valid and the target can be reached, this should light up.  
 
 ## Session
 
-This Section is responsible for starting / stopping the connection to grandMA2.  
-This will need to be done every time a session timed out (Showfile changed, GrandMA2 restarted, Network interrupted, Chataigne started).  
+This Section is responsible for starting / stopping the connection to grandMA2/dot2.  
+This will need to be done every time a session timed out (Showfile changed, console/onPC restarted, network interrupted, Chataigne started).  
 
 <img width="466" height="144" alt="image" src="https://github.com/user-attachments/assets/7aef7ca9-565d-4217-94aa-0f37491e257d" />   
    
 - **Status:**  
      Indicates the current session state.  
 - **Session ID:**  
-     This should tick up with every Session Login, untill MA2 has restarted and get's reset.  
-     If this ever reads -2, too many active connection requests have been made and the limit has been reached.   (3 Max)  
+     This should tick up with every Session Login, untill MA2/dot2 has restarted and gets reset.  
+     If this ever reads -2, too many active connection requests have been made and the limit has been reached. (3 Max)
      This should reset once users leave of sessions time out.
   
 - **Start Session:**  
-     To join the current GrandMA2 session of the WebRemote.  
+     To join the current grandMA2/onPC session of the Web Remote.  
 - **End Session:**  
      Logout user from Session and terminate connection.  
 
    
-- **Credentials:**  
-     If you do not use the MA2 user `chataigne` with the password `chataigne` configure the login details here.  
+ - **Credentials:**  
+     If you do not use the default credentials specified above under "Preparing lighting console/onPC", you can  configure the login details here.  
      <img width="456" height="74" alt="image" src="https://github.com/user-attachments/assets/64c1a1f9-244f-443b-bed6-968d2f8e6dbf" />   
+     ***Defaults***
+	 - grandMA2
+		 - User: `chataigne`
+		 - Password: `e31b120e31610e45bcc5d7e1e5d00290` ("chataigne", MD5-encoded)
+	 - dot2
+		 - Password: `2c18e486683a3db1e645ad8523223b72` ("remote", MD5-encoded)
 
-     Please note that the password field needs to be a MD5 hash of the password you set in MA2.  
-     You can use any [MD5 hash generator](https://www.md5hashgenerator.com) to generate the hash of the password. (Careful not to include extra spaces!)  
+     **Please note**:  The password field needs to be a MD5 hash of the password you set in the console/onPC.  
+     You can use any [MD5 hash generator](https://www.md5hashgenerator.com) to generate the hash of the password. (Be careful not to include extra spaces!)  
 
 ## The Playbacks section
 
-In this Section you configure which executors you want to request from MA2.  
+In this Section you configure which executors you want to request from the console/onPC.  
 - **Request Playbacks:**  
-     Enable to actively request data from MA2, if you only intend to SEND this can be off.  
+     Enable to actively request data from the console/onPC, if you only intend to SEND this can be off.  
 
 ### The Dynamic and Static config sections.  
 
