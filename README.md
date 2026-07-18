@@ -81,7 +81,8 @@ To create / manage a user account in MA2, go to `Setup > Console > User & Profil
 In this section you can also monitor / verify that the module is connecting correctly.  
 <img width="520" height="151" alt="image" src="https://github.com/user-attachments/assets/8fcb885f-1c5f-46ec-899a-485ee5129894" />  
 When starting a session, the logged in count should increase for the configured user.  
-If it stays on `guest` the login process did not succeed and the session will die after a short time period.
+If it stays on `guest` the login process did not succeed and the session will die after a short time period.  
+You will also be dropped when you don't wait for GrandMA2 to fully start and let it create it's internal session first.
 
 ### Instructions for dot2
 1. Click [Setup] > Show > **Global Settings**
