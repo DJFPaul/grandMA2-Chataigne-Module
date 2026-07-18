@@ -1,5 +1,5 @@
 //	############################################
-//	**** grandMA2 Chataigne Module by FPaul ****
+//	**** grandMA2/dot2 Chataigne Module by FPaul ****
 //	############################################
 
 var legacyKeys = ["cues", "color"];
@@ -39,10 +39,15 @@ function init() {
 	//local.parameters.session.sessionID.set(0);
 	local.parameters.session.startSession.setAttribute("enabled", true);
 	local.parameters.session.endSession.setAttribute("enabled", false);
-	local.values.internal.connetionsLimitReached.set(false);
+	local.values.internal.connectionsLimitReached.set(false);
 
 	if (local.parameters.session.status.get() == true) {
 		buildRequestArrays(false);
+	}
+	
+	// Populate default Server Path after the script is running so that console type can be detected
+	if (local.parameters.serverPath.get() == '') {
+		local.parameters.serverPath.set('127.0.0.1:80/?ma=1');
 	}
 }
 
@@ -219,14 +224,14 @@ function update(deltaTime) {
 			if (local.parameters.playbacks.requestPlaybacks.get() == true) {	
 
 				//Dynamic Faders
-				if ((timestamp - DFTimestamp) >= local.parameters.playbacks.dynamic.faderIntervall.get()) {
+				if ((timestamp - DFTimestamp) >= local.parameters.playbacks.dynamic.faderInterval.get()) {
 					if ((playbackStartOffset < 2) && (playbackRequestArray[0][0].length > 0)) {
 						DFTimestamp = timestamp;
 						requestPlaybacks(playbackRequestArray[0][0].join(','), playbackRequestArray[0][1].join(','), local.parameters.playbacks.dynamic.activePage.get(), playbackRequestArray[0][2].join(','), 2, 1, 0, local.parameters.session.sessionID.get());	
 					}
 				}
 				//Dynamic Buttons.
-				if ((timestamp - DBTimestamp) >= local.parameters.playbacks.dynamic.buttonIntervall.get()) {
+				if ((timestamp - DBTimestamp) >= local.parameters.playbacks.dynamic.buttonInterval.get()) {
 					if ((playbackStartOffset < 2) && (playbackRequestArray[1][0].length > 0)) {
 						DBTimestamp = timestamp;			
 						requestPlaybacks(playbackRequestArray[1][0].join(','), playbackRequestArray[1][1].join(','), local.parameters.playbacks.dynamic.activePage.get(), playbackRequestArray[1][2].join(','), 3, 1, 0, local.parameters.session.sessionID.get());		
@@ -234,7 +239,7 @@ function update(deltaTime) {
 				}
 
 				//Static Faders.
-				if ((timestamp - SFTimestamp) >= local.parameters.playbacks.static.faderIntervall.get()) {
+				if ((timestamp - SFTimestamp) >= local.parameters.playbacks.static.faderInterval.get()) {
 					if ((playbackStartOffset < 6) && (playbackRequestArray[2][0].length > 0)) {
 						SFTimestamp = timestamp;
 						for (var tempSplitIndex = 0; tempSplitIndex < playbackRequestArray[2].length; tempSplitIndex++ ) { 
@@ -244,7 +249,7 @@ function update(deltaTime) {
 				}
 
 				//Static Buttons.
-				if ((timestamp - SBTimestamp) >= local.parameters.playbacks.static.buttonIntervall.get()) {
+				if ((timestamp - SBTimestamp) >= local.parameters.playbacks.static.buttonInterval.get()) {
 					if ((playbackStartOffset < 3) && (playbackRequestArray[3][0].length > 0)) {
 						SBTimestamp = timestamp;
 						for (var tempSplitIndex = 0; tempSplitIndex < playbackRequestArray[3].length; tempSplitIndex++ ) { 
@@ -304,7 +309,7 @@ function moduleParameterChanged(param) {
 	} else if (param.is(local.parameters.session.startSession) && local.parameters.connected.get() == true){
 		local.parameters.session.startSession.setAttribute("enabled", false);
 		readOnlyPlaybacksConfig(false);
-		local.values.internal.connetionsLimitReached.set(false);
+		local.values.internal.connectionsLimitReached.set(false);
 		sessionStarting = true;  //This flag causes a follow up request to happen in the Websocket receiver once MA2 responds to the following initialisation request.
 		local.send('{"session":0}');
 
@@ -312,7 +317,7 @@ function moduleParameterChanged(param) {
 	} else if (param.is(local.parameters.session.endSession)){
 		lastKeepAliveTime = util.getTime();
 		local.values.internal.forceLogin.set(true);
-		local.values.internal.connetionsLimitReached.set(false);		
+		local.values.internal.connectionsLimitReached.set(false);		
 		local.send('{"requestType": "close","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}'); //Tells MA2 to end the session, log out the user and release the Session ID.
 		local.parameters.session.status.set(false);
 		readOnlyPlaybacksConfig(false);
@@ -365,7 +370,7 @@ function messageBoxCallback(id, result)
 			if (local.parameters.session.status.get() == true) {
 				lastKeepAliveTime = util.getTime();
 				local.values.internal.forceLogin.set(true);
-				local.values.internal.connetionsLimitReached.set(false);		
+				local.values.internal.connectionsLimitReached.set(false);		
 				local.send('{"requestType": "close","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}'); //Tells MA2 to end the session, log out the user and release the Session ID.
 				local.parameters.session.status.set(false);
 				readOnlyPlaybacksConfig(false);
@@ -413,7 +418,7 @@ if (local.parameters.session.status.get() == true) {
 			local.send('{"requestType":"playbacks_userInput","execIndex":' + (iExec - 1)  + ',"pageIndex":' + (iPage - 1) + ',"faderValue":' + iValue + ',"type":1,"session":' + local.parameters.session.sessionID.get() + ',"maxRequests":0}');
 		} else {		
 			//Was the last request long enough ago?
-			//(The minimum intervall dynamically adjusts based on the amount of faders simultaniously send.)
+			//(The minimum interval dynamically adjusts based on the amount of faders simultaniously send.)
 	 		
 			//Yes = Send and update limit tracker.
 			if ((timestamp - rateLimitDataArray[limitCheckIndex].timestamp) > 0.024999 + Math.max((0.0024 * rateLimitArray.length), 0.0)) {
@@ -583,7 +588,7 @@ function wsMessageReceived(message) {
 				readOnlyPlaybacksConfig(true);
 				local.values.internal.forceLogin.set(false);
 				local.parameters.session.status.set(true);				
-				local.values.internal.connetionsLimitReached.set(false);
+				local.values.internal.connectionsLimitReached.set(false);
 			
 			//Login was not successful.
 			} else {
@@ -592,6 +597,31 @@ function wsMessageReceived(message) {
 				readOnlyPlaybacksConfig(false);
 				local.parameters.session.startSession.setAttribute("enabled", true);
 				local.parameters.session.endSession.setAttribute("enabled", false);
+			}
+
+		// If intitial WebSocket connection response
+		} else if (JSONMessageObject.status == 'server ready') {
+			// Store Values
+			local.values.internal.appType.set(JSONMessageObject.appType);
+			// Considered storing status, but then it'd show persistently even when WebSocket connection is later closed.
+			// local.values.internal.status.set(JSONMessageObject.status);
+
+			if (JSONMessageObject.appType == 'dot2') {
+			// Set & lock username field to dot2 pre-set username for dot2, as dot2's Web Remote does not support multiple user logins and will only accept the username "remote" for a successful login.
+			local.parameters.session.credentials.ma2User.set('remote');
+			local.parameters.session.credentials.ma2User.setAttribute("enabled", false);
+
+			if (local.parameters.session.credentials.password_MD5_.get() == '(to be initialized on WebSocket connection)') {
+				// dot2 default password is 'remote': https://help.malighting.com/dot2/en/help/key_ht_use_web_remote.html
+				local.parameters.session.credentials.password_MD5_.set('2c18e486683a3db1e645ad8523223b72');				
+			}
+			} else {
+				// If not dot2, unlock username field in Chataigne GUI
+				local.parameters.session.credentials.ma2User.setAttribute("enabled", true);
+				if (local.parameters.session.credentials.password_MD5_.get() == '(to be initialized on WebSocket connection)') {
+					// Set default password to 'chataigne'
+					local.parameters.session.credentials.password_MD5_.set('e31b120e31610e45bcc5d7e1e5d00290');
+				}
 			}
 		}
 	
@@ -605,16 +635,16 @@ function wsMessageReceived(message) {
 		//This key get's send when too many sessions are being created. According to MA2's knowledgebase the max simultanious Web Remotes is 3.
 		if (typeof JSONMessageObject.connections_limit_reached == 'string') {
 			local.parameters.session.status.set(false);
-			local.values.internal.connetionsLimitReached.set(true);
+			local.values.internal.connectionsLimitReached.set(true);
 		}
 		local.values.internal.worldIndex.set(JSONMessageObject.worldIndex);
 
 		//This flag get's set by the Start Session trigger and if true follows up to MA responding with our assigned Session ID, by sending the login request for it.
 		if (sessionStarting === true) {
 			sessionStarting = false;
-			if(local.values.internal.connetionsLimitReached.get() != true){
+			if(local.values.internal.connectionsLimitReached.get() != true){
 				readOnlyPlaybacksConfig(true);
-				local.values.internal.connetionsLimitReached.set(false);
+				local.values.internal.connectionsLimitReached.set(false);
 				buildRequestArrays(false);
 				local.send('{"requestType": "login","username":"' + local.parameters.session.credentials.ma2User.get() +'","password":"' + local.parameters.session.credentials.password_MD5_.get() +'","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}');
 			}
