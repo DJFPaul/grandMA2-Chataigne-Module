@@ -1,10 +1,10 @@
 {
-  "name": "grandMA2",
+  "name": "grandMA2/dot2",
   "type": "WebSocket Client",
   "path": "Software",
 
-  "version": "0.6.1",
-  "description": "A grandMA2 module for Chataigne that utilises the Web Remote API for interaction.\nAllows sending and receiving various parameters and actions to/from grandMA2.\n\nDetailed setup instructions can be found on the Github page below.",
+  "version": "0.6.0",
+  "description": "A grandMA2 & dot2 module for Chataigne that utilizes the Web Remote API for interaction.\nAllows sending and receiving various parameters and actions to/from grandMA2 and dot2.\n\nDetailed setup instructions can be found on the GitHub page below.",
   "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
   "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/refs/heads/main.zip",
 
@@ -16,7 +16,7 @@
   "defaults": {
     "protocol": "Lines",
     "messageStructure": 7,
-    "serverPath": "127.0.0.1:80/?ma=1",
+    "serverPath": "",
     "useSecureConnection": false,
     "autoAdd": false
   },
@@ -37,7 +37,7 @@
       }, 
       "Start Session": {
         "type": "Trigger",
-        "description": "Initiate a new Web Remote session with grandMA2 using the supplied credentials."
+        "description": "Initiate a new Web Remote session with grandMA2/dot2 using the supplied credentials."
       },
       "End Session": {
         "type": "Trigger",
@@ -52,8 +52,8 @@
         },
         "Password (MD5)": {
           "type": "String",
-          "default": "e31b120e31610e45bcc5d7e1e5d00290",
-        "description": "MD5 Hash of the user password set in grandMA2. (Default: chataigne)"
+          "default": "(to be initialized on WebSocket connection)",
+        "description": "MD5 Hash of the user password set in grandMA2/dot2. (Default for grandMA2: chataigne) (Default for dot2: remote)"
         }
       }
     },
@@ -83,7 +83,7 @@
           "type": "String",
           "default": "1-5;6-15"
         },
-        "Fader Intervall": {
+        "Fader Interval": {
           "type": "Float",
           "ui": "time",
           "min": 0.02,
@@ -94,7 +94,7 @@
           "type": "String",
           "default": "101-115"
         },
-        "Button Intervall": {
+        "Button Interval": {
           "type": "Float",
           "ui": "time",
           "min": 0.02,
@@ -109,7 +109,7 @@
           "type": "String",
           "default": ""
         },
-        "Fader Intervall": {
+        "Fader Interval": {
           "type": "Float",
           "ui": "time",
           "min": 0.02,
@@ -120,7 +120,7 @@
           "type": "String",
           "default": "2.101-115;2.116-190"
         },
-        "Button Intervall": {
+        "Button Interval": {
           "type": "Float",
           "ui": "time",
           "min": 0.02,
@@ -161,7 +161,7 @@
     "pass_through"
   ],
 
-  "scripts": ["./grandMA2.js"],
+  "scripts": ["./grandMA2-dot2.js"],
 
   "values": {
     "Executors": {
@@ -228,7 +228,7 @@
         "readOnly": true,
         "default": ""
       },
-      "connetionsLimitReached": {
+      "connectionsLimitReached": {
         "type": "Boolean",
         "readOnly": true,
         "default": false,
