@@ -72,7 +72,7 @@ If you have not used the MA2 Web Remote before, you will need to enable it first
 Enable it by setting `Setup > Console > Global Settings > Remotes` to `Login Enabled` 
 <img width="520" alt="image" src="https://github.com/user-attachments/assets/d5798959-fbc4-4734-8d3f-a0d23b09200c" />
 
-By default, the module is configured to login with the user `chataigne` and the password `chataigne`.  
+By default, the module is configured to login with the user `chataigne` and the password `remote`.  
 Either create this user profile, or use your own / an existing one by changing the modules default login settings.  
 
 To create / manage a user account in MA2, go to `Setup > Console > User & Profiles Setup`.  
@@ -117,17 +117,10 @@ This will need to be done every time a session timed out (Showfile changed, cons
      To join the current grandMA2/onPC session of the Web Remote.  
 - **End Session:**  
      Logout user from Session and terminate connection.  
-
    
  - **Credentials:**  
      If you do not use the default credentials specified above under "Preparing lighting console/onPC", you can  configure the login details here.  
-     <img width="456" height="74" alt="image" src="https://github.com/user-attachments/assets/64c1a1f9-244f-443b-bed6-968d2f8e6dbf" />   
-     ***Defaults***
-	 - grandMA2
-		 - User: `chataigne`
-		 - Password: `e31b120e31610e45bcc5d7e1e5d00290` ("chataigne", MD5-encoded)
-	 - dot2
-		 - Password: `2c18e486683a3db1e645ad8523223b72` ("remote", MD5-encoded)
+     <img width="404" height="74" alt="image" src="https://github.com/user-attachments/assets/c5ead4f1-e1c5-4519-9d89-e154dde062d0" />
 
      **Please note**:  The password field needs to be a MD5 hash of the password you set in the console/onPC.  
      You can use any [MD5 hash generator](https://www.md5hashgenerator.com) to generate the hash of the password. (Be careful not to include extra spaces!)  
