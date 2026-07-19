@@ -86,8 +86,10 @@ You will also be dropped when you don't wait for GrandMA2 to fully start and let
 
 ### Instructions for dot2
 1. Click [Setup] > Show > **Global Settings**
+<img width="520" alt="image" src="https://github.com/user-attachments/assets/085f5e86-0d77-4284-86d3-adb2349ec046" />  
+
 2. Enable **Web Remote**
-3. The default password is "remote", and Chataigne will default to this password. If you want to change this for more security, next to Web Remote Password, click **Change** and enter your new password.
+<img width="520" alt="image" src="https://github.com/user-attachments/assets/faf71c13-f652-4cca-9a16-30591e7f7c69" />  
 
 ## The Parameters section  
 
