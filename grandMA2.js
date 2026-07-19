@@ -605,26 +605,6 @@ function wsMessageReceived(message) {
 			local.values.internal.appType.set(JSONMessageObject.appType);
 			// Considered storing status, but then it'd show persistently even when WebSocket connection is later closed.
 			// local.values.internal.status.set(JSONMessageObject.status);
-
-			/*
-			if (JSONMessageObject.appType == 'dot2') {
-			// Set & lock username field to dot2 pre-set username for dot2, as dot2's Web Remote does not support multiple user logins and will only accept the username "remote" for a successful login.
-			local.parameters.session.credentials.ma2User.set('remote');
-			local.parameters.session.credentials.ma2User.setAttribute("enabled", false);
-
-			if (local.parameters.session.credentials.password_MD5_.get() == '(to be initialized on WebSocket connection)') {
-				// dot2 default password is 'remote': https://help.malighting.com/dot2/en/help/key_ht_use_web_remote.html
-				local.parameters.session.credentials.password_MD5_.set('2c18e486683a3db1e645ad8523223b72');				
-			}
-			} else {
-				// If not dot2, unlock username field in Chataigne GUI
-				local.parameters.session.credentials.ma2User.setAttribute("enabled", true);
-				if (local.parameters.session.credentials.password_MD5_.get() == '(to be initialized on WebSocket connection)') {
-					// Set default password to 'chataigne'
-					local.parameters.session.credentials.password_MD5_.set('e31b120e31610e45bcc5d7e1e5d00290');
-				}
-			}
-			*/
 		}
 	
 		//Generic data.
