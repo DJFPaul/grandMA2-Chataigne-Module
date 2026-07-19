@@ -4,7 +4,7 @@
   "path": "Software",
 
   "version": "0.6.1",
-  "description": "A grandMA2 & dot2 module for Chataigne that utilizes the Web Remote API for interaction.\nAllows sending and receiving various parameters and actions to/from grandMA2 and dot2.\n\nDetailed setup instructions can be found on the GitHub page below.",
+  "description": "A module for Chataigne that utilizes the grandMA2 Web Remote API for interaction.\nAllows sending and receiving various parameters and actions to/from grandMA2 and dot2.\n\nDetailed setup instructions can be found on the GitHub page below.",
   "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
   "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/refs/heads/main.zip",
 
@@ -37,7 +37,7 @@
       }, 
       "Start Session": {
         "type": "Trigger",
-        "description": "Initiate a new Web Remote session with grandMA2/dot2 using the supplied credentials."
+        "description": "Initiate a new Web Remote session using the supplied credentials."
       },
       "End Session": {
         "type": "Trigger",
@@ -52,8 +52,8 @@
         },
         "Password (MD5)": {
           "type": "String",
-          "default": "(to be initialized on WebSocket connection)",
-        "description": "MD5 Hash of the user password set in grandMA2/dot2. (Default for grandMA2: chataigne) (Default for dot2: remote)"
+          "default": "2c18e486683a3db1e645ad8523223b72",
+        "description": "MD5 Hash of the user password set in grandMA2/dot2."
         }
       }
     },
@@ -161,7 +161,7 @@
     "pass_through"
   ],
 
-  "scripts": ["./grandMA2-dot2.js"],
+  "scripts": ["./grandMA2.js"],
 
   "values": {
     "Executors": {
