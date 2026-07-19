@@ -1,5 +1,5 @@
 //	############################################
-//	**** grandMA2/dot2 Chataigne Module by FPaul ****
+//	**** grandMA2 Chataigne Module by FPaul ****
 //	############################################
 
 var legacyKeys = ["cues", "color"];
@@ -606,6 +606,7 @@ function wsMessageReceived(message) {
 			// Considered storing status, but then it'd show persistently even when WebSocket connection is later closed.
 			// local.values.internal.status.set(JSONMessageObject.status);
 
+			/*
 			if (JSONMessageObject.appType == 'dot2') {
 			// Set & lock username field to dot2 pre-set username for dot2, as dot2's Web Remote does not support multiple user logins and will only accept the username "remote" for a successful login.
 			local.parameters.session.credentials.ma2User.set('remote');
@@ -623,6 +624,7 @@ function wsMessageReceived(message) {
 					local.parameters.session.credentials.password_MD5_.set('e31b120e31610e45bcc5d7e1e5d00290');
 				}
 			}
+			*/
 		}
 	
 		//Generic data.
@@ -646,7 +648,11 @@ function wsMessageReceived(message) {
 				readOnlyPlaybacksConfig(true);
 				local.values.internal.connectionsLimitReached.set(false);
 				buildRequestArrays(false);
-				local.send('{"requestType": "login","username":"' + local.parameters.session.credentials.ma2User.get() +'","password":"' + local.parameters.session.credentials.password_MD5_.get() +'","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}');
+				if (local.values.internal.appType.get() == 'dot2') { 
+					local.send('{"requestType": "login","username":"remote","password":"' + local.parameters.session.credentials.password_MD5_.get() +'","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}');				
+				} else {
+					local.send('{"requestType": "login","username":"' + local.parameters.session.credentials.ma2User.get() +'","password":"' + local.parameters.session.credentials.password_MD5_.get() +'","session":' + local.parameters.session.sessionID.get() + ',"maxRequests":1}');
+				}
 			}
 		}
 	}

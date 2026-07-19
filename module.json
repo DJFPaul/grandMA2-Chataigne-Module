@@ -52,7 +52,7 @@
         },
         "Password (MD5)": {
           "type": "String",
-          "default": "(to be initialized on WebSocket connection)",
+          "default": "2c18e486683a3db1e645ad8523223b72",
         "description": "MD5 Hash of the user password set in grandMA2/dot2."
         }
       }
