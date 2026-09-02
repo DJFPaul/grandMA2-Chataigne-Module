@@ -3,7 +3,7 @@
   "type": "WebSocket Client",
   "path": "Software",
 
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A module for Chataigne that utilizes the grandMA2 Web Remote API for interaction.\nAllows sending and receiving various parameters and actions to/from grandMA2 and dot2.\n\nDetailed setup instructions can be found on the GitHub page below.",
   "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
   "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/refs/heads/main.zip",
@@ -135,6 +135,11 @@
         "type": "Boolean",
         "default": true,
         "description": "Pre generates missing value blocks based on Playback config uppon session start."
+      },
+      "Auto-Lock playback config": {
+        "type": "Boolean",
+        "default": false,
+        "description": "Locks the requested playbacks field on session start. Warning, Chataigne might not correctly save the state if it is saved while Read-Only."
       },
       "Unstuck CMD": {
         "type": "Trigger",
