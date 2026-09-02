@@ -136,6 +136,11 @@
         "default": true,
         "description": "Pre generates missing value blocks based on Playback config uppon session start."
       },
+      "Auto-Lock playback config": {
+        "type": "Boolean",
+        "default": false,
+        "description": "Locks the requested playbacks field on session start. Warning, Chataigne might not correctly save the state if it is saved while Read-Only."
+      },
       "Unstuck CMD": {
         "type": "Trigger",
         "description": "Certain commands might lock out the Web Remote by asking for a confirmation trough a message box. This button force sends a cancellation."

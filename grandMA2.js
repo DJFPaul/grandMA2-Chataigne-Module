@@ -178,10 +178,19 @@ function buildRequestArrays( forceCreate) {
 
 //Changes readOnlyState so config can not be changed while in session.
 function readOnlyPlaybacksConfig(stateToSetTo) {
+	if (local.parameters.advanced.auto_LockPlaybackConfig.get() == true){
 	local.parameters.playbacks.dynamic.faders.setAttribute("readonly",stateToSetTo);
 	local.parameters.playbacks.dynamic.buttons.setAttribute("readonly",stateToSetTo);
 	local.parameters.playbacks.static.faders.setAttribute("readonly",stateToSetTo);
 	local.parameters.playbacks.static.buttons.setAttribute("readonly",stateToSetTo);
+
+	} else {
+
+	local.parameters.playbacks.dynamic.faders.setAttribute("readonly",false);
+	local.parameters.playbacks.dynamic.buttons.setAttribute("readonly",false);
+	local.parameters.playbacks.static.faders.setAttribute("readonly",false);
+	local.parameters.playbacks.static.buttons.setAttribute("readonly",false);		
+	}
 }
 
 function update(deltaTime) {
