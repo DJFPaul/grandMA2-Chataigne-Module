@@ -1,5 +1,5 @@
 # A [Chataigne](https://github.com/benkuper/Chataigne) Module for interfacing with grandMA2 and dot2 
-Utilises the Web Remote APIs to communicate with the console/onPC software  
+Utilises the Web Remote APIs to communicate with the console/onPC software.  
  - [grandMA2 Web Remote documentation](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html)
  - [dot2 Web Remote documentation](https://help.malighting.com/dot2/en/help/key_ht_use_web_remote.html)
 
