@@ -4,7 +4,7 @@
   "path": "Software",
 
   "version": "0.6.2",
-  "description": "A module for Chataigne that utilizes the grandMA2 Web Remote API for interaction.\nIf you receive an error trying to install/update, please manually download the package.\n\nAllows sending and receiving various parameters and actions to/from grandMA2 and dot2.\n\nDetailed setup instructions can be found on the GitHub page below.",
+  "description": "A module for Chataigne that utilizes the grandMA2 Web Remote API for interaction.\nIf you receive an error trying to install/update, please manually download the module: https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/master.zip.\n\nAllows sending and receiving various parameters and actions to/from grandMA2 and dot2.\n\nDetailed setup instructions can be found on the GitHub page below.",
   "url": "https://github.com/DJFPaul/grandMA2-Chataigne-Module",
   "downloadURL": "https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/master.zip",
 
