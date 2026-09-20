@@ -3,6 +3,10 @@ Utilises the Web Remote APIs to communicate with the console/onPC software.
  - [grandMA2 Web Remote documentation](https://help.malighting.com/grandMA2/en/help/key_remote_control_web_remote.html)
  - [dot2 Web Remote documentation](https://help.malighting.com/dot2/en/help/key_ht_use_web_remote.html)
 
+## Installation Notice ⚠️
+We are currently affected by a bug that breaks the install / update button within Chatainge.  
+To install this module manually, [download the release](https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/master.zip) and put the contained folder into Chataignes module directory. 
+
 ## Features
 
 🐌 Using a FPS filter to limit the maximum rate of any send mappings is highly recommended.  
