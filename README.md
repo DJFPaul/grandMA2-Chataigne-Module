@@ -4,7 +4,7 @@ Utilises the Web Remote APIs to communicate with the console/onPC software.
  - [dot2 Web Remote documentation](https://help.malighting.com/dot2/en/help/key_ht_use_web_remote.html)
 
 ## Installation Notice ⚠️
-We are currently affected by a bug that breaks the install / update button within Chatainge.  
+This module is currently affected by a bug that breaks the install / update button within Chatainge.  
 To install this module manually, [download the release](https://github.com/DJFPaul/grandMA2-Chataigne-Module/archive/master.zip) and put the contained folder into Chataignes module directory. 
 <img height="120" alt="image" src="https://github.com/user-attachments/assets/b87c613c-a823-4583-801f-9124df67973f" />
 
